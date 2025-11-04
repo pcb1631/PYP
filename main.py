@@ -1,1 +1,8 @@
-print(f'hello')
+
+
+
+def login()
+
+def register()
+
+def main()
