@@ -39,7 +39,7 @@ def main():  # This function will be run first
     with open("userData/users.json", "r") as f:
         data = json.load(f) 
     users = data["users"]
-
+    permissions = data["permissions"]
     while True:
         print("1. Login")
         print("2. Register")
