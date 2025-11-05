@@ -7,7 +7,7 @@ def login(users):
     if username in users and users[username]["password"] == password:
         print("Login successful!")
     else:
-        print("Invalid username or password.")
+        print("Invalid username or password, please try again.")
 
 
 def register(users):
