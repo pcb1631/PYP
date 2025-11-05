@@ -22,8 +22,7 @@ def register(users):
     last_name = input("Enter last name: ")
     user_type = input("Enter user type (e.g., Admin, Member): ")
 
-    users[username] = 
-    {
+    users[username] = {
         "password": password,
         "email": email,
         "first_name": first_name,
