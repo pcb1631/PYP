@@ -1,54 +1,53 @@
 {
-	"permissions":
-	{
-		"Admin": {},
-		"Member": {},
-		"Trainer": {},
-		"Front Desk": {},
-		"Finance Manager": {}
-	},
-
-	"users":
-	{
-		"admin_user":
-		{
-			"password": "adminpass123",
-			"email": "admin@example.com",
-			"first_name": "John",
-			"last_name": "Doe",
-			"user_type": "Admin"
-		},
-		"member_user":
-		{
-			"password": "memberpass123",
-			"email": "member@example.com",
-			"first_name": "Jane",
-			"last_name": "Smith",
-			"user_type": "Member"
-		},
-		"trainer_user":
-		{
-			"password": "trainerpass123",
-			"email": "trainer@example.com",
-			"first_name": "Mike",
-			"last_name": "Johnson",
-			"user_type": "Trainer"
-		},
-		"frontdesk_user":
-		{
-			"password": "frontdeskpass123",
-			"email": "frontdesk@example.com",
-			"first_name": "Emily",
-			"last_name": "Davis",
-			"user_type": "Front Desk"
-		},
-		"financemanager_user":
-		{
-			"password": "financepass123",
-			"email": "finance@example.com",
-			"first_name": "Robert",
-			"last_name": "Wilson",
-			"user_type": "Finance Manager"
-		}
-	}
+    "permissions": {
+        "Admin": {},
+        "Member": {},
+        "Trainer": {},
+        "Front Desk": {},
+        "Finance Manager": {}
+    },
+    "users": {
+        "admin_user": {
+            "password": "adminpass123",
+            "email": "admin@example.com",
+            "first_name": "John",
+            "last_name": "Doe",
+            "user_type": "Admin"
+        },
+        "member_user": {
+            "password": "memberpass123",
+            "email": "member@example.com",
+            "first_name": "Jane",
+            "last_name": "Smith",
+            "user_type": "Member"
+        },
+        "trainer_user": {
+            "password": "trainerpass123",
+            "email": "trainer@example.com",
+            "first_name": "Mike",
+            "last_name": "Johnson",
+            "user_type": "Trainer"
+        },
+        "frontdesk_user": {
+            "password": "frontdeskpass123",
+            "email": "frontdesk@example.com",
+            "first_name": "Emily",
+            "last_name": "Davis",
+            "user_type": "Front Desk"
+        },
+        "financemanager_user": {
+            "password": "financepass123",
+            "email": "finance@example.com",
+            "first_name": "Robert",
+            "last_name": "Wilson",
+            "user_type": "Finance Manager"
+        },
+        "pcb": {
+            "password": "meow",
+            "email": "josiah.hoo@gmail.com",
+            "first_name": "Josiah",
+            "last_name": "Hoo",
+            "user_type": "Admin"
+        }
+    }
 }
