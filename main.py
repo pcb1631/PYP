@@ -1,61 +1,100 @@
-import json #built in library
+import json #internal libraries
+import os
+import getpass
+
+#globals
 current_user = {}
 
+def clear(): #clear console
+    if os.name == 'nt':  # For Windows
+        _ = os.system('cls')
+    else:  # For macOS and Linux
+        _ = os.system('clear')
+
 def login(users):
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-    if username in users and users[username]["password"] == password:
-        print("Login successful!")
-    else:
-        print("Invalid username or password, please try again.")
+    clear()
+    for i in range(3):
+        username = input("Username:")
+        password = getpass.getpass("Password:")
 
+        if username in users and users["password"] == password:
+            print("Welcome to Fitness Center!")
+            return { username, users[username]["user_type"] }
+        else:
+            print("Username does not exist or password is incorrect. Please try again")
 
-def register(users):
-    username = input("Enter new username: ")
-    if username in users:
-        print("Username already exists.")
-        return users
+    print("You have exceeded three attempts, please run the program again")
+    exit(0)
 
-    password = input("Enter password: ")
-    email = input("Enter email: ")
-    first_name = input("Enter first name: ")
-    last_name = input("Enter last name: ")
-    user_type = input("Enter user type (e.g., Admin, Member): ")
+def register(user_data):
+    clear()
+    digits = '0123456789'
+    symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
+    while True:
+        username = input("Username: ")
+        if username in user_data["users"]:
+            print("Sorry, this username has been taken")
+        else:
+            break
 
-    users[username] = {
+    while True:
+        password = getpass.getpass("Password:")
+        if len(password) <= 10:
+            print("Password must be more than 10 characters.")
+            continue
+        if not any(c in digits for c in password):
+            #any() returns true if any x in iterable is True. essentially OR of everything
+            print("Password must contain at least one number.")
+            continue
+        if not any(c in symbols for c in password):
+            print("Password must contain at least one symbol.")
+            continue
+        break
+
+    email = input("Email: ")
+
+    user_data["users"][username] = {
         "password": password,
         "email": email,
-        "first_name": first_name,
-        "last_name": last_name,
-        "user_type": user_type
+        "user_type": "Member"
     }
 
-    print("Registration successful!")
-    return users
+    print(username)
+    print(user_data)
+
+    confirmed = input("\nRegister? (y/n)")
+
+    if confirmed:
+        with open("userData/accounts.json", "w") as f:
+            json.dump(user_data, f, indent=4)
+        print("Welcome to Lifestyle Fitness Center!")
+        return
+    else:
+        clear()
+        return
 
 
 def main():  # This function will be run first
-    with open("userData/users.json", "r") as f:
-        data = json.load(f) 
-    users = data["users"]
-    permissions = data["permissions"]
-    while True:
-        print("1. Login")
-        print("2. Register")
-        print("3. Exit")
-        choice = input("Choose an option: ")
-        if choice == "1":
-            login(users)
-        elif choice == "2":
-            users = register(users)
+    try:
+        with open("userData/accounts.json", "r") as f:
+            user_data = json.load(f)
+    except FileNotFoundError:
+        print("Error: Can't find accounts.json")
+        exit(1)
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON format in 'accounts.json'.")
+        exit(1)
+    except Exception as e:
+        print(f'Error: {e}')
+        exit(1)
 
-            with open("userData/users.json", "w") as f:
-                json.dump(data, f, indent=4)
-        
-        elif choice == "3":
-            break
-        else:
-            print("Invalid choice.")
+    key = input("1. Login\n 2.Register \n3.Exit")
+    if key == 1:
+        login(user_data["users"])
+    elif key == 2:
+       register(user_data)
+    elif key == 3:
+        exit(0)
 
 if __name__ == "__main__":
     main()
