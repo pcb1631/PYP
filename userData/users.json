@@ -1,10 +1,10 @@
 {
     "permissions": {
-        "Admin": {},
-        "Member": {},
-        "Trainer": {},
-        "Front Desk": {},
-        "Finance Manager": {}
+        "Admin": ["A"],
+        "Member": [],
+        "Trainer": ["rp", "wp"],
+        "Front Desk": ["ma"],
+        "Finance Manager": []
     },
     "users": {
         "admin_user": {
