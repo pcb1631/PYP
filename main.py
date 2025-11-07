@@ -1,6 +1,7 @@
 import json #internal libraries
 import os
 import getpass
+import time
 
 #globals
 current_user = {}
@@ -16,7 +17,7 @@ def login(users):
     for i in range(3):
         username = input("Username:")
         password = getpass.getpass("Password:")
-
+        time.sleep(1) #just to make it hard to bruteforce
         if username in users and users["password"] == password:
             print("Welcome to Fitness Center!")
             return { username, users[username]["user_type"] }
@@ -32,6 +33,7 @@ def register(user_data):
     symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
     while True:
         username = input("Username: ")
+        time.sleep(1) #just to make it hard to bruteforce
         if username in user_data["users"]:
             print("Sorry, this username has been taken")
         else:
@@ -43,7 +45,7 @@ def register(user_data):
             print("Password must be more than 10 characters.")
             continue
         if not any(c in digits for c in password):
-            #any() returns true if any x in iterable is True. essentially OR of everything
+            #any() returns true if any x in iterable is True. OR of everything
             print("Password must contain at least one number.")
             continue
         if not any(c in symbols for c in password):
@@ -90,9 +92,9 @@ def main():  # This function will be run first
 
     key = input("1. Login\n 2.Register \n3.Exit")
     if key == 1:
-        login(user_data["users"])
+        login(user_data["users"]) #users only because im not modifying accounts.json
     elif key == 2:
-       register(user_data)
+       register(user_data) #the entire thing
     elif key == 3:
         exit(0)
 
