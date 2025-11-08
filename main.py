@@ -92,7 +92,7 @@ def main():  # This function will be run first
 
     key = input("1. Login\n 2.Register \n3.Exit")
     if key == 1:
-        login(user_data["users"]) #users only because im not modifying accounts.json
+        current_user = login(user_data["users"]) #users only because im not modifying accounts.json
     elif key == 2:
        register(user_data) #the entire thing
     elif key == 3:
