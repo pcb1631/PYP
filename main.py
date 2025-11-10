@@ -4,6 +4,11 @@ import getpass
 import re
 import time
 
+# ANSI escape codes for colors
+RED = '\033[31m'
+GREEN = '\033[32m'
+RESET = '\033[0m'
+
 #globals
 current_user = {}
 
@@ -22,12 +27,12 @@ def login(users):
 
         if username in users:
             if users[username]["password"] == password: #will crash if i put both in AND, username will not necessarily exist in users
-                print("Welcome to Fitness Center!")
+                print(GREEN + "Welcome to Fitness Center!" + RESET)
                 return {"username": username, "user_type": users[username]["user_type"]} #dict (json is also a dict format 
         
-        print("Username does not exist or password is incorrect. Please try again")
+        print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
 
-    print("You have exceeded three attempts, please run the program again")
+    print(RED + "You have exceeded three attempts, please run the program again" + RESET)
     exit(0)
 
 def register(user_data):
@@ -38,29 +43,29 @@ def register(user_data):
         username = input("Username: ")
         time.sleep(1) #just to make it hard to bruteforce
         if username in user_data["users"]:
-            print("Sorry, this username has been taken")
+            print(RED + "Sorry, this username has been taken" + RESET)
         else:
             break
 
-    print("Password must contain at least one number, one symbol, and 10 characters")
+    print("\nPassword must contain at least one number, one symbol, and 10 characters")
     while True:
         password = getpass.getpass("Password:")
         if len(password) <= 10:
-            print("Password must be more than 10 characters.")
+            print(RED + "Password must be more than 10 characters." + RESET)
             continue
         if not any(c in digits for c in password):
             #any() returns true if any x in iterable is True. OR of everything
-            print("Password must contain at least one number.")
+            print(RED + "Password must contain at least one number." + RESET)
             continue
         if not any(c in symbols for c in password):
-            print("Password must contain at least one symbol.")
+            print(RED + "Password must contain at least one symbol." + RESET)
             continue
         break
 
     email = input("Email: ")
 
     while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex 
-        print("Invalid email format. Please try again.")
+        print(RED + "Invalid email format. Please try again." + RESET)
         email = input("Email: ")
 
     user_data["users"][username] = {
@@ -77,7 +82,7 @@ def register(user_data):
     if confirmed == "y":
         with open("userData/accounts.json", "w") as f:
             json.dump(user_data, f, indent=4)
-        print("Welcome to Lifestyle Fitness Center!")
+        print(GREEN + "Registered user, please login again" + RESET)
         return
     else:
         clear()
@@ -89,13 +94,13 @@ def main():  # This function will be run first
         with open("userData/accounts.json", "r") as f:
                 user_data = json.load(f)
     except FileNotFoundError:
-        print("Error: Can't find accounts.json")
+        print(RED + "Error: Can't find accounts.json" + RESET)
         exit(1)
     except json.JSONDecodeError:
-        print("Error: Invalid JSON format in 'accounts.json'.")
+        print(RED + "Error: Invalid JSON format in 'accounts.json'." + RESET)
         exit(1)
     except Exception as e:
-        print(f'Error: {e}')
+        print(RED + f'Error: {e}' + RESET)
         exit(1)
 
     clear()
@@ -105,7 +110,7 @@ def main():  # This function will be run first
     if key == 1: 
         global current_user
         current_user = login(user_data["users"]) #users only because im not modifying accounts.json
-        print(f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}')
+        print(GREEN + f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}' + RESET)
     elif key == 2:
         register(user_data) #the entire thing
     elif key == 3:
