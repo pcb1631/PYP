@@ -8,7 +8,7 @@ import time
 #project libraries
 import commands
 
-# ANSI escape codes for colors
+# ANSI escape codes for text colors
 RED = '\033[31m'
 GREEN = '\033[32m'
 RESET = '\033[0m'
@@ -27,10 +27,10 @@ def login(users):
     for i in range(3):
         username = input("Username:")
         password = getpass.getpass("Password:") #getpass.getpass() hides password
-        time.sleep(1) #just to make it hard to bruteforcei
+        time.sleep(1) #just to make it hard to bruteforce
 
         if username in users:
-            if users[username]["password"] == password: #will crash if i put both in AND, username will not necessarily exist in users
+            if users[username]["password"] == password: #will crash if I put both in AND, username will not necessarily exist in users
                 print(GREEN + "Welcome to Fitness Center!" + RESET)
                 return {"username": username, "user_type": users[username]["user_type"]} #dict (json is also a dict format 
         
@@ -113,12 +113,14 @@ def main():  # This function will be run first
     
     if key == 1: 
         global current_user
-        current_user = login(user_data["users"]) #users only because im not modifying accounts.json
+        current_user = login(user_data["users"]) #users only, because im not modifying accounts.json
         print(GREEN + f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}' + RESET)
     elif key == 2:
         register(user_data) #the entire thing
     elif key == 3:
         exit(0)
+    else:
+        print(RED + "Invalid input" + RESET)
 
 
 if __name__ == "__main__":
