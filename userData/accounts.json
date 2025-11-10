@@ -1,9 +1,9 @@
 {
     "permissions": {
-        "Admin": ["A"],
+        "Admin": [],
         "Member": [],
-        "Trainer": ["rp", "wp"],
-        "Front Desk": ["ma"],
+        "Trainer": [],
+        "Front Desk": [],
         "Finance Manager": []
     },
     "users": {
@@ -36,6 +36,16 @@
             "password": "meow",
             "email": "josiah.hoo@gmail.com",
             "user_type": "Admin"
+        },
+        "bla": {
+            "password": "1234567890qwertyuiop!",
+            "email": "josiahhoo@gmail.com",
+            "user_type": "Member"
+        },
+        "temp": {
+            "password": "temp123!!!@",
+            "email": "temp@temp.temp",
+            "user_type": "Member"
         }
     }
 }

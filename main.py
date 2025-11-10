@@ -1,8 +1,12 @@
-import json #internal libraries
+#internal libraries
+import json
 import os
 import getpass
 import re
 import time
+
+#project libraries
+import commands
 
 # ANSI escape codes for colors
 RED = '\033[31m'
