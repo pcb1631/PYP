@@ -17,12 +17,14 @@ def login(users):
     for i in range(3):
         username = input("Username:")
         password = getpass.getpass("Password:")
-        time.sleep(1) #just to make it hard to bruteforce
-        if username in users and users["password"] == password:
-            print("Welcome to Fitness Center!")
-            return { username, users[username]["user_type"] }
-        else:
-            print("Username does not exist or password is incorrect. Please try again")
+        time.sleep(1) #just to make it hard to bruteforcei
+
+        if username in users:
+            if users[username]["password"] == password:
+                print("Welcome to Fitness Center!")
+                return { username, users[username]["user_type"] }
+        
+        print("Username does not exist or password is incorrect. Please try again")
 
     print("You have exceeded three attempts, please run the program again")
     exit(0)
@@ -79,7 +81,7 @@ def register(user_data):
 def main():  # This function will be run first
     try:
         with open("userData/accounts.json", "r") as f:
-            user_data = json.load(f)
+                user_data = json.load(f)
     except FileNotFoundError:
         print("Error: Can't find accounts.json")
         exit(1)
@@ -90,14 +92,19 @@ def main():  # This function will be run first
         print(f'Error: {e}')
         exit(1)
 
-    key = input("1. Login\n 2.Register \n3.Exit")
-    if key == 1:
+    clear()
+
+    key = int(input("1. Login \n2. Register \n3. Exit\n"))
+    
+    if key == 1: 
         global current_user
         current_user = login(user_data["users"]) #users only because im not modifying accounts.json
     elif key == 2:
-       register(user_data) #the entire thing
+        register(user_data) #the entire thing
     elif key == 3:
         exit(0)
+        
+    print(current_user)
 
 if __name__ == "__main__":
     main()
