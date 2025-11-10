@@ -22,7 +22,7 @@ def login(users):
         if username in users:
             if users[username]["password"] == password:
                 print("Welcome to Fitness Center!")
-                return { username, users[username]["user_type"] }
+                return {"username": username, "user_type": users[username]["user_type"]} #dict (json is also a dict format 
         
         print("Username does not exist or password is incorrect. Please try again")
 
@@ -103,8 +103,8 @@ def main():  # This function will be run first
         register(user_data) #the entire thing
     elif key == 3:
         exit(0)
-        
-    print(current_user)
+
+    print(f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}')
 
 if __name__ == "__main__":
     main()
