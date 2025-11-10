@@ -1,9 +1,9 @@
 {
     "permissions": {
-        "Admin": [],
+        "Admin": ["A"],
         "Member": [],
         "Trainer": [],
-        "Front Desk": [],
+        "Front Desk": ["mma", "view_ps"],
         "Finance Manager": []
     },
     "users": {
