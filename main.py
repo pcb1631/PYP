@@ -1,6 +1,7 @@
 import json #internal libraries
 import os
 import getpass
+import re
 import time
 
 #globals
@@ -16,11 +17,11 @@ def login(users):
     clear()
     for i in range(3):
         username = input("Username:")
-        password = getpass.getpass("Password:")
+        password = getpass.getpass("Password:") #getpass.getpass() hides password
         time.sleep(1) #just to make it hard to bruteforcei
 
         if username in users:
-            if users[username]["password"] == password:
+            if users[username]["password"] == password: #will crash if i put both in AND, username will not necessarily exist in users
                 print("Welcome to Fitness Center!")
                 return {"username": username, "user_type": users[username]["user_type"]} #dict (json is also a dict format 
         
@@ -57,18 +58,22 @@ def register(user_data):
 
     email = input("Email: ")
 
+    while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex 
+        print("Invalid email format. Please try again.")
+        email = input("Email: ")
+
     user_data["users"][username] = {
         "password": password,
         "email": email,
         "user_type": "Member"
     }
 
-    print(username)
-    print(user_data)
+    clear()
+    print(f'Username: {username} \nemail: {email}')
+    
+    confirmed = input("\nRegister? (y/n) ")
 
-    confirmed = input("\nRegister? (y/n)")
-
-    if confirmed:
+    if confirmed == "y":
         with open("userData/accounts.json", "w") as f:
             json.dump(user_data, f, indent=4)
         print("Welcome to Lifestyle Fitness Center!")
@@ -99,12 +104,12 @@ def main():  # This function will be run first
     if key == 1: 
         global current_user
         current_user = login(user_data["users"]) #users only because im not modifying accounts.json
+        print(f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}')
     elif key == 2:
         register(user_data) #the entire thing
     elif key == 3:
         exit(0)
 
-    print(f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}')
 
 if __name__ == "__main__":
     main()
