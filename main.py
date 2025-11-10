@@ -43,6 +43,7 @@ def register(user_data):
     clear()
     digits = '0123456789'
     symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
+
     while True:
         username = input("Username: ")
         time.sleep(1) #just to make it hard to bruteforce
@@ -57,8 +58,7 @@ def register(user_data):
         if len(password) <= 10:
             print(RED + "Password must be more than 10 characters." + RESET)
             continue
-        if not any(c in digits for c in password):
-            #any() returns true if any x in iterable is True. OR of everything
+        if not any(c in digits for c in password): #any() returns true if any x in iterable is True. OR of everything
             print(RED + "Password must contain at least one number." + RESET)
             continue
         if not any(c in symbols for c in password):

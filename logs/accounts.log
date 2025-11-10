@@ -1,0 +1,10 @@
+# OPEN THIS FILE AS APPEND and write logs to this file
+# this is for login, register, failed login etc
+# format:
+# dd/mm/yy HH:MM:SS, what action done by what user etc
+# example:
+10/11/25 22:12:39 FAILED LOGIN ATTEMPT INTO: stinker123
+10/11/25 22:55:10 LOGIN pcb
+10/11/25 23:00:13 ACCOUNT: pcb  DELETED BY: admin_user
+11/11/25 00:49:48 ACCOUNT: bla  MADE BY: pcb
+12/11/25 08:42:29 ACCOUNT: user123  REGISTERED
