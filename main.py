@@ -42,6 +42,7 @@ def register(user_data):
         else:
             break
 
+    print("Password must contain at least one number, one symbol, and 10 characters")
     while True:
         password = getpass.getpass("Password:")
         if len(password) <= 10:
