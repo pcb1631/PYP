@@ -84,9 +84,8 @@ def register(user_data):
     confirmed = input("\nRegister? (y/n) ")
 
     if confirmed == "y":
-        with open("userData/accounts.json", "w") as f:
-            json.dump(user_data, f, indent=4)
-        print(GREEN + "Registered user, please login again" + RESET)
+        if commands.save_accounts(user_data):
+            print(GREEN + "Registered user, please login again" + RESET)
         return
     else:
         clear()
@@ -94,17 +93,8 @@ def register(user_data):
 
 
 def main():  # This function will be run first
-    try:
-        with open("userData/accounts.json", "r") as f:
-                user_data = json.load(f)
-    except FileNotFoundError:
-        print(RED + "Error: Can't find accounts.json" + RESET)
-        exit(1)
-    except json.JSONDecodeError:
-        print(RED + "Error: Invalid JSON format in 'accounts.json'." + RESET)
-        exit(1)
-    except Exception as e:
-        print(RED + f'Error: {e}' + RESET)
+    user_data = commands.load_accounts()
+    if user_data is None:
         exit(1)
 
     clear()
