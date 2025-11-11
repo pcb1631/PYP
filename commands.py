@@ -6,7 +6,7 @@ RED = '\033[31m'
 GREEN = '\033[32m'
 RESET = '\033[0m'
 
-def load_accounts():
+def load_accounts(): #returns None with errors
     try:
         with open("userData/accounts.json", "r") as f:
             return json.load(f)
@@ -20,7 +20,7 @@ def load_accounts():
         print(RED + f'Error: {e}' + RESET)
         return None
 
-def save_accounts(user_data):
+def save_accounts(user_data): #returns False with errors
     try:
         with open("userData/accounts.json", "w") as f:
             json.dump(user_data, f, indent=4)

@@ -1,5 +1,4 @@
 #internal libraries
-import json
 import os
 import getpass
 import re
@@ -32,7 +31,7 @@ def login(users):
         if username in users:
             if users[username]["password"] == password: #will crash if I put both in AND, username will not necessarily exist in users
                 print(GREEN + "Welcome to Fitness Center!" + RESET)
-                return {"username": username, "user_type": users[username]["user_type"]} #dict (json is also a dict format 
+                return {"username": username, "user_type": users[username]["user_type"]}
         
         print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
 
@@ -41,8 +40,6 @@ def login(users):
 
 def register(user_data):
     clear()
-    digits = '0123456789'
-    symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
 
     while True:
         username = input("Username: ")
@@ -58,10 +55,10 @@ def register(user_data):
         if len(password) <= 10:
             print(RED + "Password must be more than 10 characters." + RESET)
             continue
-        if not any(c in digits for c in password): #any() returns true if any x in iterable is True. OR of everything
+        if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
             print(RED + "Password must contain at least one number." + RESET)
             continue
-        if not any(c in symbols for c in password):
+        if not any(not c.isalnum() for c in password):
             print(RED + "Password must contain at least one symbol." + RESET)
             continue
         break
@@ -84,16 +81,15 @@ def register(user_data):
     confirmed = input("\nRegister? (y/n) ")
 
     if confirmed == "y":
-        if commands.save_accounts(user_data):
+        if commands.save_accounts(user_data): #returns False with errors
             print(GREEN + "Registered user, please login again" + RESET)
         return
     else:
-        clear()
         return
 
 
 def main():  # This function will be run first
-    user_data = commands.load_accounts()
+    user_data = commands.load_accounts() #returns None with errors
     if user_data is None:
         exit(1)
 
