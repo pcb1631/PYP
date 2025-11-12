@@ -80,7 +80,7 @@ def register(user_data):
     
     confirmed = input("\nRegister? (y/n) ")
 
-    if confirmed == "y":
+    if confirmed.lower() == "y":
         if commands.save_accounts(user_data): #returns False with errors
             print(GREEN + "Registered user, please login again" + RESET)
         return

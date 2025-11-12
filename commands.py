@@ -1,3 +1,4 @@
+import getpass
 import json
 import datetime
 
@@ -57,3 +58,33 @@ def admin_delete_account(current_user):
 
     print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
 
+def admin_add_account(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    while True:
+        username = input("New user username: ")
+        if username in user_data["users"]:
+            print("User already exists")
+        else:
+            break
+
+    email = input("Email: ")
+    password = getpass.getpass("Password: ")
+    usertype = input("User type (Must be verbatim of user type in accounts.json): ")
+
+    print(f'Username: {username}\nEmail: {email}\nUser type: {usertype}')
+    confirmed = input('\nAdd new user? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        user_data["users"][username] = {
+            "password": password,
+            "email": email,
+            "user_type": usertype
+        }
+    else:
+        return
+
+    if not save_accounts(user_data):
+        return
