@@ -150,12 +150,14 @@ def command_mode():
                 for p in permissions:
                     print(f"{p}: {', '.join(cmdlist[p].keys())}") #prints keys only 
 
+            #Some permissions are just standalone commands like view_sla, so just make an elif statement here
+
             else:
                 command = command.split()
                 
                 if len(command) < 2:
                     print(RED + "Command too short, command structure is [permission] [command] and the following is arguments. TUI coming soon" + RESET)
-                    continue
+                    continue 
                 
                 perm = command[0]
                 cmd_name = command[1]
