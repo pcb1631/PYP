@@ -41,8 +41,13 @@ def admin_delete_account(current_user):
         print("User not found")
         return
 
-    del user_data["users"][delete_user]
+    confirmed = input(f'\n Delete user {delete_user}? (y/n): ')
 
+    if confirmed.lower() == 'y':
+        del user_data["users"][delete_user]    
+    else:
+        return
+    
     # Save updated data
     if not save_accounts(user_data):
         return
