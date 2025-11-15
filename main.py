@@ -20,10 +20,11 @@ def clear(): #clear console
         _ = os.system('cls')
     else:  # For macOS and Linux
         _ = os.system('clear')
+    # _ means idgaf about the return value
 
 def login(users):
     clear()
-    for i in range(3):
+    for _ in range(3):
         username = input("Username:")
         password = getpass.getpass("Password:") #getpass.getpass() hides password
         time.sleep(1) #just to make it hard to bruteforce
@@ -36,8 +37,6 @@ def login(users):
         print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
         
 
-
-        
         # Log failed login attempt
         import datetime
         timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
@@ -113,8 +112,11 @@ def command_mode():
     #   Commands are categorized by permissions, examples:
     #   msa admin_delete_account
     #   msa admin_add_account 
+    #   msa admin_delete_account john_doe
     #   mma delete_account 
     #   etc.
+    #   First word is permission, second word is command, following words are arguments
+    #   Some commands wont have arguments
     #   Users are only allowed to run commands, if the permission of the command is in the permissions list
 
     #I think after we're done with everything, I'll build something like a TUI when the user just types a permission
@@ -126,7 +128,7 @@ def command_mode():
     if "A" in permissions:
         permissions = ["msa", "mma"] #Admin has all permissions, make sure to add every permission here
 
-    #we're not gonna write a bunch of if else like noobs
+    #Keys will store command names, values will store function references
     cmdlist = {}
     cmdlist["msa"] = {
         "admin_delete_account": commands.admin_delete_account,
@@ -139,8 +141,8 @@ def command_mode():
 
     try: #Wrapping the whole thing to catch keyboard interrupts
         while True:
-            command = input()
-            if command == "exit":
+            command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
+            if "exit" in command.lower():
                 print("Bye!")
                 exit(0)
                 
@@ -152,7 +154,7 @@ def command_mode():
                 command = command.split()
                 
                 if len(command) < 2:
-                    print(RED + "TUI coming soon" + RESET)
+                    print(RED + "Command too short, command structure is [permission] [command] and the following is arguments. TUI coming soon" + RESET)
                     continue
                 
                 perm = command[0]

@@ -43,7 +43,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
         print("User not found")
         return
 
-    confirmed = input(f'\n Delete user {delete_user}? (y/n): ')
+    confirmed = input(f'\n Delete user "{delete_user}"? (y/n): ')
 
     if confirmed.lower() == 'y':
         del user_data["users"][delete_user]    
@@ -81,7 +81,7 @@ def admin_add_account(current_user):
     password = getpass.getpass("Password: ")
     usertype = input("User type (Must be verbatim of user type in accounts.json): ")
 
-    print(f'Username: {username}\nEmail: {email}\nUser type: {usertype}')
+    print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
     confirmed = input('\nAdd new user? (y/n): ')
 
     if confirmed.lower() == 'y':
