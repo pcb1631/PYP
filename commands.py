@@ -106,3 +106,57 @@ def admin_add_account(current_user):
         print(RED + f"Error logging: {e}" + RESET)
 
     print(GREEN + f"Account '{username}' created successfully." + RESET)
+
+def admin_edit_account(current_user, username=None):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    
+    if username is None:
+        username = input("User to edit: ")
+
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    print(f"\nUsername: {username})")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"User type: {user_data['users'][username]['user_type']}")
+    print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+
+    new_username = input("New username (leave blank to keep current): ")
+    if new_username == username:
+        print(RED + "lol" + RESET)
+        return
+    if new_username == "":
+        new_username = username
+
+    new_email = input("New email: ")
+    if new_email == "":
+        new_email = user_data["users"][username]["email"]
+    
+    new_usertype = input("New user type: ")
+    if new_usertype == "":
+        new_usertype = user_data["users"][username]["user_type"]
+    
+    new_password = getpass.getpass("New password: ")
+    if new_password == "":
+        new_password = user_data["users"][username]["password"]
+
+    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}')
+    confirmed = input('\nSave changes? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        del user_data["users"][username]
+        user_data["users"][new_username] = {
+            "password": new_password,
+            "email": new_email,
+            "user_type": new_usertype
+        }
+    else:
+        return
+    
+    if not save_accounts(user_data):
+        return
+    
+    print(GREEN + f"Account '{new_username}' updated successfully." + RESET)

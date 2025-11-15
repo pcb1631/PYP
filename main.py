@@ -144,7 +144,7 @@ def command_mode():
             command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
             if "exit" in command.lower():
                 print("Bye!")
-                exit(0)
+                return
                 
             elif command == "h" or command == "help":
                 for p in permissions:
@@ -179,7 +179,7 @@ def command_mode():
 
     except KeyboardInterrupt:
         print("\nBye!")
-        exit(0)
+        return
 
 
 def main():  # This function will be run first 
