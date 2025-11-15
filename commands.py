@@ -30,12 +30,14 @@ def save_accounts(user_data): #returns False with errors
         print(RED + f"Error saving accounts: {e}" + RESET)
         return False
 
-def admin_delete_account(current_user):
+#The following functions will actually be commands 
+def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
     user_data = load_accounts()
     if user_data is None:
         return
 
-    delete_user = input("Enter username to delete: ")
+    if delete_user is None:
+        delete_user = input("Enter username to delete: ")
 
     if delete_user not in user_data["users"]:
         print("User not found")
@@ -54,7 +56,7 @@ def admin_delete_account(current_user):
 
     # Log the deletion
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-    log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user["username"]}\n"
+    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user["username"]}\n"
     try:
         with open("logs/accounts.log", "a") as log_file:
             log_file.write(log_entry)
@@ -96,7 +98,7 @@ def admin_add_account(current_user):
 
     # Log the account creation
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-    log_entry = f"{timestamp} ACCOUNT: {username} CREATED BY: {current_user["username"]}\n"
+    log_entry = f"\n{timestamp} ACCOUNT: {username} CREATED BY: {current_user["username"]}\n"
     try:
         with open("logs/accounts.log", "a") as log_file:
             log_file.write(log_entry)

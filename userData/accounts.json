@@ -1,9 +1,14 @@
 {
     "permissions": {
-        "Admin": ["A"],
+        "Admin": [
+            "A"
+        ],
         "Member": [],
         "Trainer": [],
-        "Front Desk": ["mma", "view_ps"],
+        "Front Desk": [
+            "mma",
+            "view_ps"
+        ],
         "Finance Manager": []
     },
     "users": {
@@ -43,9 +48,9 @@
             "user_type": "Member"
         },
         "temp": {
-            "password": "temp123!!!@",
-            "email": "temp@temp.temp",
-            "user_type": "Member"
+            "password": "meow",
+            "email": "temp@temp.com",
+            "user_type": "Trainer"
         }
     }
 }
