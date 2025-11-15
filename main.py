@@ -29,7 +29,7 @@ def login(users):
         time.sleep(1) #just to make it hard to bruteforce
 
         if username in users:
-            if users[username]["password"] == password: #will crash if I put both in AND, username will not necessarily exist in users
+            if users[username]["password"] == password: #will crash if I put both in AND
                 print(GREEN + "Welcome to Fitness Center!" + RESET)
                 return {"username": username, "user_type": users[username]["user_type"]}
         
@@ -44,6 +44,7 @@ def register(user_data):
     while True:
         username = input("Username: ")
         time.sleep(1) #just to make it hard to bruteforce
+
         if username in user_data["users"]:
             print(RED + "Sorry, this username has been taken" + RESET)
         else:
@@ -52,15 +53,19 @@ def register(user_data):
     print("\nPassword must contain at least one number, one symbol, and 10 characters")
     while True:
         password = getpass.getpass("Password:")
+
         if len(password) <= 10:
             print(RED + "Password must be more than 10 characters." + RESET)
             continue
+        
         if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
             print(RED + "Password must contain at least one number." + RESET)
             continue
+
         if not any(not c.isalnum() for c in password):
             print(RED + "Password must contain at least one symbol." + RESET)
             continue
+
         break
 
     email = input("Email: ")
@@ -87,6 +92,7 @@ def register(user_data):
     else:
         return
 
+#def commands():
 
 def main():  # This function will be run first
     user_data = commands.load_accounts() #returns None with errors
