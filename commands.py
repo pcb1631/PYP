@@ -93,3 +93,14 @@ def admin_add_account(current_user):
 
     if not save_accounts(user_data):
         return
+
+    # Log the account creation
+    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+    log_entry = f"{timestamp} ACCOUNT: {username} CREATED BY: {current_user["username"]}\n"
+    try:
+        with open("logs/accounts.log", "a") as log_file:
+            log_file.write(log_entry)
+    except Exception as e:
+        print(RED + f"Error logging: {e}" + RESET)
+
+    print(GREEN + f"Account '{username}' created successfully." + RESET)
