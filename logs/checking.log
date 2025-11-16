@@ -1,0 +1,8 @@
+#this logfile is for member check in and out
+# format:
+# dd/mm/yy HH:MM:SS, what action done by what user etc
+# examples:
+15/11/25 18:45:12 MEMBER: john_doe CHECKED IN
+15/11/25 20:15:47 MEMBER: john_doe CHECKED OUT
+
+# the following will be added automatically by the program
