@@ -5,6 +5,12 @@ import datetime
 # ANSI escape codes for text colors
 RED = '\033[31m'
 GREEN = '\033[32m'
+YELLOW = '\033[33m'
+BLUE = '\033[34m'
+MAGENTA = '\033[35m'
+CYAN = '\033[36m'
+WHITE = '\033[37m'
+BOLD = '\033[1m'
 RESET = '\033[0m'
 
 def load_accounts(): #returns None with errors
@@ -30,7 +36,7 @@ def save_accounts(user_data): #returns False with errors
         print(RED + f"Error saving accounts: {e}" + RESET)
         return False
 
-#The following functions will actually be commands 
+#The following functions will actually be commands, the first argument should always be current_user
 def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
     user_data = load_accounts()
     if user_data is None:

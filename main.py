@@ -134,13 +134,20 @@ def command_mode():
     if "A" in permissions:
         permissions = ["msa", "mma"] #Admin has all permissions, make sure to add every permission here
 
+    #cmdlist contains permissions, and the permissions are dicts
     #Keys will store command names, values will store function references
+    #Printing the values will show where in memory the function is stored, which is probably not safe
     cmdlist = {}
     cmdlist["msa"] = {
         "admin_delete_account": commands.admin_delete_account,
         "admin_add_account": commands.admin_add_account
     }
-    cmdlist["mma"] = {}
+    cmdlist["mma"] = {
+        #Add mma commands, and their respective functions here
+    }
+    cmdlist["mm"] = {
+
+    }
 
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.")
     print(f"Your permissions: {', '.join(permissions)}")
@@ -148,15 +155,15 @@ def command_mode():
     try: #Wrapping the whole thing to catch keyboard interrupts
         while True:
             command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
+            command = command.strip() #remove leading and trailing whitespace
             if "exit" in command.lower():
                 print("Bye!")
+                time.sleep(1)
                 return
                 
             elif command == "h" or command == "help":
                 for p in permissions:
                     print(f"{p}: {', '.join(cmdlist[p].keys())}") #prints keys only 
-
-            #Some permissions are just standalone commands like view_sla, so just make an elif statement here
 
             else:
                 command = command.split()
@@ -182,9 +189,11 @@ def command_mode():
                     func(current_user, *args)
                 except Exception as e:
                     print(RED + f"Error executing command: {e}" + RESET)
+                    time.sleep(1)
 
     except KeyboardInterrupt:
         print("\nBye!")
+        time.sleep(1)
         return
 
 
