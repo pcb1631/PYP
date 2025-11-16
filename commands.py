@@ -1,17 +1,7 @@
 import getpass
 import json
 import datetime
-
-# ANSI escape codes for text colors
-RED = '\033[31m'
-GREEN = '\033[32m'
-YELLOW = '\033[33m'
-BLUE = '\033[34m'
-MAGENTA = '\033[35m'
-CYAN = '\033[36m'
-WHITE = '\033[37m'
-BOLD = '\033[1m'
-RESET = '\033[0m'
+from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 
 def load_accounts(): #returns None with errors
     try:
