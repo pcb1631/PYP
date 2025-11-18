@@ -178,9 +178,8 @@ def command_mode():
                 func = cmdlist[perm][cmd_name]
                 try: 
                     func(current_user, *args)
-                except Exception as e:
-                    print(RED + f"Error executing command: {e}" + RESET)
-                    time.sleep(1)
+                except KeyboardInterrupt: #Cancel command with CTRL+C
+                    print("\nCancelled")
 
     except KeyboardInterrupt:
         print("\nBye!")
