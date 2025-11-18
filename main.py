@@ -9,6 +9,7 @@ import uuid
 #local project libraries
 import commands
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
+import files
 
 #globals
 current_user = {}

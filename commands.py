@@ -3,7 +3,7 @@ import json
 import datetime
 import os
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
-
+import files
 
 def load_json_file(filepath): #generic json loader
     try:
