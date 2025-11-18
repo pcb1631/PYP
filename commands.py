@@ -3,6 +3,29 @@ import json
 import datetime
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 
+def load_json_file(filepath): #generic json loader
+    try:
+        with open(filepath, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(RED + f"Error: Can't find {filepath}" + RESET)
+        return None
+    except json.JSONDecodeError:
+        print(RED + f"Error: Invalid JSON format in '{filepath}'." + RESET)
+        return None
+    except Exception as e:
+        print(RED + f'Error: {e}' + RESET)
+        return None
+    
+def save_json_file(filepath, data): #generic json saver
+    try:
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=4)
+        return True
+    except Exception as e:
+        print(RED + f"Error saving to {filepath}: {e}" + RESET)
+        return False
+
 def load_accounts(): #returns None with errors
     try:
         with open("userData/accounts.json", "r") as f:
