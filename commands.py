@@ -179,3 +179,8 @@ def admin_edit_account(current_user, username=None):
         return
     
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
+
+def member_manage_profile(filepath, data):
+    user_data = load_accounts()
+    if user_data is None:
+        return
