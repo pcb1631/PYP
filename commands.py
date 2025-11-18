@@ -5,6 +5,8 @@ import os
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
 
+
+
 def load_json_file(filepath): #generic json loader
     try:
         with open(filepath, "r") as f:
@@ -51,7 +53,16 @@ def save_accounts(user_data): #returns False with errors
         print(RED + f"Error saving accounts: {e}" + RESET)
         return False
 
+
+
+
+
+
+
+
 #The following functions will actually be commands, the first argument should always be current_user
+
+#THE FIRST ARGUMENT IS ALWAYS current_user
 def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
     user_data = load_accounts()
     if user_data is None:
@@ -79,7 +90,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
     log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user["username"]}\n"
     try:
-        with open("logs/accounts.log", "a") as log_file:
+        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
             log_file.write(log_entry)
     except Exception as e:
         print(RED + f"Error logging: {e}" + RESET)
@@ -109,7 +120,8 @@ def admin_add_account(current_user):
         user_data["users"][username] = {
             "password": password,
             "email": email,
-            "user_type": usertype
+            "user_type": usertype,
+            "uuid": str(uuid.uuid4())
         }
     else:
         return
@@ -121,7 +133,7 @@ def admin_add_account(current_user):
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
     log_entry = f"\n{timestamp} ACCOUNT: {username} CREATED BY: {current_user["username"]}\n"
     try:
-        with open("logs/accounts.log", "a") as log_file:
+        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
             log_file.write(log_entry)
     except Exception as e:
         print(RED + f"Error logging: {e}" + RESET)
@@ -184,7 +196,7 @@ def admin_edit_account(current_user, username=None):
     
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
-def member_manage_profile(filepath, data):
+def member_manage_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
