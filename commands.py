@@ -1,7 +1,9 @@
 import getpass
 import json
 import datetime
+import os
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
+
 
 def load_json_file(filepath): #generic json loader
     try:
@@ -28,7 +30,7 @@ def save_json_file(filepath, data): #generic json saver
 
 def load_accounts(): #returns None with errors
     try:
-        with open("userData/accounts.json", "r") as f:
+        with open(files.ACCOUNTS_PATH, "r") as f:
             return json.load(f)
     except FileNotFoundError:
         print(RED + "Error: Can't find accounts.json" + RESET)
@@ -42,7 +44,7 @@ def load_accounts(): #returns None with errors
 
 def save_accounts(user_data): #returns False with errors
     try:
-        with open("userData/accounts.json", "w") as f:
+        with open(files.ACCOUNTS_PATH, "w") as f:
             json.dump(user_data, f, indent=4)
         return True
     except Exception as e:
