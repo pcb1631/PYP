@@ -4,6 +4,7 @@ import getpass
 import re
 import time
 import datetime
+import uuid
 
 #local project libraries
 import commands
@@ -88,7 +89,8 @@ def register(user_data):
     user_data["users"][username] = {
         "password": password,
         "email": email,
-        "user_type": "Member"
+        "user_type": "Member",
+        "uuid": str(uuid.uuid4())
     }
 
     clear()

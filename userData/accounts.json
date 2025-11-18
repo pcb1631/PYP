@@ -15,42 +15,50 @@
         "admin_user": {
             "password": "adminpass123",
             "email": "admin@example.com",
-            "user_type": "Admin"
+            "user_type": "Admin",
+            "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21"
         },
         "member_user": {
             "password": "memberpass123",
             "email": "member@example.com",
-            "user_type": "Member"
+            "user_type": "Member",
+            "uuid": "1a6a3fd6-7b3f-4a2f-b7e4-1f6a2ec37a54"
         },
         "trainer_user": {
             "password": "trainerpass123",
             "email": "trainer@example.com",
-            "user_type": "Trainer"
+            "user_type": "Trainer",
+            "uuid": "c8a1a3e4-0c3d-4d7b-8a1e-2f4b5c6d7e8f"
         },
         "frontdesk_user": {
             "password": "frontdeskpass123",
             "email": "frontdesk@example.com",
-            "user_type": "Front Desk"
+            "user_type": "Front Desk",
+            "uuid": "9b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"
         },
         "financemanager_user": {
             "password": "financepass123",
             "email": "finance@example.com",
-            "user_type": "Finance Manager"
+            "user_type": "Finance Manager",
+            "uuid": "e1d2c3b4-a5f6-47b8-9c0d-1e2f3a4b5c6d"
         },
         "pcb": {
             "password": "meow",
             "email": "josiah.hoo@gmail.com",
-            "user_type": "Admin"
+            "user_type": "Admin",
+            "uuid": "ab12cd34-ef56-7890-ab12-cd34ef567890"
         },
         "bla": {
             "password": "1234567890qwertyuiop!",
             "email": "josiahhoo@gmail.com",
-            "user_type": "Member"
+            "user_type": "Member",
+            "uuid": "0f1e2d3c-4b5a-6978-90ab-cdef12345678"
         },
         "temp": {
             "password": "meow",
             "email": "temp@temp.com",
-            "user_type": "Trainer"
+            "user_type": "Trainer",
+            "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a"
         }
     }
 }
