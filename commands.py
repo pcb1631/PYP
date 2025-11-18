@@ -166,11 +166,13 @@ def admin_edit_account(current_user, username=None):
     confirmed = input('\nSave changes? (y/n): ')
 
     if confirmed.lower() == 'y':
+        uuid = user_data["users"][username]["uuid"]
         del user_data["users"][username]
         user_data["users"][new_username] = {
             "password": new_password,
             "email": new_email,
-            "user_type": new_usertype
+            "user_type": new_usertype,
+            "uuid": uuid
         }
     else:
         return
