@@ -2,6 +2,7 @@ import getpass
 import json
 import datetime
 import os
+
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
 
@@ -53,6 +54,8 @@ def save_accounts(user_data): #returns False with errors
         print(RED + f"Error saving accounts: {e}" + RESET)
         return False
 
+# Checklist:
+# Select user via uuid for admin functions 
 
 
 
@@ -157,6 +160,7 @@ def admin_edit_account(current_user, username=None):
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {'*' * len(user_data['users'][username]['password'])}")
 
+
     new_username = input("New username (leave blank to keep current): ")
     if new_username == username:
         print(RED + "lol" + RESET)
@@ -176,6 +180,7 @@ def admin_edit_account(current_user, username=None):
     if new_password == "":
         new_password = user_data["users"][username]["password"]
 
+
     print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}')
     confirmed = input('\nSave changes? (y/n): ')
 
@@ -191,10 +196,44 @@ def admin_edit_account(current_user, username=None):
     else:
         return
     
+    
+    # Log the update
+    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
+    try:
+        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+            log_file.write(log_entry)
+    except Exception as e:
+        print(RED + f"Error logging: {e}" + RESET)
+
+
     if not save_accounts(user_data):
         return
-    
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
+
+def admin_view_account(current_user, username=None):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    
+    if username is None:
+        username = input("User to view: ")
+    
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    pw = input("Show password? (y/n): ")
+    if pw.lower() == "y":
+        pw = user_data["users"][username]["password"]
+    else:
+        pw = "*" * len(user_data["users"][username]["password"])
+
+    print(f"\nUsername: {username})")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"User type: {user_data['users'][username]['user_type']}")
+    print(f"password: {pw}")
+    print(f'UUID: {user_data["users"][username]["uuid"]}')
 
 def member_manage_profile(current_user):
     user_data = load_accounts()
