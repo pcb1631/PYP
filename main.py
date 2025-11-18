@@ -135,7 +135,8 @@ def command_mode():
     cmdlist["msa"] = {
         "delete_account": commands.admin_delete_account,
         "add_account": commands.admin_add_account,
-        "edit_account": commands.admin_edit_account
+        "edit_account": commands.admin_edit_account,
+        "view_account": commands.admin_view_account
     }
     cmdlist["mma"] = {
         #Add mma commands, and their respective functions here

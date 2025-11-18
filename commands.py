@@ -155,7 +155,7 @@ def admin_edit_account(current_user, username=None):
         print("User does not exist")
         return
     
-    print(f"\nUsername: {username})")
+    print(f"\nUsername: {username}")
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {'*' * len(user_data['users'][username]['password'])}")
@@ -229,7 +229,7 @@ def admin_view_account(current_user, username=None):
     else:
         pw = "*" * len(user_data["users"][username]["password"])
 
-    print(f"\nUsername: {username})")
+    print(f"\nUsername: {username}")
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {pw}")
