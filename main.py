@@ -130,8 +130,8 @@ def command_mode():
     #Printing the values will show where in memory the function is stored, which is probably not safe
     cmdlist = {}
     cmdlist["msa"] = {
-        "admin_delete_account": commands.admin_delete_account,
-        "admin_add_account": commands.admin_add_account
+        "delete_account": commands.admin_delete_account,
+        "add_account": commands.admin_add_account
     }
     cmdlist["mma"] = {
         #Add mma commands, and their respective functions here
