@@ -134,7 +134,7 @@ def admin_add_account(current_user):
 
     # Log the account creation
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-    log_entry = f"\n{timestamp} ACCOUNT: {username} CREATED BY: {current_user["username"]}\n"
+    log_entry = f"\n{timestamp} ACCOUNT: {username} CREATED BY: {current_user['username']}"
     try:
         with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
             log_file.write(log_entry)
