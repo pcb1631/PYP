@@ -235,7 +235,45 @@ def admin_view_account(current_user, username=None):
     print(f"password: {pw}")
     print(f'UUID: {user_data["users"][username]["uuid"]}')
 
+def checkin(current_user, username=None):
+    user_data = load_accounts()
+    if user_data == None:
+        return
+
+    if username == None:
+        username = input("Check in member: ")
+
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+
+    if user_data["users"][username]["user_type"] != "Member":
+        print("User is not a member")
+        return
+
+    confirmed = input(f'\n Check in user "{username}"? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+        log_entry = f"\n{timestamp} MEMBER: {username} CHECKED IN BY: {current_user['username']}\n"
+        try:
+            with open(files.CHECKIN_LOG_PATH, "a") as log_file:
+                log_file.write(log_entry)
+        except Exception as e:
+            print(RED + f"Error logging: {e}" + RESET)
+
+        print(GREEN + f"Member '{username}' checked in successfully." + RESET)
+    else:
+        return
+        
+        
+    
+
+
+
+
 def member_manage_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
+
