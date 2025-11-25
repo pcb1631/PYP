@@ -5,8 +5,13 @@ import os
 
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
+#this file will contain some abstraction, and the functions provided for commands in command mode
 
-
+def TUI(color, pretext, *args):
+    options = args
+    current = 0 
+    
+    
 
 def load_json_file(filepath): #generic json loader
     try:
