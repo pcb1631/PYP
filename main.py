@@ -191,7 +191,6 @@ def command_mode():
         time.sleep(1)
         return
 
-
 def main():  # This function will be run first 
     user_data = commands.load_accounts() #returns None with errors
     if user_data is None:

@@ -1,7 +1,8 @@
 import os
 import sys
-import tty
-import termios
+if os.name != 'nt':
+    import tty
+    import termios
 
 def get_key():
     if os.name == 'nt':  # For Windows
@@ -20,4 +21,25 @@ def get_key():
             return key
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
-    return None
+
+while True: #for debugging (wont run if imported)
+    key = get_key()
+
+    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
+        if key != None: #   so you have to do this manually everytime you call it
+            print(key)
+    else:
+        print(key) #    The methods for linux only return a key if its pressed
+
+
+#   Windows
+#   up =    '\xe0' , 'H'
+#   down =  '\xe0' , 'P'
+#   left =  '\xe0' , 'K'
+#   right = '\xe0' , 'M'
+
+#   Linux
+#   up =
+#   down =
+#   left =
+#   right =
