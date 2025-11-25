@@ -119,15 +119,14 @@ def command_mode():
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "A" in permissions:
-        permissions = ["msa", "mma"] #Admin has all permissions, make sure to add every permission here
+        permissions = ["msa", "mma"] # Admin has all permissions, make sure to add every permission here
 
-    #cmdlist contains permissions, and the permissions are dicts
-    #Keys will store command names, values will store function references
-    #Printing the values will show where in memory the function is stored, which is probably not safe
+    # cmdlist contains permissions, and the permissions are dicts
+    # Keys will store command names, values will store function references
+    # Printing the values will show where in memory the function is stored, which is probably not safe
 
-    #TODO: Add list of standalone commands (exit, help, clear)
-    
-    cmdlist = {}
+
+    cmdlist = {} # This is for commands with arguments.
     cmdlist["msa"] = {
         "delete_account": commands.admin_delete_account,
         "add_account": commands.admin_add_account,
@@ -135,34 +134,53 @@ def command_mode():
         "view_account": commands.admin_view_account
     }
     cmdlist["mma"] = {
-        #Add mma commands, and their respective functions here
+        # Add mma commands, and their respective functions here
     }
     cmdlist["mm"] = {
     }
 
+    def help():
+        for p in permissions:
+            print(f"{p}: {', '.join(cmdlist[p].keys())}")
+
+    mini_cmd_list = {           # This is for commands without arguments.
+        "exit": lambda: "EXIT",
+        "logout": lambda: "EXIT", # signal loop to return to main menu
+        "help": help,
+        "h": help,
+        "clear": commands.clear # clear console
+    }                 
+
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.")
     print(f"Your permissions: {', '.join(permissions)}")
 
-    try: #Wrapping the whole thing to catch keyboard interrupts
+    try:                                # Wrapping the whole thing to catch keyboard interrupts
         while True:
             command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
-            command = command.strip() #remove leading and trailing whitespace
-            if "exit" in command.lower():
-                print("Bye!")
-                time.sleep(1)
-                return
-                
-            elif command == "h" or command == "help":
-                for p in permissions:
-                    print(f"{p}: {', '.join(cmdlist[p].keys())}") #prints keys only 
+            command = command.strip()   # remove leading and trailing whitespace
+            command = command.split()   # splits each word into a list
 
+            if len(command) < 2:
+                if command[0] in permissions:   # If the user just types a permission, it will show the commands within that permission
+                    print(', '.join(cmdlist[command[0]].keys()))     
+                if command[0] not in mini_cmd_list:
+                    print(RED + "Unknown command or invalid format" + RESET)
+                    continue
+                
+                func = mini_cmd_list[command[0] ]
+                try:
+                    result = func()
+
+                    if result == "EXIT":
+                        print("Bye!")
+                        time.sleep(1)
+                        return
+                
+                except KeyboardInterrupt:
+                    print("\nCancelled")
+                continue
+            
             else:
-                command = command.split()
-                
-                if len(command) < 2:
-                    print(RED + "Command too short, command structure is [permission] [command] and the following is arguments. TUI coming soon" + RESET)
-                    continue 
-                
                 perm = command[0]
                 cmd_name = command[1]
                 args = command[2:] if len(command) > 2 else []
