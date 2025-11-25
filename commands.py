@@ -331,3 +331,42 @@ def member_manage_profile(current_user):
     if user_data is None:
         return
 
+
+def generate_daily_slot(start_hour=8, end_hour=20):
+    slots = []
+    session_id = 1
+    for hour in range(8, 20, 2):
+        slots.append({
+            "slot_id": session_id,
+            "start_hour": hour,
+            "end_hour": hour + 2
+        })
+        session_id +=1
+    return slots
+
+def format_time(hour):
+    if hour == 0:
+        return "12 AM"
+    elif hour < 12:
+        return f"{hour} AM"
+    elif hour == 12:
+        return "12 PM"
+    else:
+        return f"{hour - 12} PM"
+
+def display_slots(slots):
+    print("Available time slots:")
+    for slot in slots:
+        start = format_time(slot["start_hour"])
+        end = format_time(slot["end_hour"])
+        print(f"{slot['slot_id']}: {start} - {end}")
+
+
+
+def register_booking_session(current_user, slots):
+    display_slots(slots)
+    slot_selection = int(input("Enter slot number you would like to book: "))
+    for slot in slots:
+        if slot["slot_id"] == slot_selection:
+            return slot
+    return None
