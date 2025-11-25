@@ -6,26 +6,46 @@ import uuid
 
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
-#this file will contain some abstraction, and the functions provided for commands in command mode
+import kb
 
-def clear(): #clear console
-    if os.name == 'nt':  # For Windows
+# this file (commands.py) will contain some abstraction, and the functions provided for commands in command mode
+
+def clear():                    # clear console
+    if os.name == 'nt':         # For Windows
         _ = os.system('cls')
-    else:  # For macOS and Linux
-        _ = os.system('clear')
-    # _ means idgaf about the return value
+    else:                       # For macOS and Linux
+        _ = os.system('clear')  # _ means idgaf about the return value
+                            
 
-def TUI(color, pretext, *args): #color must be a constant from colors.py
-    options = args
-    index = 0 #user's selection
-    buffer = [] #what to print after every "refresh"
+def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args should be a string array 
+    options = args              
+    selection = 0               # user's selection 
+    buffer = []                 # what to print after every "refresh"
 
+    '''
+    TODO:  search options
+    
+    '''
+    
     while True:
-        pass
-    
+        print(pretext)
+
+        for i in range(options.len()):
+            if i == selection:
+                print(COLOR + options[i] + RESET)
+            else:
+                print(options[i])
+
+        # get user input
+        if os.name == 'nt':
+            pass
+        else:
+            pass
+
+
     
 
-def load_json_file(filepath): #generic json loader
+def load_json_file(filepath):       # generic json loader
     try:
         with open(filepath, "r") as f:
             return json.load(f)
@@ -39,7 +59,7 @@ def load_json_file(filepath): #generic json loader
         print(RED + f'Error: {e}' + RESET)
         return None
     
-def save_json_file(filepath, data): #generic json saver
+def save_json_file(filepath, data): # generic json saver
     try:
         with open(filepath, "w") as f:
             json.dump(data, f, indent=4)
@@ -48,7 +68,7 @@ def save_json_file(filepath, data): #generic json saver
         print(RED + f"Error saving to {filepath}: {e}" + RESET)
         return False
 
-def load_accounts(): #returns None with errors
+def load_accounts():                # returns None with errors
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
             return json.load(f)
@@ -62,7 +82,7 @@ def load_accounts(): #returns None with errors
         print(RED + f'Error: {e}' + RESET)
         return None
 
-def save_accounts(user_data): #returns False with errors
+def save_accounts(user_data):       # returns False with errors
     try:
         with open(files.ACCOUNTS_PATH, "w") as f:
             json.dump(user_data, f, indent=4)
