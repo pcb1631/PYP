@@ -2,19 +2,26 @@ import getpass
 import json
 import datetime
 import os
+import uuid
 
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
 #this file will contain some abstraction, and the functions provided for commands in command mode
 
+def clear(): #clear console
+    if os.name == 'nt':  # For Windows
+        _ = os.system('cls')
+    else:  # For macOS and Linux
+        _ = os.system('clear')
+    # _ means idgaf about the return value
+
 def TUI(color, pretext, *args): #color must be a constant from colors.py
     options = args
-    index = 0
-    buffer = []
+    index = 0 #user's selection
+    buffer = [] #what to print after every "refresh"
 
-    for line in buffer:
-        print(pretext)
-        print(line)
+    while True:
+        pass
     
     
 

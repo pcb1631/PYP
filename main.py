@@ -14,15 +14,8 @@ import files
 #globals
 current_user = {}
 
-def clear(): #clear console
-    if os.name == 'nt':  # For Windows
-        _ = os.system('cls')
-    else:  # For macOS and Linux
-        _ = os.system('clear')
-    # _ means idgaf about the return value
-
 def login(users):
-    clear()
+    commands.clear()
     for _ in range(3):
         username = input("Username:")
         password = getpass.getpass("Password:") #getpass.getpass() hides password
@@ -50,7 +43,7 @@ def login(users):
     exit(0)
 
 def register(user_data):
-    clear()
+    commands.clear()
 
     while True:
         username = input("Username: ")
@@ -94,7 +87,7 @@ def register(user_data):
         "uuid": str(uuid.uuid4())
     }
 
-    clear()
+    commands.clear()
     print(f'Username: {username} \nemail: {email}')
     
     confirmed = input("\nRegister? (y/n) ")
@@ -197,7 +190,7 @@ def main():  # This function will be run first
         exit(1)
     
     while True:
-        clear()
+        commands.clear()
         key = int(input("1. Login \n2. Register \n3. Exit\n"))
 
         if key == 1: 
