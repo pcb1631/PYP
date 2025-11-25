@@ -124,6 +124,9 @@ def command_mode():
     #cmdlist contains permissions, and the permissions are dicts
     #Keys will store command names, values will store function references
     #Printing the values will show where in memory the function is stored, which is probably not safe
+
+    #TODO: Add list of standalone commands (exit, help, clear)
+    
     cmdlist = {}
     cmdlist["msa"] = {
         "delete_account": commands.admin_delete_account,
@@ -135,7 +138,6 @@ def command_mode():
         #Add mma commands, and their respective functions here
     }
     cmdlist["mm"] = {
-
     }
 
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.")

@@ -22,16 +22,18 @@ def get_key():
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
 
-while True: #   for debugging (wont run if imported)
-    key = get_key()
+#while True:
+#    key = get_key()
+#    pass
 
-    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
-        if key != None: #   so you have to do this manually everytime you call it
-            if key == b'\xe0':
-                key = key + get_key()
-            print(key)
-    else:
-        print(key) #    For linux, get_key() only return a key if its pressed
+
+#    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
+#        if key != None: #   so you have to do this manually everytime you call it
+#            if key == b'\xe0':
+#                key = key + get_key()
+#            print(key)
+#    else:
+#        print(key) #    For linux, get_key() only return a key if its pressed
 
 
 #   Windows
@@ -41,7 +43,9 @@ while True: #   for debugging (wont run if imported)
 #   right = b'\xe0' , b'M'
 
 #   Linux
-#   up =
-#   down =
-#   left =
-#   right =
+#   up = '\x1b[A'
+#   down = '\x1b[B'
+#   left = '\x1b[D'
+#   right = '\x1b[C'
+#   CTRl+C = '\x03'
+#   ESC = '\x1b'

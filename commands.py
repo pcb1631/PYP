@@ -26,23 +26,44 @@ def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args
     TODO:  search options
     
     '''
+    l = len(options)
     
     while True:
-        print(pretext)
+        clear()
+        buffer = []
+        buffer.append(pretext)
 
-        for i in range(options.len()):
+        for i in range(l):
             if i == selection:
-                print(COLOR + options[i] + RESET)
+                buffer.append(COLOR + options[i] + RESET)
             else:
-                print(options[i])
+                buffer.append(options[i])
+
+        print('\n'.join(buffer))
+
 
         # get user input
         if os.name == 'nt':
-            pass
-        else:
-            pass
+            key = kb.get_key()
 
+        else: #linux
+            key = kb.get_key()
 
+            if key == "\x03": # CTRL+C
+                return None
+            
+            if key == "\x1b[A" or key == "\x1b[D": # UP
+                selection = max(0, selection - 1)
+            
+            if key == "\x1b[B" or key == "\x1b[C": # DOWN
+                selection = min(l - 1, selection + 1)
+            
+            if key == "\x1b": # ESC
+                return 'esc'
+            
+            if key == "\r": # ENTER
+                return selection
+            
     
 
 def load_json_file(filepath):       # generic json loader
