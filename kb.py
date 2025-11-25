@@ -22,14 +22,14 @@ def get_key():
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
 
-while True: #for debugging (wont run if imported)
+while True: #   for debugging (wont run if imported)
     key = get_key()
 
     if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
         if key != None: #   so you have to do this manually everytime you call it
             print(key)
     else:
-        print(key) #    The methods for linux only return a key if its pressed
+        print(key) #    For linux, get_key() only return a key if its pressed
 
 
 #   Windows
