@@ -27,16 +27,18 @@ while True: #   for debugging (wont run if imported)
 
     if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
         if key != None: #   so you have to do this manually everytime you call it
+            if key == b'\xe0':
+                key = key + get_key()
             print(key)
     else:
         print(key) #    For linux, get_key() only return a key if its pressed
 
 
 #   Windows
-#   up =    '\xe0' , 'H'
-#   down =  '\xe0' , 'P'
-#   left =  '\xe0' , 'K'
-#   right = '\xe0' , 'M'
+#   up =    b'\xe0' , b'H'
+#   down =  b'\xe0' , b'P'
+#   left =  b'\xe0' , b'K'
+#   right = b'\xe0' , b'M'
 
 #   Linux
 #   up =

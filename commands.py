@@ -7,9 +7,14 @@ from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
 import files
 #this file will contain some abstraction, and the functions provided for commands in command mode
 
-def TUI(color, pretext, *args):
+def TUI(color, pretext, *args): #color must be a constant from colors.py
     options = args
-    current = 0 
+    index = 0
+    buffer = []
+
+    for line in buffer:
+        print(pretext)
+        print(line)
     
     
 
@@ -64,11 +69,7 @@ def save_accounts(user_data): #returns False with errors
 
 
 
-
-
-
-
-#The following functions will actually be commands, the first argument should always be current_user
+#The following functions will actually be commands, the first argument should always be current_user for logging
 
 #THE FIRST ARGUMENT IS ALWAYS current_user
 def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
