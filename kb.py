@@ -37,15 +37,15 @@ def get_key():
 
 
 #   Windows
-#   up =    b'\xe0' , b'H'
-#   down =  b'\xe0' , b'P'
-#   left =  b'\xe0' , b'K'
-#   right = b'\xe0' , b'M'
+#   up      =    b'\xe0' , b'H'
+#   down    =    b'\xe0' , b'P'
+#   left    =    b'\xe0' , b'K'
+#   right   =    b'\xe0' , b'M'
 
 #   Linux
-#   up = '\x1b[A'
-#   down = '\x1b[B'
-#   left = '\x1b[D'
-#   right = '\x1b[C'
-#   CTRl+C = '\x03'
-#   ESC = '\x1b'
+#   up      =    '\x1b[A'
+#   down    =    '\x1b[B'
+#   left    =    '\x1b[D'
+#   right   =    '\x1b[C'
+#   CTRl+C  =    '\x03'
+#   ESC     =    '\x1b'

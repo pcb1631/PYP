@@ -112,8 +112,7 @@ def save_accounts(user_data):       # returns False with errors
         print(RED + f"Error saving accounts: {e}" + RESET)
         return False
 
-# Checklist:
-# Select user via uuid for admin functions 
+# TODO: Select user via uuid for admin functions 
 
 
 
