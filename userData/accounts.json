@@ -6,7 +6,7 @@
         "Member": [],
         "Trainer": [],
         "Front Desk": [
-            "mma",
+            "manage_member_accounts",
             "view_ps"
         ],
         "Finance Manager": []

@@ -119,7 +119,7 @@ def command_mode():
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "A" in permissions:
-        permissions = ["msa", "mma"] # Admin has all permissions, make sure to add every permission here
+        permissions = ["manage_staff_accounts", "manage_member_accounts"] # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
@@ -127,16 +127,16 @@ def command_mode():
 
 
     cmdlist = {} # This is for commands with arguments.
-    cmdlist["msa"] = {
+    cmdlist["manage_staff_accounts"] = {
         "delete_account": commands.admin_delete_account,
         "add_account": commands.admin_add_account,
         "edit_account": commands.admin_edit_account,
         "view_account": commands.admin_view_account
     }
-    cmdlist["mma"] = {
+    cmdlist["manage_member_accounts"] = {
         # Add mma commands, and their respective functions here
     }
-    cmdlist["mm"] = {
+    cmdlist["manage_members"] = {
     }
 
     def help():
@@ -167,7 +167,7 @@ def command_mode():
                     print(RED + "Unknown command or invalid format" + RESET)
                     continue
                 
-                func = mini_cmd_list[command[0] ]
+                func = mini_cmd_list[command[0]]
                 try:
                     result = func()
 
@@ -192,11 +192,10 @@ def command_mode():
                     print(RED + "Unknown command" + RESET)
                     continue
                 
-                # Call the function stored in the dictionary
-                func = cmdlist[perm][cmd_name]
+                func = cmdlist[perm][cmd_name]      # Call the function stored in the dictionary
                 try: 
                     func(current_user, *args)
-                except KeyboardInterrupt: #Cancel command with CTRL+C
+                except KeyboardInterrupt:           # Cancel command with CTRL+C
                     print("\nCancelled")
 
     except KeyboardInterrupt:
@@ -228,3 +227,5 @@ def main():  # This function will be run first
 
 if __name__ == "__main__":
     main()
+
+#comment
