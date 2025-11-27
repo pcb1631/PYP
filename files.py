@@ -11,6 +11,5 @@ def path(*args):
 ACCOUNTS_PATH = path("userData", "accounts.json")   #userdata/accounts.json
 ACCOUNTS_LOG_PATH = path("logs", "accounts.log")    #logs/accounts.log
 CHECKIN_LOG_PATH = path("logs", "checkin.log")      #logs/checkin.log
-MESSAGES_LOG_PATH = path("logs", "messages.log")    #logs/messages.log
 
 pass
