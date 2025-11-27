@@ -167,7 +167,7 @@ def command_mode():
                     print(RED + "Unknown command or invalid format" + RESET)
                     continue
                 
-                func = mini_cmd_list[command[0] ]
+                func = mini_cmd_list[command[0]]
                 try:
                     result = func()
 
@@ -192,11 +192,10 @@ def command_mode():
                     print(RED + "Unknown command" + RESET)
                     continue
                 
-                # Call the function stored in the dictionary
-                func = cmdlist[perm][cmd_name]
+                func = cmdlist[perm][cmd_name]      # Call the function stored in the dictionary
                 try: 
                     func(current_user, *args)
-                except KeyboardInterrupt: #Cancel command with CTRL+C
+                except KeyboardInterrupt:           # Cancel command with CTRL+C
                     print("\nCancelled")
 
     except KeyboardInterrupt:
