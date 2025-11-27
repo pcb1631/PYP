@@ -330,7 +330,6 @@ def member_manage_profile(current_user):
     if user_data is None:
         return
 
-
 def generate_daily_slot(start_hour=8, end_hour=20):
     slots = []
     session_id = 1
@@ -367,5 +366,8 @@ def register_booking_session(current_user, slots):
     slot_selection = int(input("Enter slot number you would like to book: "))
     for slot in slots:
         if slot["slot_id"] == slot_selection:
+            users[current_user]["booked_slots"].append(slot) # save booking into the user's account
+            print("Booking successful!")
             return slot
+    print("Invalid slot selected.")
     return None
