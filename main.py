@@ -227,6 +227,3 @@ def main():  # This function will be run first
 
 if __name__ == "__main__":
     main()
-
-#test
-#test 2
