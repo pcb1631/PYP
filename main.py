@@ -119,7 +119,7 @@ def command_mode():
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "A" in permissions:
-        permissions = ["msa", "mma"] # Admin has all permissions, make sure to add every permission here
+        permissions = ["manage_staff_accounts", "manage_member_accounts"] # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
@@ -127,16 +127,16 @@ def command_mode():
 
 
     cmdlist = {} # This is for commands with arguments.
-    cmdlist["msa"] = {
+    cmdlist["manage_staff_accounts"] = {
         "delete_account": commands.admin_delete_account,
         "add_account": commands.admin_add_account,
         "edit_account": commands.admin_edit_account,
         "view_account": commands.admin_view_account
     }
-    cmdlist["mma"] = {
+    cmdlist["manage_member_accounts"] = {
         # Add mma commands, and their respective functions here
     }
-    cmdlist["mm"] = {
+    cmdlist["manage_members"] = {
     }
 
     def help():
