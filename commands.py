@@ -369,5 +369,83 @@ def register_booking_session(current_user, slots):
             users[current_user]["booked_slots"].append(slot) # save booking into the user's account
             print("Booking successful!")
             return slot
+    return None
+
+
+def send_comment(current_user): # For members to send comments or feedback to specific trainers
+    print("Which trainer would you like to send a message to?")
+    try:
+        with open(files.ACCOUNTS_PATH, "r") as f:
+            users = json.load(f)
+
+        #Displays a list of all trainers in the JSON file
+        print("\n--- Available Trainers ---")
+        trainers = []
+
+        for username, details in users.items():
+            if details.get("user_type") == "Trainer":
+                trainers.append(username)
+                print(f"- {username}")
+
+        if not trainers:
+            print("No trainers found in the system.")
+            return
+
+        # User will now choose which trainer to send a message to
+        trainer_choice = input("\nEnter trainer username: ").strip()
+
+        if trainer_choice not in trainers:
+            print("This trainer doesn't exist in the system, perhaps you misspelled the name?")
+            return
+
+        # User will now type their message
+        message = input("Please enter your message: ").strip()
+
+        if message == "":
+            print("Comment cannot be empty.")
+            return
+
+        #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
+        with open(files.COMMENTS_LOG_PATH, "a") as message_file:
+            message_file.write(f"{current_user["username"]}| {trainer_choice}| {message}\n")
+
+        print("\nYour message has been successfully sent.")
+
+    except FileNotFoundError:
+        print("Error: account.json file not found.")
+
+    except json.decoder.JSONDecodeError:
+        print("Error: accounts.json file has been corrupted")
+
+# For trainers to view messages that have been sent to them
+def view_comments(current_user):
+    # noinspection SpellCheckingInspection
+    delim = "|"
+    try:
+        inbox = []
+        with open(files.COMMENTS_LOG_PATH, "r", encoding="utf-8") as f: #Reads the messages.log file
+            for raw in f:
+                line = raw.strip()
+                if not line:
+                    continue
+
+                parts = line.split(delim, 2) #Split each line into 3 parts, with "|" being the seperator
+                if len(parts) < 3:
+                    continue
+
+                member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
+                if current_user["current_user"] == trainer_username:               # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
+                    inbox.append((member_username, message))
+
+        if not inbox:
+            print(f"You have not received any messages.")
+            return
+
+        print(f"\nComments:")
+        for idx, (member, msg) in enumerate(inbox, start=1):
+            print(f"{idx}. From {member}: {msg}")
+
+    except FileNotFoundError:
+        print("comments.log file not found.")
     print("Invalid slot selected.")
     return None
