@@ -128,10 +128,10 @@ def command_mode():
 
     cmdlist = {} # This is for commands with arguments.
     cmdlist["manage_staff_accounts"] = {
-        "delete_account": commands.admin_delete_account,
-        "add_account": commands.admin_add_account,
-        "edit_account": commands.admin_edit_account,
-        "view_account": commands.admin_view_account
+        "delete_account":   commands.admin_delete_account,
+        "add_account":      commands.admin_add_account,
+        "edit_account":     commands.admin_edit_account,
+        "view_account":     commands.admin_view_account
     }
     cmdlist["manage_member_accounts"] = {
         # Add mma commands, and their respective functions here
@@ -139,13 +139,16 @@ def command_mode():
     cmdlist["manage_members"] = {
     }
 
-    
+    #TODO: implement delete
     cmdlist["send_comments"] = {
-        "comment": commands.send_comment
+        "comment":  commands.send_comment
     }
     cmdlist["view_comments"] = {
-        "view": commands.view_comments
+        "view":     commands.view_comments
     }
+
+
+
     def help():
         for p in permissions:
             print(f"{p}: {', '.join(cmdlist[p].keys())}")
