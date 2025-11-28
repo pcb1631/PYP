@@ -406,7 +406,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
             return
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
-        with open(files.MESSAGES_LOG_PATH, "a") as message_file:
+        with open(files.COMMENTS_LOG_PATH, "a") as message_file:
             message_file.write(f"{current_user}| {trainer_choice}| {message}\n")
 
         print("\nYour message has been successfully sent.")
@@ -418,12 +418,12 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         print("Error: accounts.json file has been corrupted")
 
 # For trainers to view messages that have been sent to them
-def view_messages(current_user):
+def view_comments(current_user):
     # noinspection SpellCheckingInspection
     delim = "|"
     try:
         inbox = []
-        with open(files.MESSAGES_LOG_PATH, "r", encoding="utf-8") as f: #Reads the messages.log file
+        with open(files.COMMENTS_LOG_PATH, "r", encoding="utf-8") as f: #Reads the messages.log file
             for raw in f:
                 line = raw.strip()
                 if not line:
@@ -441,11 +441,11 @@ def view_messages(current_user):
             print(f"You have not received any messages.")
             return
 
-        print(f"\nMessages:")
+        print(f"\nComments:")
         for idx, (member, msg) in enumerate(inbox, start=1):
             print(f"{idx}. From {member}: {msg}")
 
     except FileNotFoundError:
-        print("messages.log file not found.")
+        print("comments.log file not found.")
     print("Invalid slot selected.")
     return None
