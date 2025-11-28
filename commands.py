@@ -407,7 +407,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
         with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-            message_file.write(f"{current_user['username']}| {trainer_choice}| {message}\n")
+            message_file.write(f"{current_user['username']}|{trainer_choice}|{message}\n")
 
         print("\nYour message has been successfully sent.")
 
@@ -416,6 +416,9 @@ def send_comment(current_user): # For members to send comments or feedback to sp
 
     except json.decoder.JSONDecodeError:
         print("Error: accounts.json file has been corrupted")
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 # For trainers to view messages that have been sent to them
 def view_comments(current_user):
