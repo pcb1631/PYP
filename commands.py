@@ -407,7 +407,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
         with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-            message_file.write(f"{current_user}| {trainer_choice}| {message}\n")
+            message_file.write(f"{current_user["username"]}| {trainer_choice}| {message}\n")
 
         print("\nYour message has been successfully sent.")
 
@@ -434,7 +434,7 @@ def view_comments(current_user):
                     continue
 
                 member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
-                if current_user == trainer_username:               # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
+                if current_user["current_user"] == trainer_username:               # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
                     inbox.append((member_username, message))
 
         if not inbox:
