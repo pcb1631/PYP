@@ -3,8 +3,8 @@
         "Admin": [
             "A"
         ],
-        "Member": [],
-        "Trainer": [],
+        "Member": ["send_comments"],
+        "Trainer": ["send_comments", "view_comments"],
         "Front Desk": [
             "manage_member_accounts",
             "view_ps"

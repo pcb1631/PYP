@@ -376,14 +376,14 @@ def send_comment(current_user): # For members to send comments or feedback to sp
     print("Which trainer would you like to send a message to?")
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
-            users = json.load(f)
+            user_data = json.load(f)
 
         #Displays a list of all trainers in the JSON file
         print("\n--- Available Trainers ---")
         trainers = []
 
-        for username, details in users.items():
-            if details.get("user_type") == "Trainer":
+        for username in user_data["users"]:
+            if user_data["users"][username].get("user_type") == "Trainer":
                 trainers.append(username)
                 print(f"- {username}")
 
@@ -401,13 +401,13 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         # User will now type their message
         message = input("Please enter your message: ").strip()
 
-        if message == "":
+        if not message:
             print("Comment cannot be empty.")
             return
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
         with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-            message_file.write(f"{current_user["username"]}| {trainer_choice}| {message}\n")
+            message_file.write(f"{current_user['username']}| {trainer_choice}| {message}\n")
 
         print("\nYour message has been successfully sent.")
 
@@ -434,7 +434,7 @@ def view_comments(current_user):
                     continue
 
                 member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
-                if current_user["current_user"] == trainer_username:               # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
+                if current_user['username'] == trainer_username: # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
                     inbox.append((member_username, message))
 
         if not inbox:
@@ -447,5 +447,5 @@ def view_comments(current_user):
 
     except FileNotFoundError:
         print("comments.log file not found.")
-    print("Invalid slot selected.")
+    #print("Invalid slot selected.")
     return None
