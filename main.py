@@ -139,6 +139,13 @@ def command_mode():
     cmdlist["manage_members"] = {
     }
 
+    
+    cmdlist["send_comments"] = {
+        "comment": commands.send_comment
+    }
+    cmdlist["view_comments"] = {
+        "view": commands.view_comments
+    }
     def help():
         for p in permissions:
             print(f"{p}: {', '.join(cmdlist[p].keys())}")
