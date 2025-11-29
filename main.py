@@ -119,7 +119,7 @@ def command_mode():
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "A" in permissions:
-        permissions = ["manage_staff_accounts", "manage_member_accounts", "send_comments", "view_comments"] # Admin has all permissions, make sure to add every permission here
+        permissions = ["A", "manage_staff_accounts", "manage_member_accounts", "send_comments", "view_comments"] # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
