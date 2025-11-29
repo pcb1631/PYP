@@ -151,7 +151,7 @@ def command_mode():
         "view":     commands.view_comments
     }
     cmdlist["Admin"] = {
-        "ban":      commands.ban_account
+        "ban":      commands.admin_ban_account
     }
 
 
