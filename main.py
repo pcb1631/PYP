@@ -199,7 +199,6 @@ def command_mode():
 
                     if result == "EXIT":
                         print("Bye!")
-                        current_user = {} # Reset current_user
                         time.sleep(1)
                         return
                 
@@ -228,7 +227,6 @@ def command_mode():
     except KeyboardInterrupt:
         print("\nBye!")
         time.sleep(1)
-        current_user = {} # Reset current_user
         return
 
 def main():  # This function will be run first 
