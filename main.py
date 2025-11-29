@@ -245,19 +245,20 @@ def main():  # This function will be run first
     
     while True:
         commands.clear()
-        key = int(input("1. Login \n2. Register \n3. Exit\n"))
+        key = input("1. Login \n2. Register \n3. Exit\n")
 
-        if key == 1: 
+        if key == "1": 
             global current_user
             current_user = login(user_data["users"]) #users only, because im not modifying accounts.json
             print(GREEN + f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}' + RESET)
             command_mode()
-        elif key == 2:
+        elif key == "2":
             register(user_data) #the entire thing
-        elif key == 3:
+        elif key == "3":
             exit(0)
         else:
             print(RED + "Invalid input" + RESET)
+            time.sleep(0.2)
 
 
 if __name__ == "__main__":
