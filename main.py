@@ -176,6 +176,16 @@ def command_mode():
             command = command.strip()   # remove leading and trailing whitespace
             command = command.split()   # splits each word into a list
 
+            # Check if user is banned   
+            with open(files.BANNED_PATH, "r") as banned_file:
+                banned_users = banned_file.read().splitlines()
+            
+            if current_user["username"] in banned_users:
+                print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
+                time.sleep(1)
+                exit(0)
+            
+
             if len(command) < 2:
                 if command[0] in permissions:   # If the user just types a permission, it will show the commands within that permission
                     print(', '.join(cmdlist[command[0]].keys()))     
