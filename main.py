@@ -101,6 +101,15 @@ def register(user_data):
         return
 
 def command_mode():
+    # Check if user is banned   
+    with open(files.BANNED_PATH, "r") as banned_file:
+        banned_users = banned_file.read().splitlines()
+    
+    if current_user["username"] in banned_users:
+        print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
+        time.sleep(1)
+        exit(0)
+    
     #   Will now act like a shell with commands
     #   Commands are categorized by permissions, examples:
     #   msa admin_delete_account
