@@ -288,6 +288,39 @@ def admin_view_account(current_user, username=None):
     print(f"password: {pw}")
     print(f'UUID: {user_data["users"][username]["uuid"]}')
 
+def admin_ban_account(current_user, username=None):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    
+    if username is None:
+        username = input("User to ban: ")
+    
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    confirmed = input(f'\n Ban user "{username}"? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        try:
+            with open(files.BANNED_PATH, "a") as banned_file:
+                banned_file.write(username + "\n")
+        except Exception as e:
+            print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
+
+        #log the ban 
+        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+        log_entry = f"\n{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}\n"
+        try:
+            with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+                log_file.write(log_entry)
+        except Exception as e:
+            print(RED + f"Error logging: {e}" + RESET)
+
+    print(GREEN + f"Account '{username}' banned successfully." + RESET)
+
+
 def checkin(current_user, username=None):
     user_data = load_accounts()
     if user_data == None:
@@ -318,17 +351,14 @@ def checkin(current_user, username=None):
         print(GREEN + f"Member '{username}' checked in successfully." + RESET)
     else:
         return
-        
-        
     
-
-
-
-
 def member_manage_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
+
+
+
 
 def generate_daily_slot(start_hour=8, end_hour=20):
     slots = []
