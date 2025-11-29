@@ -1,7 +1,7 @@
 {
     "permissions": {
         "Admin": [
-            "A"
+            "Admin"
         ],
         "Member": ["send_comments"],
         "Trainer": ["send_comments", "view_comments"],

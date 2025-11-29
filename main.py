@@ -118,8 +118,12 @@ def command_mode():
         exit(1)
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
-    if "A" in permissions:
-        permissions = ["A", "manage_staff_accounts", "manage_member_accounts", "send_comments", "view_comments"] # Admin has all permissions, make sure to add every permission here
+    if "Admin" in permissions:
+        permissions = ["Admin", 
+        "manage_staff_accounts", 
+        "manage_member_accounts", 
+        "send_comments", 
+        "view_comments"] # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
@@ -146,7 +150,9 @@ def command_mode():
     cmdlist["view_comments"] = {
         "view":     commands.view_comments
     }
-
+    cmdlist["Admin"] = {
+        "ban":      commands.ban_account
+    }
 
 
     def help():
