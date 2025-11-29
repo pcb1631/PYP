@@ -406,8 +406,13 @@ def send_comment(current_user): # For members to send comments or feedback to sp
             return
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
-        with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-            message_file.write(f"{current_user['username']}|{trainer_choice}|{message}\n")
+        try:
+            with open(files.COMMENTS_LOG_PATH, "a") as message_file:
+                message_file.write(f"{current_user['username']}|{trainer_choice}|{message}\n")
+        except FileNotFoundError:
+            print("Error: comments.log file not found.")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
 
         print("\nYour message has been successfully sent.")
 
