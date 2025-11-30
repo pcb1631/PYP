@@ -21,7 +21,7 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
     options = args              
     selection = 0               # user's selection 
     buffer = []                 # what to print after every "refresh"
-    verbose                     # Whether to return full string or just number
+                                # verbose is Whether to return full string or just number
     '''
     TODO:  search options
     
@@ -64,7 +64,7 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
                     
 
                     if key == b'\r':
-                        if verbose:
+                        if verbose is True:
                             return options[selection]
                         else:
                             return selection
@@ -84,10 +84,13 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
                 selection = min(l - 1, selection + 1)
             
             if key == "\x1b": # ESC
-                return 'esc'
+                return None
             
             if key == "\r": # ENTER
-                return selection
+                if verbose is True:
+                    return options[selection]
+                else:
+                    return selection
             
     
 

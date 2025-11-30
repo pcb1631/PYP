@@ -202,8 +202,23 @@ def command_mode():
             
 
             if len(command) < 2:
-                if command[0] in permissions:   # If the user just types a permission, it will show the commands within that permission
-                    print(', '.join(cmdlist[command[0]].keys()))     
+                if command[0] in permissions:
+                    perm = command[0]
+                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. TUI() will return command name
+                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, True)
+
+                    if cmd_name is None:                 # if user prematurely presses ESC or CTRL+C
+                        continue
+
+                    args = []
+                    func = cmdlist[perm][cmd_name]
+                    
+                    try:
+                        func(current_user, *args)
+                    except KeyboardInterrupt:
+                        print("\nCancelled")
+                    continue
+                
                 if command[0] not in mini_cmd_list:
                     print(RED + "Unknown command or invalid format" + RESET)
                     continue
