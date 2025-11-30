@@ -253,7 +253,8 @@ def main():  # This function will be run first
         commands.clear()
 
         options = ["1. Login", "2. Register", "3. Exit"]
-        key = commands.TUI(BOLD + MAGENTA, "", options, False)
+        instruction = "Arrow keys to select, Enter to confirm"
+        key = commands.TUI(BOLD + MAGENTA, instruction, options, False)
         
         
         '''
