@@ -30,6 +30,7 @@ def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args
     
     while True:
         clear()
+        key = ""
         buffer = []
         buffer.append(pretext)
 
@@ -43,8 +44,28 @@ def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args
 
 
         # get user input
-        if os.name == 'nt':
-            key = kb.get_key()
+        if os.name == 'nt': # Windows
+            while True:
+                try:
+                    key = kb.get_key()
+                except KeyboardInterrupt:
+                    return None
+
+                if key != None:
+
+                    if key == b'\xe0': # arrow keys will start with this char
+                        key = key + kb.get_key()
+
+                        if key == b'\xe0H' or key == b'\xe0K': # up or left
+                            selection = max(0, selection - 1)
+
+                        if key == b'\xe0P' or key == b'\xe0M': # down or right
+                            selection = min(l-1, selection + 1)
+                    
+
+                    if key == b'\r':
+                        return options[selection]
+                    break
 
         else: #linux
             key = kb.get_key()
@@ -52,10 +73,10 @@ def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args
             if key == "\x03": # CTRL+C
                 return None
             
-            if key == "\x1b[A" or key == "\x1b[D": # UP
+            if key == "\x1b[A" or key == "\x1b[D": # UP or LEFT
                 selection = max(0, selection - 1)
             
-            if key == "\x1b[B" or key == "\x1b[C": # DOWN
+            if key == "\x1b[B" or key == "\x1b[C": # DOWN or RIGHT
                 selection = min(l - 1, selection + 1)
             
             if key == "\x1b": # ESC
@@ -436,6 +457,11 @@ def display_slots(slots):
 
 
 def register_booking_session(current_user, slots):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    users = user_data["users"]
+
     display_slots(slots)
     slot_selection = int(input("Enter slot number you would like to book: "))
     for slot in slots:

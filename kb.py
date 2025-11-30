@@ -44,6 +44,7 @@ def get_key():
 #   left    =    b'\xe0' , b'K'
 #   right   =    b'\xe0' , b'M'
 #   ESC     =    b'\x1b'
+#   ENTER   =    b'\r' 
 #   Windows won't print CTRL+C, so you just have to do try except KeyboardInterrupt
 
 #   Linux
@@ -53,3 +54,4 @@ def get_key():
 #   right   =    '\x1b[C'
 #   CTRl+C  =    '\x03'
 #   ESC     =    '\x1b'
+#   ENTER   =    '\r'
