@@ -8,7 +8,7 @@ import uuid
 
 #local project libraries
 import commands
-from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
+from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, RESET
 import files
 
 #globals
@@ -254,7 +254,7 @@ def main():  # This function will be run first
 
         options = ["1. Login", "2. Register", "3. Exit"]
         instruction = "Arrow keys to select, Enter to confirm"
-        key = commands.TUI(BOLD + MAGENTA, instruction, options, False)
+        key = commands.TUI(BG_MAGENTA + BOLD, instruction, options, False)
         
         
         '''
