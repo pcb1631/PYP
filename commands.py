@@ -510,28 +510,30 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         message = input("Please enter your message: ").strip()
 
         if not message:
-            print("Comment cannot be empty.")
+            print(RED + "Comment cannot be empty." + RESET)
             return
 
         #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
         try:
             with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-                message_file.write(f"{current_user['username']}|{trainer_choice}|{message}\n")
+                message_file.write(
+                    f"{BOLD}{current_user['username']}|{trainer_choice}|{message}{RESET}\n"
+                )
         except FileNotFoundError:
-            print("Error: comments.log file not found.")
+            print(RED + "Error: comments.log file not found." + RESET)
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            print(RED + f"An unexpected error occurred: {e}" + RESET)
 
-        print("\nYour message has been successfully sent.")
+        print(GREEN + "\nYour message has been successfully sent." + RESET)
 
     except FileNotFoundError:
-        print("Error: account.json file not found.")
+        print(RED + "Error: account.json file not found." + RESET)
 
     except json.decoder.JSONDecodeError:
-        print("Error: accounts.json file has been corrupted")
+        print(RED + "Error: accounts.json file has been corrupted" + RESET)
 
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        print(RED + f"An unexpected error occurred: {e}" + RESET)
 
 # For trainers to view messages that have been sent to them
 def view_comments(current_user):
