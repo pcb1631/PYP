@@ -17,11 +17,11 @@ def clear():                    # clear console
         _ = os.system('clear')  # _ means idgaf about the return value
                             
 
-def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args should be a string array 
+def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.py, *args should be a string array 
     options = args              
     selection = 0               # user's selection 
     buffer = []                 # what to print after every "refresh"
-
+    verbose                     # Whether to return full string or just number
     '''
     TODO:  search options
     
@@ -64,7 +64,11 @@ def TUI(COLOR, pretext, *args): # color must be a constant from colors.py, *args
                     
 
                     if key == b'\r':
-                        return options[selection]
+                        if verbose:
+                            return options[selection]
+                        else:
+                            return selection
+
                     break
 
         else: #linux

@@ -246,16 +246,23 @@ def main():  # This function will be run first
     
     while True:
         commands.clear()
-        key = input("1. Login \n2. Register \n3. Exit\n")
 
-        if key == "1": 
+        options = ["1. Login", "2. Register", "3. Exit"]
+        key = commands.TUI(BOLD + MAGENTA, "", options, False)
+        
+        
+        '''
+        key = input("1. Login \n2. Register \n3. Exit\n")
+        '''
+        
+        if key == 0: 
             global current_user
             current_user = login(user_data["users"]) #users only, because im not modifying accounts.json
             print(GREEN + f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}' + RESET)
             command_mode()
-        elif key == "2":
+        elif key == 1:
             register(user_data) #the entire thing
-        elif key == "3":
+        elif key == 2:
             exit(0)
         else:
             print(RED + "Invalid input" + RESET)
