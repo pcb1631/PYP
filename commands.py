@@ -320,6 +320,39 @@ def admin_ban_account(current_user, username=None):
 
     print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
+def admin_unban_account(current_user, username=None):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    
+    if username is None:
+        username = input("User to unban: ")
+    
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    confirmed = input(f'\n Unban user "{username}"? (y/n): ')
+    
+    if confirmed.lower() == 'y':
+        try:
+            with open(files.BANNED_PATH, "r+") as banned_file:
+                banned_file.seek(0)
+                banned_file.truncate()
+                banned_file.write("\n".join([line for line in banned_file if line.strip() != username]))
+        except Exception as e:
+            print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
+
+        #log the unban
+        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+        log_entry = f"\n{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}\n"
+        try:
+            with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+                log_file.write(log_entry)
+        except Exception as e:
+            print(RED + f"Error logging: {e}" + RESET)
+
+    print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
 def checkin(current_user, username=None):
     user_data = load_accounts()
