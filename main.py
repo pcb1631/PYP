@@ -45,52 +45,57 @@ def login(users):
 def register(user_data):
     commands.clear()
 
-    while True:
-        username = input("Username: ")
-        time.sleep(1) #just to make it hard to bruteforce
+    try:
+        while True:
+            username = input("Username: ")
+            time.sleep(1) #just to make it hard to bruteforce
 
-        if username in user_data["users"]:
-            print(RED + "Sorry, this username has been taken" + RESET)
-        else:
-            print(GREEN + "Username available" + RESET)
-            break
-    
-    time.sleep(0.1) #small delay for UX
-    print("\nPassword must contain at least one number, one symbol, and 10 characters")
-    while True:
-        password = getpass.getpass("Password: ")
-
-        if len(password) <= 10:
-            print(RED + "Password must be more than 10 characters." + RESET)
-            continue
+            if username in user_data["users"]:
+                print(RED + "Sorry, this username has been taken" + RESET)
+            else:
+                print(GREEN + "Username available" + RESET)
+                break
         
-        if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
-            print(RED + "Password must contain at least one number." + RESET)
-            continue
+        time.sleep(0.1) #small delay for UX
+        print("\nPassword must contain at least one number, one symbol, and 10 characters")
+        while True:
+            password = getpass.getpass("Password: ")
 
-        if not any(not c.isalnum() for c in password):
-            print(RED + "Password must contain at least one symbol." + RESET)
-            continue
+            if len(password) <= 10:
+                print(RED + "Password must be more than 10 characters." + RESET)
+                continue
+            
+            if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
+                print(RED + "Password must contain at least one number." + RESET)
+                continue
 
-        break
+            if not any(not c.isalnum() for c in password):
+                print(RED + "Password must contain at least one symbol." + RESET)
+                continue
 
-    email = input("Email: ")
+            break
 
-    while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex 
-        print(RED + "Invalid email format. Please try again." + RESET)
         email = input("Email: ")
 
-    user_data["users"][username] = {
-        "password": password,
-        "email": email,
-        "user_type": "Member",
-        "uuid": str(uuid.uuid4())
-    }
+        while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex 
+            print(RED + "Invalid email format. Please try again." + RESET)
+            email = input("Email: ")
 
-    commands.clear()
-    print(f'Username: {username} \nemail: {email}')
-    
-    confirmed = input("\nRegister? (y/n) ")
+        user_data["users"][username] = {
+            "password": password,
+            "email": email,
+            "user_type": "Member",
+            "uuid": str(uuid.uuid4())
+        }
+
+        commands.clear()
+        print(f'Username: {username} \nemail: {email}')
+        
+        confirmed = input("\nRegister? (y/n) ")
+
+    except KeyboardInterrupt:
+        print("\n\nRegister cancelled")
+        return
 
     if confirmed.lower() == "y":
         if commands.save_accounts(user_data): #returns False with errors
