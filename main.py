@@ -207,7 +207,7 @@ def command_mode():
                     options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. TUI() will return command name
                     cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, True)
 
-                    if cmd_name is None:                 # if user prematurely presses ESC or CTRL+C
+                    if cmd_name is None:                 # if user prematurely presses CTRL+C
                         continue
 
                     args = []
