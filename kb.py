@@ -23,9 +23,11 @@ def get_key():
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
 
 #while True:
-#    key = get_key()
-#    pass
-
+#    try:
+#        key = get_key()
+#    except KeyboardInterrupt:
+#        print("CTRL + C")
+#        exit(0)
 
 #    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
 #        if key != None: #   so you have to do this manually everytime you call it
@@ -41,6 +43,8 @@ def get_key():
 #   down    =    b'\xe0' , b'P'
 #   left    =    b'\xe0' , b'K'
 #   right   =    b'\xe0' , b'M'
+#   ESC     =    b'\x1b'
+#   Windows won't print CTRL+C, so you just have to do try except KeyboardInterrupt
 
 #   Linux
 #   up      =    '\x1b[A'
