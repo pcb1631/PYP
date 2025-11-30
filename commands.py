@@ -4,7 +4,7 @@ import datetime
 import os
 import uuid
 
-from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, RESET
+from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
 import files
 import kb
 
@@ -484,29 +484,26 @@ def register_booking_session(current_user, slots):
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
-    print("Which trainer would you like to send a message to?")
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
             user_data = json.load(f)
 
         #Displays a list of all trainers in the JSON file
-        print("\n--- Available Trainers ---")
         trainers = []
 
         for username in user_data["users"]:
             if user_data["users"][username].get("user_type") == "Trainer":
                 trainers.append(username)
-                print(f"- {username}")
 
         if not trainers:
             print("No trainers found in the system.")
             return
 
         # User will now choose which trainer to send a message to
-        trainer_choice = input("\nEnter trainer username: ").strip()
+        verbose = True
+        trainer_choice = TUI(BG_MAGENTA + BOLD, "Which trainer would you like to send a message to?\n", trainers, verbose)
 
-        if trainer_choice not in trainers:
-            print("This trainer doesn't exist in the system, perhaps you misspelled the name?")
+        if trainer_choice is None:
             return
 
         # User will now type their message
