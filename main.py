@@ -8,6 +8,7 @@ import uuid
 
 #local project libraries
 import commands
+from commands import TUI
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, RESET
 import files
 
@@ -210,7 +211,7 @@ def command_mode():
                         continue
 
                     options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
-                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
+                    cmd_name = TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
                         continue
@@ -228,7 +229,7 @@ def command_mode():
                     verbose = True
                     perm = command[0]
                     options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
-                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
+                    cmd_name = TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
                         continue
