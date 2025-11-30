@@ -172,7 +172,7 @@ def command_mode():
 
     def help():
         for p in permissions:
-            print(f"{p}: {', '.join(cmdlist[p].keys())}")
+            print(CYAN + f"{p}: {', '.join(cmdlist[p].keys())}" + RESET)
 
     mini_cmd_list = {           # This is for commands without arguments.
         "exit": lambda: "EXIT",
@@ -183,7 +183,7 @@ def command_mode():
     }                 
 
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.")
-    print(f"Your permissions: {', '.join(permissions)}")
+    print(CYAN + f"\nYour permissions: {', '.join(permissions)}" + RESET)
 
     try:                                # Wrapping the whole thing to catch keyboard interrupts
         while True:
