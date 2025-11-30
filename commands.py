@@ -26,6 +26,10 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
     TODO:  search options
     
     '''
+    if options is None:
+        print(RED + "Error: Options are empty!" + RESET)
+        return None
+    
     l = len(options)
     
     while True:

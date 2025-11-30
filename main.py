@@ -204,7 +204,8 @@ def command_mode():
             if len(command) < 2:
                 if command[0] in permissions:
                     perm = command[0]
-                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. TUI() will return command name
+                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
+                                                         # TUI() will return command name (verbose = True)
                     cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, True)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
