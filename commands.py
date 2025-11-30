@@ -517,7 +517,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         try:
             with open(files.COMMENTS_LOG_PATH, "a") as message_file:
                 message_file.write(
-                    f"{BOLD}{current_user['username']}|{trainer_choice}|{message}{RESET}\n"
+                    f"{current_user['username']}|{trainer_choice}|{message}\n"
                 )
         except FileNotFoundError:
             print(RED + "Error: comments.log file not found." + RESET)
