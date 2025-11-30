@@ -202,11 +202,33 @@ def command_mode():
             
 
             if len(command) < 2:
+                if command[0] == "tui":
+                    verbose = True 
+                    perm = TUI(BG_MAGENTA + BOLD, "Select permission level\n", permissions, verbose)
+
+                    if perm is None:
+                        continue
+
+                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
+                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
+
+                    if cmd_name is None:                 # if user prematurely presses CTRL+C
+                        continue
+
+                    args = []
+                    func = cmdlist[perm][cmd_name]
+
+                    try:
+                        func(current_user, *args)
+                    except KeyboardInterrupt:
+                        print("\nCancelled")
+                    continue
+
                 if command[0] in permissions:
+                    verbose = True
                     perm = command[0]
                     options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
-                                                         # TUI() will return command name (verbose = True)
-                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, True)
+                    cmd_name = commands.TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
                         continue
@@ -223,20 +245,20 @@ def command_mode():
                 if command[0] not in mini_cmd_list:
                     print(RED + "Unknown command or invalid format" + RESET)
                     continue
-                
-                func = mini_cmd_list[command[0]]
-                try:
-                    result = func()
+                else:
+                    func = mini_cmd_list[command[0]]
+                    try:
+                        result = func()
 
-                    if result == "EXIT":
-                        print("Bye!")
-                        time.sleep(1)
-                        return
+                        if result == "EXIT":
+                            print("Bye!")
+                            time.sleep(1)
+                            return
                 
-                except KeyboardInterrupt:
-                    print("\nCancelled")
-                continue
-            
+                    except KeyboardInterrupt:
+                        print("\nCancelled")
+                        continue
+                
             else:
                 perm = command[0]
                 cmd_name = command[1]
