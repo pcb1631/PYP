@@ -300,6 +300,17 @@ def admin_ban_account(current_user, username=None):
         print("User does not exist")
         return
     
+    try:
+        with open(files.BANNED_PATH, "r") as banned_file:
+            banned_users = banned_file.read().splitlines()
+    except Exception as e:
+        print(RED + f"Error reading {files.BANNED_PATH}: {e}" + RESET)
+        return
+    
+    if username in banned_users:
+        print(RED + "User is already banned" + RESET)
+        return
+    
     confirmed = input(f'\n Ban user "{username}"? (y/n): ')
 
     if confirmed.lower() == 'y':
