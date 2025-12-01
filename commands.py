@@ -325,11 +325,12 @@ def admin_ban_account(current_user, username=None):
     if user_data is None:
         return
     
+    users = list(user_data["users"].keys())
+
     if username is None:
-        username = input("User to ban: ")
+        username = TUI(MAGENTA + BOLD, "Select user to ban", users,True)
     
-    if username not in user_data["users"]:
-        print("User does not exist")
+    if username is None:    #User pressed CTRL+C
         return
     
     try:
@@ -368,11 +369,12 @@ def admin_unban_account(current_user, username=None):
     if user_data is None:
         return
     
+    users = list(user_data["users"].keys())
+
     if username is None:
-        username = input("User to unban: ")
+        username = TUI(MAGENTA + BOLD, "Select user to unban", users,True)
     
-    if username not in user_data["users"]:
-        print("User does not exist")
+    if username is None:    #User pressed CTRL+C
         return
     
     confirmed = input(f'\n Unban user "{username}"? (y/n): ')
@@ -396,6 +398,20 @@ def admin_unban_account(current_user, username=None):
             print(RED + f"Error logging: {e}" + RESET)
 
     print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
+
+def direct_messages(current_user, username=None): # dont touch this yet 
+    user_data = load_accounts()
+    if user_data == None:
+        return
+
+    users = list(user_data["users"].keys())
+
+    if username is None:
+        username = TUI(BG_MAGENTA + BOLD, "Pick someone to talk to", users, True)
+
+
+
+
 
 def checkin(current_user, username=None):
     user_data = load_accounts()
