@@ -186,7 +186,7 @@ def command_mode():
         "clear": commands.clear # clear console
     }                 
 
-    print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.")
+    print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.\nYou can do CTRL + C to cancel a command.")
     print(CYAN + f"\nYour permissions: {', '.join(permissions)}" + RESET)
 
     try:                                # Wrapping the whole thing to catch keyboard interrupts
