@@ -490,7 +490,7 @@ def booking_slots(bookings, trainer_key, member_name):
     slot = bookings[trainer_key][slot_choice]
     if slot["bookedBy"] is None:
         slot["bookedBy"] = member_name
-        print("Booking successfull!")
+        print("Booking successful!")
         save_bookings(bookings) #save to json file
     else:
         print("This slot has already been booked")
