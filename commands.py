@@ -3,6 +3,7 @@ import json
 import datetime
 import os
 import uuid
+import shutil
 
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
 import files
@@ -26,13 +27,19 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
     TODO:  search options
     
     '''
-    if options is None:
+    if options == []:
         print(RED + "Error: Options are empty!" + RESET)
         return None
     
     l = len(options)
     
     while True:
+        # get terminal size
+        if os.name == 'nt': # Windows
+            cols, rows = os.get_terminal_size()
+        else: # Linux and macOS
+            cols, rows = shutil.get_terminal_size()
+        
         clear()
         key = ""
         buffer = []
@@ -45,7 +52,7 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
                 buffer.append(options[i])
 
         print('\n'.join(buffer))
-
+        print(f"{cols}x{rows}")
 
         # get user input
         if os.name == 'nt': # Windows
