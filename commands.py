@@ -495,6 +495,7 @@ def booking_slots(bookings, trainer_key, member_name):
     else:
         print("This slot has already been booked")
 
+#View booking function for members
 def view_member_bookings(bookings, member_name):
     print(f"\n{member_name}'s bookings:")
     found = False
