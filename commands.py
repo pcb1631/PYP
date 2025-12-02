@@ -474,30 +474,6 @@ def trainer_selection(bookings):
     return trainer_key
 
 
-##################################################################################### IDK what to do with this part yet
-def generate_daily_slot(start_hour=8, end_hour=20):
-    slots = []
-    session_id = 1
-    for hour in range(8, 20, 2):
-        slots.append({
-            "slot_id": session_id,
-            "start_hour": hour,
-            "end_hour": hour + 2
-        })
-        session_id +=1
-    return slots
-
-def format_time(hour):
-    if hour == 0:
-        return "12 AM"
-    elif hour < 12:
-        return f"{hour} AM"
-    elif hour == 12:
-        return "12 PM"
-    else:
-        return f"{hour - 12} PM"
-#####################################################################################
-
 #Display time slot of trainers
 def display_slots(bookings, trainer_key):
     print(f"\nTime slots for {trainer_key}:")
@@ -518,25 +494,6 @@ def booking_slots(bookings, trainer_key, member_name):
         save_bookings(bookings) #save to json file
     else:
         print("This slot has already been booked")
-
-
-
-#####################################################################################
-def register_booking_session(current_user, slots):
-    user_data = load_accounts()
-    if user_data is None:
-        return
-    users = user_data["users"]
-
-    display_slots(slots)
-    slot_selection = int(input("Enter slot number you would like to book: "))
-    for slot in slots:
-        if slot["slot_id"] == slot_selection:
-            users[current_user]["booked_slots"].append(slot) # save booking into the user's account
-            print("Booking successful!")
-            return slot
-    return None
-#####################################################################################
 
 
 
