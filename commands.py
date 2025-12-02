@@ -489,7 +489,7 @@ def display_slots(bookings, trainer_key):
     print(f"\nTime slots for {trainer_key}:")
     trainer_slots = bookings[trainer_key]
     for slot_id, slot in trainer_slots.items():
-        status = "Available" if slot["bookedBy"] is None else f"Booked by {slot['bookedBy']}"
+        status = "Available" if slot["booked_by"] is None else f"Booked by {slot['booked_by']}"
         print(f"{slot_id}: {slot['start']} - {slot['end']} ({status})")
 
 # Booking time slot for trainers
@@ -502,8 +502,8 @@ def booking_slots(bookings, trainer_key, member_name):
         print("Invalid slot number")
         booking_slots(bookings, trainer_key, member_name)
     else:
-        if slot["bookedBy"] is None:
-            slot["bookedBy"] = member_name
+        if slot["booked_by"] is None:
+            slot["booked_by"] = member_name
             print("Booking successful!")
             save_bookings(bookings)  # save to json file
         else:
@@ -515,7 +515,7 @@ def view_member_bookings(bookings, member_name):
     found = False
     for trainer_key, trainer_slots in bookings.items():  # Loop through trainers
         for slot_id, slot in trainer_slots.items():      # Loop through slots
-            if slot["bookedBy"] == member_name:
+            if slot["booked_by"] == member_name:
                 print(f"- Trainer: {trainer_key}, Slot {slot_id}: {slot['start']} - {slot['end']}")
                 found = True
 
