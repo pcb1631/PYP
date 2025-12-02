@@ -1,37 +1,37 @@
 {
   "trainer_1": {
     "0": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "10:00",
+      "end": "12:00",
       "bookedBy": null
     },
     "1": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "12:00",
+      "end": "14:00",
       "bookedBy": "member_1"
     }
   },
   "trainer_2": {
     "0": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "10:00",
+      "end": "12:00",
       "bookedBy": null
     },
     "1": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "12:00",
+      "end": "14:00",
       "bookedBy": "member_2"
     }
   },
   "trainer_3": {
     "0": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "10:00",
+      "end": "12:00",
       "bookedBy": null
     },
     "1": {
-      "start": "Date time",
-      "end": "Date time",
+      "start": "12:00",
+      "end": "14:00",
       "bookedBy": "member_3"
     }
   }
