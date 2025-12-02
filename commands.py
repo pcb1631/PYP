@@ -495,6 +495,18 @@ def booking_slots(bookings, trainer_key, member_name):
     else:
         print("This slot has already been booked")
 
+def view_member_bookings(bookings, member_name):
+    print(f"\n{member_name}'s bookings:")
+    found = False
+    for trainer_key, trainer_slots in bookings.items(): # Loop through trainers list
+        for slot_id, slot in trainer_slots.items(): # Loop through each time slot
+            if slot["bookedBy"] == member_name:
+                print(f"- Trainer: {trainer_key}, Slot {slot_id}: {slot['start']} - {slot['end']}")
+                found = True
+
+    if not found:
+        print("No bookings found.")
+
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
