@@ -501,7 +501,8 @@ def format_time(hour):
 #Display time slot of trainers
 def display_slots(bookings, trainer_key):
     print(f"\nTime slots for {trainer_key}:")
-    for slot_id in slot in trainer_slots.item():
+    trainer_slots = bookings[trainer_key]
+    for slot_id, slot in trainer_slots.item():
         status = "Available" if slot["bookedBy"] is None else f"Booked by {slot['bookedBy']}"
         print(f"{slot_id}: {slot["start"]} - {slot["end"]} {status}")
 
@@ -520,7 +521,7 @@ def booking_slots(bookings, trainer_key, member_name):
 
 
 
-
+#####################################################################################
 def register_booking_session(current_user, slots):
     user_data = load_accounts()
     if user_data is None:
@@ -535,7 +536,7 @@ def register_booking_session(current_user, slots):
             print("Booking successful!")
             return slot
     return None
-
+#####################################################################################
 
 
 
