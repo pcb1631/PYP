@@ -457,53 +457,71 @@ def member_manage_profile(current_user):
         return
 
 
+# Read booking.json
+def load_bookings(filename="booking.json"):
+    with open(filename, "r") as booking_file:
+        return json.load(booking_file)
 
+# Save bookings into json file
+def save_bookings(data, filename="booking.json"):
+    with open(filename, "w") as booking_file:
+        json.dump(data, booking_file, indent=4)
 
-def generate_daily_slot(start_hour=8, end_hour=20):
-    slots = []
-    session_id = 1
-    for hour in range(8, 20, 2):
-        slots.append({
-            "slot_id": session_id,
-            "start_hour": hour,
-            "end_hour": hour + 2
-        })
-        session_id +=1
-    return slots
+# Displays trainer list
+def display_trainer_list(bookings):
+    print("Available Trainers:")
+    for i, trainer in enumerate(bookings.keys(), start=1):
+        print(f"{i}. {trainer}")
 
-def format_time(hour):
-    if hour == 0:
-        return "12 AM"
-    elif hour < 12:
-        return f"{hour} AM"
-    elif hour == 12:
-        return "12 PM"
+# Let's user choose trainer
+def trainer_selection(bookings):
+    display_trainer_list(bookings)
+    choice = int(input("Enter trainer number of your choice: "))
+    if choice != [1, 2, 3, 4, 5]:
+        print("Invalid input. Try again.")
+        trainer_selection(bookings)
     else:
-        return f"{hour - 12} PM"
+        trainer_key = list(bookings.keys())[choice - 1]
+        return trainer_key
 
-def display_slots(slots):
-    print("Available time slots:")
-    for slot in slots:
-        start = format_time(slot["start_hour"])
-        end = format_time(slot["end_hour"])
-        print(f"{slot['slot_id']}: {start} - {end}")
+# Display time slots of trainers
+def display_slots(bookings, trainer_key):
+    print(f"\nTime slots for {trainer_key}:")
+    trainer_slots = bookings[trainer_key]
+    for slot_id, slot in trainer_slots.items():
+        status = "Available" if slot["bookedBy"] is None else f"Booked by {slot['bookedBy']}"
+        print(f"{slot_id}: {slot['start']} - {slot['end']} ({status})")
 
+# Booking time slot for trainers
+def booking_slots(bookings, trainer_key, member_name):
+    display_slots(bookings, trainer_key)
+    slot_choice = input("Enter slot number to book a slot: ")
 
-
-def register_booking_session(current_user, slots):
-    user_data = load_accounts()
-    if user_data is None:
-        return
-    users = user_data["users"]
-
-    display_slots(slots)
-    slot_selection = int(input("Enter slot number you would like to book: "))
-    for slot in slots:
-        if slot["slot_id"] == slot_selection:
-            users[current_user]["booked_slots"].append(slot) # save booking into the user's account
+    slot = bookings[trainer_key][slot_choice]
+    if slot != [1, 2, 3, 4, 5, 6]:
+        print("Invalid slot number")
+        booking_slots(bookings, trainer_key, member_name)
+    else:
+        if slot["bookedBy"] is None:
+            slot["bookedBy"] = member_name
             print("Booking successful!")
-            return slot
-    return None
+            save_bookings(bookings)  # save to json file
+        else:
+            print("This slot has already been booked")
+
+# View booking function for members
+def view_member_bookings(bookings, member_name):
+    print(f"\n{member_name}'s bookings:")
+    found = False
+    for trainer_key, trainer_slots in bookings.items():  # Loop through trainers
+        for slot_id, slot in trainer_slots.items():      # Loop through slots
+            if slot["bookedBy"] == member_name:
+                print(f"- Trainer: {trainer_key}, Slot {slot_id}: {slot['start']} - {slot['end']}")
+                found = True
+
+    if not found:
+        print("No bookings found.")
+
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
