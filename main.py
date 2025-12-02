@@ -138,7 +138,8 @@ def command_mode():
         "manage_staff_accounts", 
         "manage_member_accounts", 
         "send_comments", 
-        "view_comments"] # Admin has all permissions, make sure to add every permission here
+        "view_comments",
+        "test"] # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
@@ -169,7 +170,9 @@ def command_mode():
         "ban":      commands.admin_ban_account,
         "unban":    commands.admin_unban_account
     }
-
+    cmdlist["test"] = {
+        "booking":  commands.member_booking_menu
+    }
 
     def help():
         for p in permissions:

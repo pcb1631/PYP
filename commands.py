@@ -458,12 +458,12 @@ def member_manage_profile(current_user):
 
 
 # Read booking.json
-def load_bookings(filename="booking.json"):
+def load_bookings(filename=files.BOOKING_PATH):
     with open(filename, "r") as booking_file:
         return json.load(booking_file)
 
 # Save bookings into json file
-def save_bookings(data, filename="booking.json"):
+def save_bookings(data, filename=files.BOOKING_PATH):
     with open(filename, "w") as booking_file:
         json.dump(data, booking_file, indent=4)
 
@@ -522,6 +522,11 @@ def view_member_bookings(bookings, member_name):
     if not found:
         print("No bookings found.")
 
+def member_booking_menu(current_user):
+    bookings = load_bookings()
+    member_name = current_user["username"]
+    trainer_key = trainer_selection(bookings)
+    booking_slots(bookings, trainer_key, member_name)
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
