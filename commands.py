@@ -474,7 +474,7 @@ def trainer_selection(bookings):
     return trainer_key
 
 
-#####################################################################################
+##################################################################################### IDK what to do with this part yet
 def generate_daily_slot(start_hour=8, end_hour=20):
     slots = []
     session_id = 1
@@ -515,6 +515,10 @@ def booking_slots(bookings, trainer_key, member_name):
         slot["bookedBy"] = member_name
         print("Booking successfull!")
         save_bookings(bookings) #save to json file
+    else:
+        print("This slot has already been booked")
+
+
 
 
 def register_booking_session(current_user, slots):
