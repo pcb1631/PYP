@@ -159,7 +159,6 @@ def command_mode():
     cmdlist["manage_members"] = {
     }
 
-    #TODO: implement delete
     cmdlist["send_comments"] = {
         "comment":  commands.send_comment
     }
