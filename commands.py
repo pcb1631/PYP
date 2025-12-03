@@ -34,7 +34,7 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
     
     l = len(options)
 
-    query = "query: "
+    query = ""
     match = ""
 
     while True:
@@ -65,7 +65,7 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             else:
                 buffer.append(options[i])
 
-        buffer.append(f'{query} >{match}')
+        buffer.append(f'query:{query} >{match}')
 
         print('\n'.join(buffer))
 
@@ -116,14 +116,15 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
                 query += key
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
+                    selection = options.index(match)
                 else:
                     match = ""
             
             if key == "\x7f": # BACKSPACE
-                if len(query) > 7:
-                    query = query[:-1]
+                query = query[:-1]
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
+                    selection = options.index(match)
                 else:
                     match = ""
             
