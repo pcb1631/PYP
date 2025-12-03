@@ -34,7 +34,8 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
     
     l = len(options)
 
-    query = ""
+    query = "query: "
+    match = ""
 
     while True:
         # get terminal size
@@ -64,7 +65,7 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             else:
                 buffer.append(options[i])
 
-        buffer.append(query)
+        buffer.append(f'{query} >{match}')
 
         print('\n'.join(buffer))
 
@@ -111,12 +112,20 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             if key == "\x1b": # ESC
                 return None
             
-            if key.isalpha():
+            if key.isalnum():
                 query += key
-                pass
+                if difflib.get_close_matches(query, options, 1):
+                    match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
+                else:
+                    match = ""
             
             if key == "\x7f": # BACKSPACE
-                query = query[:-1]
+                if len(query) > 7:
+                    query = query[:-1]
+                if difflib.get_close_matches(query, options, 1):
+                    match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
+                else:
+                    match = ""
             
             if key == "\r": # ENTER
                 if verbose is True:
