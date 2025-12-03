@@ -449,8 +449,6 @@ def direct_messages(current_user, username=None): # dont touch this yet
 
 
 
-
-
 def checkin(current_user, username=None):
     user_data = load_accounts()
     if user_data == None:
@@ -486,6 +484,8 @@ def member_manage_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
+
+
 
 # Read booking.json
 def load_bookings(filename=files.BOOKING_PATH):
@@ -557,6 +557,7 @@ def member_booking_menu(current_user):
     member_name = current_user["username"]
     trainer_key = trainer_selection(bookings)
     booking_slots(bookings, trainer_key, member_name)
+
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
