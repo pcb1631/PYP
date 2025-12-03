@@ -112,7 +112,7 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             if key == "\x1b": # ESC
                 return None
             
-            if key.isalnum():
+            if key.isascii() and len(key) == 1:
                 query += key
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
