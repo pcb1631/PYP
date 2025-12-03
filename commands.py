@@ -486,7 +486,7 @@ def member_manage_profile(current_user):
     if user_data is None:
         return
 
-def booking_functions(current_user):
+def booking_functions():
     # Read booking.json
     def load_bookings(filename=files.BOOKING_PATH):
         with open(filename, "r") as booking_file:
@@ -551,8 +551,8 @@ def booking_functions(current_user):
 
         if not found:
             print("No bookings found.")
-            
-    booking_functions()
+
+def member_booking_menu(current_user):
     bookings = load_bookings()
     member_name = current_user["username"]
     trainer_key = trainer_selection(bookings)
