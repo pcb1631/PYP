@@ -4,6 +4,7 @@ import datetime
 import os
 import uuid
 import shutil
+import difflib
 
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
 import files
@@ -18,7 +19,7 @@ def clear():                    # clear console
         _ = os.system('clear')  # _ means idgaf about the return value
                             
 
-def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.py, *args should be a string array 
+def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py, *args should be a string array 
     options = args              
     selection = 0               # user's selection 
     buffer = []                 # what to print after every "refresh"
@@ -32,7 +33,8 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
         return None
     
     l = len(options)
-    
+
+    query = ""
 
     while True:
         # get terminal size
@@ -44,10 +46,11 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
         clear()
         key = ""
         buffer = []
-        buffer.append(pretext)
+
+        buffer.append(prompt)
 
         # Calculate display range
-        display_count = min(lines - 2, l)  # Leave 3 lines for prompt
+        display_count = min(lines - 3, l)  # Leave 2 lines for prompt, 1 line for query
         start_idx = max(0, min(selection, l - display_count))
         end_idx = min(start_idx + display_count, l)
         
@@ -60,6 +63,8 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
                 buffer.append(COLOR + options[i] + RESET)
             else:
                 buffer.append(options[i])
+
+        buffer.append(query)
 
         print('\n'.join(buffer))
 
@@ -105,6 +110,13 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
             
             if key == "\x1b": # ESC
                 return None
+            
+            if key.isalpha():
+                query += key
+                pass
+            
+            if key == "\x7f": # BACKSPACE
+                query = query[:-1]
             
             if key == "\r": # ENTER
                 if verbose is True:

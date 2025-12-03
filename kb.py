@@ -21,22 +21,23 @@ def get_key():
             return key
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
+'''
+while True:
+    try:
+        key = get_key()
+    except KeyboardInterrupt:
+        print("CTRL + C")
+        exit(0)
 
-#while True:
-#    try:
-#        key = get_key()
-#    except KeyboardInterrupt:
-#        print("CTRL + C")
-#        exit(0)
-
-#    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
-#        if key != None: #   so you have to do this manually everytime you call it
-#            if key == b'\xe0':
-#                key = key + get_key()
-#            print(key)
-#    else:
-#        print(key) #    For linux, get_key() only return a key if its pressed
-
+    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
+        if key != None: #   so you have to do this manually everytime you call it
+            if key == b'\xe0':
+                key = key + get_key()
+            print(key)
+    else:
+        print(key) #    For linux, get_key() only return a key if its pressed
+        pass
+'''
 
 #   Windows
 #   up      =    b'\xe0' , b'H'
