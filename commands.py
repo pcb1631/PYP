@@ -33,26 +33,35 @@ def TUI(COLOR, pretext, args, verbose): # color must be a constant from colors.p
     
     l = len(options)
     
+
     while True:
         # get terminal size
         if os.name == 'nt': # Windows
-            cols, rows = os.get_terminal_size()
+            cols, lines = os.get_terminal_size()
         else: # Linux and macOS
-            cols, rows = shutil.get_terminal_size()
+            cols, lines = shutil.get_terminal_size()
         
         clear()
         key = ""
         buffer = []
         buffer.append(pretext)
 
-        for i in range(l):
+        # Calculate display range
+        display_count = min(lines - 2, l)  # Leave 3 lines for prompt
+        start_idx = max(0, min(selection, l - display_count))
+        end_idx = min(start_idx + display_count, l)
+        
+        # Adjust start if we need to show more items at the bottom
+        if end_idx - start_idx < display_count:
+            start_idx = max(0, end_idx - display_count)
+        
+        for i in range(start_idx, end_idx):
             if i == selection:
                 buffer.append(COLOR + options[i] + RESET)
             else:
                 buffer.append(options[i])
 
         print('\n'.join(buffer))
-        print(f"{cols}x{rows}")
 
         # get user input
         if os.name == 'nt': # Windows

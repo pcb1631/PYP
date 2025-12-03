@@ -208,7 +208,7 @@ def command_mode():
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
-                    perm = TUI(BG_MAGENTA + BOLD, "Select permission level\n", permissions, verbose)
+                    perm = TUI(BG_MAGENTA + BOLD, "Select permission level", permissions, verbose)
 
                     if perm is None:
                         continue
@@ -300,7 +300,7 @@ def main():  # This function will be run first
         
         
         '''
-        key = input("1. Login \n2. Register \n3. Exit\n")
+        key = input("1. Login \n2. Register \n3. Exit")
         '''
         
         if key == 0: 
