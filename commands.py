@@ -74,28 +74,48 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             while True:
                 try:
                     key = kb.get_key()
+                    if key != None:
+                        break
+                    else:
+                        continue
                 except KeyboardInterrupt:
                     return None
 
-                if key != None:
+            if key != None:
 
-                    if key == b'\xe0': # arrow keys will start with this char
-                        key = key + kb.get_key()
+                if key == b'\xe0': # arrow keys will start with this char
+                    key = key + kb.get_key()
 
-                        if key == b'\xe0H' or key == b'\xe0K': # up or left
-                            selection = max(0, selection - 1)
+                    if key == b'\xe0H' or key == b'\xe0K': # up or left
+                        selection = max(0, selection - 1)
 
-                        if key == b'\xe0P' or key == b'\xe0M': # down or right
-                            selection = min(l-1, selection + 1)
+                    if key == b'\xe0P' or key == b'\xe0M': # down or right
+                        selection = min(l-1, selection + 1)
+                
+                if key == b'\r': # enter
+                    if verbose is True:
+                        return options[selection]
+                    else:
+                        return selection
                     
+                if key == b'\x08': # backspace
+                    query = query[:-1]
+                    if difflib.get_close_matches(query, options, 1):
+                        match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
+                        selection = options.index(match)
+                    else:
+                        match = ""
+                    continue
 
-                    if key == b'\r':
-                        if verbose is True:
-                            return options[selection]
-                        else:
-                            return selection
-
-                    break
+                if key.isascii() and len(key) == 1:
+                    key = key.decode("utf-8") # since its a bytes string, i need to convert to normal str
+                    query += key
+                    if difflib.get_close_matches(query, options, 1):
+                        match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
+                        selection = options.index(match)
+                    else:
+                        match = ""
+                    continue
 
         else: #linux
             key = kb.get_key()
