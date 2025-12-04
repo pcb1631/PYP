@@ -112,13 +112,11 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
             if key == "\x1b": # ESC
                 return None
             
-            if key.isascii() and len(key) == 1:
-                query += key
-                if difflib.get_close_matches(query, options, 1):
-                    match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
-                    selection = options.index(match)
+            if key == "\r": # ENTER
+                if verbose is True:
+                    return options[selection]
                 else:
-                    match = ""
+                    return selection
             
             if key == "\x7f": # BACKSPACE
                 query = query[:-1]
@@ -127,12 +125,17 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
                     selection = options.index(match)
                 else:
                     match = ""
+                continue
             
-            if key == "\r": # ENTER
-                if verbose is True:
-                    return options[selection]
+            if key.isascii() and len(key) == 1:
+                query += key
+                if difflib.get_close_matches(query, options, 1):
+                    match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
+                    selection = options.index(match)
                 else:
-                    return selection
+                    match = ""
+                continue
+            
             
     
 
