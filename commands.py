@@ -40,7 +40,7 @@ def TUI(COLOR, prompt, args, verbose): # color must be a constant from colors.py
     while True:
         # get terminal size
         if os.name == 'nt': # Windows
-            cols, lines = os.get_terminal_size()
+            cols, lines = shutil.get_terminal_size()
         else: # Linux and macOS
             cols, lines = shutil.get_terminal_size()
         
