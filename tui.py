@@ -2,8 +2,13 @@ import kb
 import shutil
 import os
 import difflib
-from commands import clear  
 from colors import RED, WHITE, RESET
+
+def clear():                    # clear console
+    if os.name == 'nt':         # For Windows
+        _ = os.system('cls')
+    else:                       # For macOS and Linux
+        _ = os.system('clear')  # _ means idgaf about the return value
 
 def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a constant from colors.py, *args should be a string array 
     options = args              
