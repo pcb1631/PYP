@@ -295,7 +295,7 @@ def main():  # This function will be run first
 
         options = ["1. Login", "2. Register", "3. Exit"]
         instruction = "Arrow keys to select, Enter to confirm"
-        key = commands.TUI(BG_MAGENTA + BOLD, instruction, options, False)
+        key = TUI(BG_MAGENTA + BOLD, instruction, options, False)
         
         
         '''
