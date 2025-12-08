@@ -141,10 +141,3 @@ def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a const
                     match = ""
                 continue
             
-
-# Example usage
-options = ["option1", "option2", "option3"]
-prompt = "Choose an option: "
-verbose = True
-
-selected_option = TUI(WHITE, prompt, options, verbose)
