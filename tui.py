@@ -2,7 +2,26 @@ import kb
 import shutil
 import os
 import difflib
-from colors import RED, WHITE, RESET
+from colors import BG_MAGENTA, RED, WHITE, RESET
+
+if os.name == 'nt':
+    keymap = {
+        "\r": "enter",
+        "\xe0H": "up",
+        "\xe0P": "down",
+        "\xe0K": "left",
+        "\xe0M": "right",
+        "\x08": "backspace"
+    }
+else:
+    keymap = {
+        "\r": "enter",
+        "\x1b[A": "up",
+        "\x1b[B": "down",
+        "\x1b[C": "right",
+        "\x1b[D": "left",
+        "\x7f": "backspace"
+    }
 
 def clear():                    # clear console
     if os.name == 'nt':         # For Windows
@@ -10,7 +29,7 @@ def clear():                    # clear console
     else:                       # For macOS and Linux
         _ = os.system('clear')  # _ means idgaf about the return value
 
-def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a constant from colors.py, *args should be a string array 
+def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a constant from colors.py, *args should be a string array 
     options = args              
     selection = 0               # user's selection 
     buffer = []                 # what to print after every "refresh"
@@ -59,8 +78,8 @@ def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a const
         buffer.append(f'query:{query} >{match}')
 
         print('\n'.join(buffer))
-        # get user input
-        if os.name == 'nt': # Windows
+        
+        if os.name == 'nt':
             while True:
                 try:
                     key = kb.get_key()
@@ -70,65 +89,26 @@ def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a const
                         continue
                 except KeyboardInterrupt:
                     return None
-
-            if key != None:
-
-                if key == b'\xe0': # arrow keys will start with this char
-                    key = key + kb.get_key()
-
-                    if key == b'\xe0H' or key == b'\xe0K': # up or left
-                        selection = max(0, selection - 1)
-
-                    if key == b'\xe0P' or key == b'\xe0M': # down or right
-                        selection = min(l-1, selection + 1)
-                
-                if key == b'\r': # enter
-                    if verbose is True:
-                        return options[selection]
-                    else:
-                        return selection
-                    
-                if key == b'\x08': # backspace
-                    query = query[:-1]
-                    if difflib.get_close_matches(query, options, 1):
-                        match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
-                        selection = options.index(match)
-                    else:
-                        match = ""
-                    continue
-
-                if key.isascii() and len(key) == 1:
-                    key = key.decode("utf-8") # since its a bytes string, i need to convert to normal str
-                    query += key
-                    if difflib.get_close_matches(query, options, 1):
-                        match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
-                        selection = options.index(match)
-                    else:
-                        match = ""
-                    continue
-
-        else: #linux
+        else:
             key = kb.get_key()
+            if key == "\x03": # CTRL + C 
+                return None
 
-            if key == "\x03": # CTRL+C
-                return None
-            
-            if key == "\x1b[A" or key == "\x1b[D": # UP or LEFT
+
+        if key in keymap:
+            key = keymap[key]
+
+        match key:
+            case "up":
                 selection = max(0, selection - 1)
-            
-            if key == "\x1b[B" or key == "\x1b[C": # DOWN or RIGHT
-                selection = min(l - 1, selection + 1)
-            
-            if key == "\x1b": # ESC
-                return None
-            
-            if key == "\r": # ENTER
+            case "down":
+                selection = min(l-1, selection + 1)
+            case "enter":
                 if verbose is True:
                     return options[selection]
                 else:
                     return selection
-            
-            if key == "\x7f": # BACKSPACE
+            case "backspace":
                 query = query[:-1]
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
@@ -136,13 +116,11 @@ def TUI(COLOR=WHITE, prompt="", args=[], verbose=False): # color must be a const
                 else:
                     match = ""
                 continue
-            
-            if key.isascii() and len(key) == 1:
+            case _ if key.isascii() and len(key) == 1:
                 query += key
                 if difflib.get_close_matches(query, options, 1):
-                    match = difflib.get_close_matches(query, options, n=1, cutoff = 0)[0]
+                    match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
                     selection = options.index(match)
                 else:
                     match = ""
                 continue
-            
