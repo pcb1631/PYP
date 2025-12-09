@@ -527,3 +527,23 @@ def view_comments(current_user):
         print("comments.log file not found.")
     #print("Invalid slot selected.")
     return None
+
+def viewlogs(current_user, logfile=None):
+    options=[files.ACCOUNTS_LOG_PATH, files.CHECKIN_LOG_PATH, files.BANNED_PATH]
+
+
+    if logfile is None:
+        while True:
+            logfile=TUI(BG_RED, "Choose log file", options, verbose=True)
+            
+            with open(logfile, "r") as f:
+                content = f.read().split()
+                TUI(BG_RED, "", content, verbose=False)
+
+    else:
+        with open(logfile, "r") as f:
+            content = f.read().split()
+            TUI(BG_RED, "", content, verbose=False)
+
+
+

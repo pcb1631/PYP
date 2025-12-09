@@ -167,7 +167,8 @@ def command_mode():
     }
     cmdlist["Admin"] = {
         "ban":      commands.admin_ban_account,
-        "unban":    commands.admin_unban_account
+        "unban":    commands.admin_unban_account,
+        "logs":     commands.viewlogs
     }
     cmdlist["test"] = {
         "booking":  commands.member_booking_menu
