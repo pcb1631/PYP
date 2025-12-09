@@ -18,8 +18,8 @@ current_user = {}
 def login(users):
     commands.clear()
     for _ in range(3):
-        username = input("Username:")
-        password = getpass.getpass("Password:") #getpass.getpass() hides password
+        username = input("Username: ")
+        password = getpass.getpass("Password: ") #getpass.getpass() hides password
         time.sleep(1) #just to make it hard to bruteforce
 
         if username in users:

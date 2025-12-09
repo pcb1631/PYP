@@ -536,14 +536,17 @@ def viewlogs(current_user, logfile=None):
         while True:
             logfile=TUI(BG_RED, "Choose log file", options, verbose=True)
             
+            if logfile is None: # if user presses CTRL+C
+                break
+
             with open(logfile, "r") as f:
-                content = f.read().split()
-                TUI(BG_RED, "", content, verbose=False)
+                content = f.read().splitlines()
+                _ = TUI(BG_RED, "", content, verbose=False)
 
     else:
         with open(logfile, "r") as f:
-            content = f.read().split()
-            TUI(BG_RED, "", content, verbose=False)
+            content = f.read().splitlines()
+            _ = TUI(BG_RED, "", content, verbose=False)
 
 
 
