@@ -84,7 +84,7 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
                 try:
                     key = kb.get_key()
                     if key == b'\xe0':
-                        key += kb.get_key()
+                        key += kb.get_key() # i cant do this in kb.py for some reason :/
                     if key != None:
                         break
                     else:
