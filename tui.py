@@ -6,12 +6,12 @@ from colors import BG_MAGENTA, RED, WHITE, RESET
 
 if os.name == 'nt':
     keymap = {
-        "\r": "enter",
-        "\xe0H": "up",
-        "\xe0P": "down",
-        "\xe0K": "left",
-        "\xe0M": "right",
-        "\x08": "backspace"
+        b"\r": "enter",
+        b"\xe0H": "up",
+        b"\xe0P": "down",
+        b"\xe0K": "left",
+        b"\xe0M": "right",
+        b"\x08": "backspace"
     }
 else:
     keymap = {
@@ -83,6 +83,8 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
             while True:
                 try:
                     key = kb.get_key()
+                    if key == b'\xe0':
+                        key += kb.get_key()
                     if key != None:
                         break
                     else:
