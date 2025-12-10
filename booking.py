@@ -81,6 +81,7 @@ def date_selection():
     else:
         return days[choice - 1]
 
+
 # Display time slots of trainers
 def display_time_slots(bookings, trainer_key, date):
     print(f"\nTime slots for {trainer_key} on {date}:")
