@@ -541,12 +541,24 @@ def viewlogs(current_user, logfile=None):
 
             with open(logfile, "r") as f:
                 content = f.read().splitlines()
-                _ = TUI(BG_RED, "", content, verbose=False)
+            
+            parse = []
+
+            if logfile[-4:] == ".log":
+                for line in content:
+                    line = line.split(" ")
+                    if line[0] == '#' or line[0] == "":
+                        continue
+
+                    parse.append(f"{BLUE}{line[0]}{RESET} {GREEN}{line[1]}{RESET} {' '.join(line[2:])}")
+                content = parse
+                
+                _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
 
     else:
         with open(logfile, "r") as f:
             content = f.read().splitlines()
-            _ = TUI(BG_RED, "", content, verbose=False)
+            _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
 
 
 
