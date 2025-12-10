@@ -117,6 +117,9 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
                     match = ""
                 continue
             case _ if key.isascii() and len(key) == 1:
+                if os.name == "nt":
+                    key = key.decode('utf-8')
+
                 query += key
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
