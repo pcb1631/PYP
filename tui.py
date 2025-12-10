@@ -83,6 +83,8 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
             while True:
                 try:
                     key = kb.get_key()
+                    if key == b'\xe0':
+                        key += kb.get_key()
                     if key != None:
                         break
                     else:
