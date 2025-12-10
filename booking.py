@@ -131,3 +131,35 @@ def view_member_bookings(bookings, member_name):
 
     if not found:
         print("No bookings found.")
+
+
+def main():
+    bookings = load_bookings()
+    auto_generate_slots(bookings)
+    member_name = input("Enter your member name: ")
+
+    while True:
+        print("\n--- Main Menu ---")
+        print("1. View my bookings")
+        print("2. Book a slot")
+        print("3. Exit")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            view_member_bookings(bookings, member_name)
+
+        elif choice == "2":
+            trainer_key = trainer_selection(bookings)
+            booking_slots(bookings, trainer_key, member_name)
+
+        elif choice == "3":
+            print("Goodbye!")
+            break
+
+        else:
+            print("Invalid input. Try again.")
+
+
+if __name__ == "__main__":
+    main()
