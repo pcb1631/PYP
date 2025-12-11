@@ -38,7 +38,6 @@ def login(users):
         if username in users:
             if users[username]["password"] == password: #will crash if I put both in AND
                 print(GREEN + "Welcome to Fitness Center!" + RESET)
-                online()
                 return {"username": username, "user_type": users[username]["user_type"]}
         
         print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
@@ -130,6 +129,7 @@ def command_mode():
         time.sleep(1)
         exit(0)
     
+    online()
     #   Will now act like a shell with commands
     #   Commands are categorized by permissions, examples:
     #   msa admin_delete_account
