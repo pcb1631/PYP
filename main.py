@@ -16,10 +16,12 @@ import files
 current_user = {}
 
 def online():
+    global current_user
     with open(files.ONLINE_PATH, "a") as f:
         f.write(current_user["username"] + "\n")
 
 def offline():
+    global current_user
     with open(files.ONLINE_PATH, "r") as f:
         online_users = f.read().splitlines()
     with open(files.ONLINE_PATH, "w") as f:
