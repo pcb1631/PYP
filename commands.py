@@ -78,11 +78,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
         return
 
     if delete_user is None:
-        delete_user = input("Enter username to delete: ")
-
-    if delete_user not in user_data["users"]:
-        print("User not found")
-        return
+        delete_user = TUI(BG_RED, "Select user to delete", list(user_data["users"].keys()), verbose=False)
 
     confirmed = input(f'\n Delete user "{delete_user}"? (y/n): ')
 
