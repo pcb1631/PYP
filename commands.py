@@ -91,6 +91,13 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     else:
         return
     
+    with open(files.ONLINE_PATH, "r") as f:
+        online_users = f.read().splitlines()
+        if delete_user in online_users:
+            with open(files.DELETE_PATH, "a") as f:
+                f.write(delete_user + "\n")
+
+
     # Save updated data
     if not save_accounts(user_data):
         return

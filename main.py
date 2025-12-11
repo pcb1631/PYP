@@ -211,12 +211,26 @@ def command_mode():
             with open(files.BANNED_PATH, "r") as banned_file:
                 banned_users = banned_file.read().splitlines()
             
+            with open(files.DELETE_PATH, "r") as delete_file:
+                deleted_users = delete_file.read().splitlines()
+
             if current_user["username"] in banned_users:
                 print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
+                offline()
                 time.sleep(1)
                 exit(0)
             
+            if current_user["username"] in deleted_users:
+                print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
+                offline()
+                deleted_users.remove(current_user["username"])
 
+                with open(files.DELETE_PATH, "w") as f:
+                    f.write("\n".join(deleted_users))
+                
+                time.sleep(1)
+                exit(0)
+            
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
