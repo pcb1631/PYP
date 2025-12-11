@@ -15,6 +15,17 @@ import files
 #globals
 current_user = {}
 
+def online():
+    with open(files.ONLINE_PATH, "a") as f:
+        f.write(current_user["username"] + "\n")
+
+def offline():
+    with open(files.ONLINE_PATH, "r") as f:
+        online_users = f.read().splitlines()
+    with open(files.ONLINE_PATH, "w") as f:
+        for user in online_users:
+            if user != current_user["username"]:
+                f.write(user + "\n")
 def login(users):
     commands.clear()
     for _ in range(3):
@@ -25,6 +36,7 @@ def login(users):
         if username in users:
             if users[username]["password"] == password: #will crash if I put both in AND
                 print(GREEN + "Welcome to Fitness Center!" + RESET)
+                online()
                 return {"username": username, "user_type": users[username]["user_type"]}
         
         print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
@@ -256,6 +268,7 @@ def command_mode():
 
                         if result == "EXIT":
                             print("Bye!")
+                            offline()
                             time.sleep(1)
                             return
                 
@@ -283,6 +296,7 @@ def command_mode():
 
     except KeyboardInterrupt:
         print("\nBye!")
+        offline()
         time.sleep(1)
         return
 
