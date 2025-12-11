@@ -15,5 +15,5 @@ MESSAGES_LOG_PATH   = path("logs", "messages.log")    #logs/messages.log
 COMMENTS_LOG_PATH   = path("logs", "comments.log")
 BANNED_PATH         = path("banned.txt") 
 BOOKING_PATH        = path("userData", "booking.json")
-ONLINE_PATH         = path("online")
-DELETE_PATH         = path("delete")
+ONLINE_PATH         = path("concurrent", "online")
+DELETE_PATH         = path("concurrent", "delete")

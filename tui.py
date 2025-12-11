@@ -2,7 +2,8 @@ import kb
 import shutil
 import os
 import difflib
-from colors import BG_MAGENTA, RED, WHITE, RESET
+import time
+from colors import BG_MAGENTA, RED, RESET
 
 if os.name == 'nt':
     keymap = {
@@ -40,6 +41,7 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
     '''
     if options == []:
         print(RED + "Error: Options are empty!" + RESET)
+        time.sleep(1)
         return None
     
     l = len(options)
