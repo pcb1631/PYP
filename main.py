@@ -184,9 +184,6 @@ def command_mode():
         "unban":    commands.admin_unban_account,
         "logs":     commands.viewlogs
     }
-    cmdlist["test"] = {
-        "booking":  commands.member_booking_menu
-    }
 
     def help():
         for p in permissions:
