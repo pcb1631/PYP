@@ -152,8 +152,8 @@ def command_mode():
         "manage_staff_accounts", 
         "manage_member_accounts", 
         "send_comments", 
-        "view_comments",
-        "test"] # Admin has all permissions, make sure to add every permission here
+        "view_comments"]
+        # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
