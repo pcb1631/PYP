@@ -152,7 +152,9 @@ def command_mode():
         "manage_staff_accounts", 
         "manage_member_accounts", 
         "send_comments", 
-        "view_comments"]
+        "view_comments",
+        "view_profile", ]
+
         # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
@@ -184,8 +186,8 @@ def command_mode():
         "unban":    commands.admin_unban_account,
         "logs":     commands.viewlogs
     }
-    cmdlist["view_member_profile"] = {
-        "view": commands.view_member_profile
+    cmdlist["view_profile"] = {
+        "view": commands.view_profile
     }
 
     def help():

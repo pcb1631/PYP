@@ -3,7 +3,7 @@
         "Admin": [
             "Admin"
         ],
-        "Member": ["send_comments"],
+        "Member": ["send_comments", "view_profile"],
         "Trainer": ["send_comments", "view_comments"],
         "Front Desk": ["manage_member_accounts", "view_ps"],
         "Finance Manager": []

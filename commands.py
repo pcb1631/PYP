@@ -370,7 +370,7 @@ def checkin(current_user, username=None):
     else:
         return
     
-def view_member_profile(current_user):
+def view_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
