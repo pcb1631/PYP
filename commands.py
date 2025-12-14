@@ -380,7 +380,6 @@ def view_profile(current_user):
         print(f"Username: {current_user['username']}")
         print(f"User Type: {current_user['user_type']}")
         print(f"Email: {user_data["users"][current_user["username"]]["email"]}")
-        print(f"Password: {user_data["users"][current_user["username"]]["password"]}")
 
     else:
         print("No profile to view.")
