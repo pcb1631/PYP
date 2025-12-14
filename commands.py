@@ -290,7 +290,7 @@ def admin_ban_account(current_user, username=None):
         except Exception as e:
             print(RED + f"Error logging: {e}" + RESET)
 
-    print(GREEN + f"Account '{username}' banned successfully." + RESET)
+        print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
 def admin_unban_account(current_user, username=None):
     user_data = load_accounts()
@@ -325,7 +325,7 @@ def admin_unban_account(current_user, username=None):
         except Exception as e:
             print(RED + f"Error logging: {e}" + RESET)
 
-    print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
+        print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
 def direct_messages(current_user, username=None): # dont touch this yet 
     user_data = load_accounts()
