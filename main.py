@@ -230,6 +230,9 @@ def command_mode():
                 time.sleep(1)
                 exit(0)
             
+            if command == "":
+                continue
+
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
