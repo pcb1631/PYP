@@ -370,10 +370,19 @@ def checkin(current_user, username=None):
     else:
         return
     
-def member_manage_profile(current_user):
+def view_member_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
+
+    if current_user:
+        print("\n--- Member Profile ---")
+        print(f"Username: {current_user['username']}")
+        print(f"Email: {current_user['email']}")
+        print(f"User Type: {current_user['user_type']}")
+    else:
+        print("No profile to view.")
+
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:

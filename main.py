@@ -184,6 +184,9 @@ def command_mode():
         "unban":    commands.admin_unban_account,
         "logs":     commands.viewlogs
     }
+    cmdlist["view_member_profile"] = {
+        "view": commands.view_member_profile
+    }
 
     def help():
         for p in permissions:
