@@ -208,6 +208,8 @@ def command_mode():
             command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
             command = command.strip()   # remove leading and trailing whitespace
             command = command.split()   # splits each word into a list
+            if command == []:
+                continue
 
             # Check if user is banned   
             with open(files.BANNED_PATH, "r") as banned_file:
@@ -232,7 +234,7 @@ def command_mode():
                 
                 time.sleep(1)
                 exit(0)
-            
+           
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
