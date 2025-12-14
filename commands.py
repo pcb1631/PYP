@@ -378,8 +378,9 @@ def view_profile(current_user):
     if current_user:
         print("\n--- Member Profile ---")
         print(f"Username: {current_user['username']}")
-        print(f"Email: {current_user['email']}")
         print(f"User Type: {current_user['user_type']}")
+        print(f"Email: {user_data["users"][current_user["username"]]["email"]}")
+
     else:
         print("No profile to view.")
 
