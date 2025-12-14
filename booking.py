@@ -1,5 +1,6 @@
 import files
 import json
+from tui import TUI
 from datetime import datetime, timedelta
 
 # Read booking.json
@@ -139,27 +140,22 @@ def main():
     auto_generate_slots(bookings)
     member_name = input("Enter your member name: ")
 
+    options = ["1. View my bookings","2. Book a slot","3. Exit"]
+    
     while True:
-        print("\n--- Main Menu ---")
-        print("1. View my bookings")
-        print("2. Book a slot")
-        print("3. Exit")
+        choice = TUI(prompt = "Choose options", args=options, verbose=False)
+        match choice:
+            case 1:
+                view_member_bookings(bookings, member_name)
 
-        choice = input("Choose an option: ")
+            case 2:
+                trainer_key = trainer_selection(bookings)
+                booking_slots(bookings, trainer_key, member_name)
 
-        if choice == "1":
-            view_member_bookings(bookings, member_name)
+            case 3:
+                print("Goodbye!")
+                break
 
-        elif choice == "2":
-            trainer_key = trainer_selection(bookings)
-            booking_slots(bookings, trainer_key, member_name)
-
-        elif choice == "3":
-            print("Goodbye!")
-            break
-
-        else:
-            print("Invalid input. Try again.")
 
 
 if __name__ == "__main__":
