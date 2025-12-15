@@ -14,7 +14,7 @@ def save_bookings(data, filename=files.BOOKING_PATH):
         json.dump(data, booking_file, indent=4)
 
 #automatically generates slots
-def auto_generate_slots(bookings):
+def auto_generate_slots(bookings, trainer_name):
     time_slots = [
         ("10:00", "12:00"),
         ("12:00", "14:00"),
@@ -140,19 +140,21 @@ def main():
     auto_generate_slots(bookings)
     member_name = input("Enter your member name: ")
 
-    options = ["1. View my bookings","2. Book a slot","3. Exit"]
+    options = ["View my bookings","Book a slot","Exit"]
     
     while True:
         choice = TUI(prompt = "Choose options", args=options, verbose=False)
         match choice:
-            case 1:
+            case 0:
                 view_member_bookings(bookings, member_name)
+                break
 
-            case 2:
+            case 1:
                 trainer_key = trainer_selection(bookings)
                 booking_slots(bookings, trainer_key, member_name)
+                break
 
-            case 3:
+            case 2:
                 print("Goodbye!")
                 break
 
