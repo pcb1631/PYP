@@ -248,11 +248,9 @@ def admin_edit_account(current_user, username=None):
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 
-def user_edit_account(current_user, username=None):
+def user_edit_account(current_user):
     username = current_user
     user_data = load_accounts()
-    if user_data is None:
-        return
 
     print(f"\nUsername: {username}")
     print(f"Email: {user_data['users'][username]['email']}")
@@ -347,6 +345,23 @@ def admin_view_account(current_user, username=None):
     print(f"Gender: {user_data['users'][username]['gender']}")
     print(f"Phone number: {user_data['users'][username]['phone_number']}")
     print(f'UUID: {user_data["users"][username]["uuid"]}')
+
+def user_view_account(current_user):
+    user_data = load_accounts()
+    username = current_user
+
+    pw = input("Show password? (y/n): ")
+    if pw.lower() == "y":
+        pw = user_data["users"][username]["password"]
+    else:
+        pw = "*" * len(user_data["users"][username]["password"])
+
+    print(f"\nUsername: {username}")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"password: {pw}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
 
 def admin_ban_account(current_user, username=None):
     user_data = load_accounts()
