@@ -128,6 +128,9 @@ def admin_add_account(current_user):
     email = input("Email: ")
     password = getpass.getpass("Password: ")
     usertype = input("User type (Must be verbatim of user type in accounts.json): ")
+    age = int(input("Age: "))
+    gender = input("Gender (m/f): ")
+    phone_number = input("Phone number: ")
 
     print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
     confirmed = input('\nAdd new user? (y/n): ')
@@ -136,6 +139,9 @@ def admin_add_account(current_user):
         user_data["users"][username] = {
             "password": password,
             "email": email,
+            "age": age,
+            "gender": gender,
+            "phone number": phone_number,
             "user_type": usertype,
             "uuid": str(uuid.uuid4())
         }
@@ -172,6 +178,9 @@ def admin_edit_account(current_user, username=None):
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
 
 
     new_username = input("New username (leave blank to keep current): ")
@@ -193,8 +202,19 @@ def admin_edit_account(current_user, username=None):
     if new_password == "":
         new_password = user_data["users"][username]["password"]
 
+    new_age = input("New age: ")
+    if new_age == "":
+        new_age = user_data["users"][username]["age"]
 
-    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}')
+    new_gender = input("New gender: ")
+    if new_gender == "":
+        new_gender = user_data["users"][username]["gender"]
+
+    new_phone_number = input("New phone number: ")
+    if new_phone_number == "":
+        new_phone_number = user_data["users"][username]["phone_number"]
+
+    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}\nPassword: {new_password}\nAge: {new_age}\nGender: {new_gender}\nPhone number: {new_phone_number}')
     confirmed = input('\nSave changes? (y/n): ')
 
     if confirmed.lower() == 'y':
@@ -203,12 +223,15 @@ def admin_edit_account(current_user, username=None):
         user_data["users"][new_username] = {
             "password": new_password,
             "email": new_email,
+            "age": new_age,
+            "gender": new_gender,
+            "phone_number": new_phone_number,
             "user_type": new_usertype,
             "uuid": uuid
         }
     else:
         return
-    
+
     
     # Log the update
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
@@ -219,6 +242,80 @@ def admin_edit_account(current_user, username=None):
     except Exception as e:
         print(RED + f"Error logging: {e}" + RESET)
 
+
+    if not save_accounts(user_data):
+        return
+    print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
+
+
+def user_edit_account(current_user, username=None):
+    username = current_user
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    print(f"\nUsername: {username}")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
+
+    new_username = input("New username (leave blank to keep current): ")
+    if new_username == username:
+        print(RED + "lol" + RESET)
+        return
+    if new_username == "":
+        new_username = username
+
+    new_email = input("New email: ")
+    if new_email == "":
+        new_email = user_data["users"][username]["email"]
+
+    new_password = getpass.getpass("New password: ")
+    if new_password == "":
+        new_password = user_data["users"][username]["password"]
+
+    new_age = input("New age: ")
+    if new_age == "":
+        new_age = user_data["users"][username]["age"]
+
+    new_gender = input("New gender: ")
+    if new_gender == "":
+        new_gender = user_data["users"][username]["gender"]
+
+    new_phone_number = input("New phone number: ")
+    if new_phone_number == "":
+        new_phone_number = user_data["users"][username]["phone_number"]
+
+    user_type = user_data["users"][username]["user_type"]
+
+    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nPassword: {new_password}\nAge: {new_age}\nGender: {new_gender}\nPhone number: {new_phone_number}')
+    confirmed = input('\nSave changes? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        uuid = user_data["users"][username]["uuid"]
+        del user_data["users"][username]
+        user_data["users"][new_username] = {
+            "password": new_password,
+            "email": new_email,
+            "age": new_age,
+            "gender": new_gender,
+            "phone_number": new_phone_number,
+            "user_type": user_type,
+            "uuid": uuid
+        }
+    else:
+        return
+
+    # Log the update
+    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
+    try:
+        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+            log_file.write(log_entry)
+    except Exception as e:
+        print(RED + f"Error logging: {e}" + RESET)
 
     if not save_accounts(user_data):
         return
@@ -246,6 +343,9 @@ def admin_view_account(current_user, username=None):
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {pw}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
     print(f'UUID: {user_data["users"][username]["uuid"]}')
 
 def admin_ban_account(current_user, username=None):
@@ -501,6 +601,3 @@ def viewlogs(current_user, logfile=None):
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
-
-
-
