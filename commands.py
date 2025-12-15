@@ -5,6 +5,7 @@ import os
 import uuid
 import shutil
 import difflib
+
 from tui import TUI
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
 import files
@@ -499,6 +500,17 @@ def view_profile(current_user):
     else:
         print("No profile to view.")
 
+def update_username(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if current_user["username"] == current_user["username"]:
+        new_username = input("New username: ")
+        if new_username in user_data["users"]:
+            print(RED + "New username should not be same as previous username")
+        else:
+            print(GREEN + "New username updated successfully")
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:

@@ -3,9 +3,19 @@
         "Admin": [
             "Admin"
         ],
-        "Member": ["send_comments", "view_profile"],
-        "Trainer": ["send_comments", "view_comments"],
-        "Front Desk": ["manage_member_accounts", "view_ps"],
+        "Member": [
+            "send_comments",
+            "view_profile",
+            "update_profile"
+        ],
+        "Trainer": [
+            "send_comments",
+            "view_comments"
+        ],
+        "Front Desk": [
+            "manage_member_accounts",
+            "view_ps"
+        ],
         "Finance Manager": []
     },
     "users": {
@@ -56,6 +66,12 @@
             "email": "temp@temp.com",
             "user_type": "Trainer",
             "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a"
+        },
+        "jianjun": {
+            "password": "chowjianjun0127*",
+            "email": "jianjun@gmail.com",
+            "user_type": "Member",
+            "uuid": "d95381e6-0912-4046-9f7a-efc48e6375ca"
         }
     }
 }

@@ -189,6 +189,9 @@ def command_mode():
     cmdlist["view_profile"] = {
         "view": commands.view_profile
     }
+    cmdlist["update_profile"] = {
+        "update_username": commands.update_username,
+    }
 
     def help():
         for p in permissions:
