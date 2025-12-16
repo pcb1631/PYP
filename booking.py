@@ -1,19 +1,11 @@
 import files
 import json
 from tui import TUI
-import datetime
-from colors import RED, RESET
+from datetime import datetime
+from colors import RED, RESET, BG_MAGENTA, BOLD
 
 def epoch_to_readable(ms_timestamp):
-    """Convert milliseconds since epoch to DDMMYY HHMM format.
-    
-    Args:
-        ms_timestamp: Milliseconds since epoch
-        
-    Returns:
-        str: Formatted datetime string in DDMMYY HHMM format
-    """
-    dt = datetime.datetime.fromtimestamp(ms_timestamp / 1000)
+    dt = datetime.fromtimestamp(ms_timestamp / 1000)
     return dt.strftime("%d/%m/%y %H:%M")
 
 def load_bookings(filename=files.BOOKING_PATH):
@@ -26,7 +18,19 @@ def save_bookings(data, filename=files.BOOKING_PATH):
 
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
+    trainer = current_user["username"]
+    
+
+
     save_bookings(bookings)
+
+def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, minute=0):
+    bookings = load_bookings()
+    trainer = current_user["username"]
+    start = int(datetime(year, month, day, hour, minute).timestamp() * 1000)
+    end = start + 60 * 60 * 1000
+    
+
 
 def trainer_view(current_user):
     bookings = load_bookings()
@@ -46,6 +50,6 @@ def trainer_view(current_user):
         print("\n")
 
 current_user = {"username": "trainer_user"}
-trainer_view(current_user)
+add_slots(current_user)
 
     
