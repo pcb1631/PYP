@@ -13,113 +13,37 @@ def save_bookings(data, filename=files.BOOKING_PATH):
     with open(filename, "w") as booking_file:
         json.dump(data, booking_file, indent=4)
 
-#automatically generates slots
-def auto_generate_slots(bookings, trainer_name):
+def generate_next_7_days(trainer): # generates 7 days ahead, with 4 slots in each day
+    with open(files.BOOKING_PATH, "r") as booking_file:
+        bookings = json.load(booking_file)
+    
     time_slots = [
         ("10:00", "12:00"),
         ("12:00", "14:00"),
         ("14:00", "16:00"),
         ("16:00", "18:00"),
-        ("18:00", "20:00"),
-        ("20:00", "22:00")
     ]
-
-    days = generate_next_7_days()
-
-    for trainer_key in bookings.keys():
-        for date in days:
-            for i, (start, end) in enumerate(time_slots, start=1):
-                slot_id = f"{date}_{i}"
-
-                #Only create slot if missing
-                if slot_id not in bookings[trainer_key]:
-                    bookings[trainer_key][slot_id] = {
-                        "date": date,
-                        "start": start,
-                        "end": end,
-                        "booked_by": None
-                    }
-
-    save_bookings(bookings)
-
-
-# Displays trainer list
-def display_trainer_list(bookings):
-    print("Available Trainers:")
-    for i, trainer in enumerate(bookings.keys(), start=1):
-        print(f"{i}. {trainer}")
-
-# Let's user choose trainer
-def trainer_selection(bookings):
-    display_trainer_list(bookings)
-    choice = int(input("Enter trainer number of your choice: "))
-    if choice < 1 or choice > len(bookings):
-        print("Invalid input. Try again.")
-        return trainer_selection(bookings)
-    else:
-        trainer_key = list(bookings.keys())[choice - 1]
-        return trainer_key
-
-
-def generate_next_7_days():
+    
     today = datetime.now().date()
+    # e.g. 2025-12-16
+
     days = []
-    for i in range(7):
+    for i in range(7): # 7 days ahead of today 
         d = today + timedelta(days=i)
         days.append(d.strftime("%Y-%m-%d"))
-    return days
 
+    for day in days: # makes 4 slots in a day. 
+        if trainer in bookings and day in bookings[trainer]: # if this particular day exists for this trainer, do not overwrite
+            continue
+        else:
+            for i, (start, end) in enumerate(time_slots, start=1):
+                bookings[trainer][day] = {
+                    "start": start,
+                    "end": end,
+                    "booked_by": None
+                }
+    save_bookings(bookings)
 
-def date_selection():
-    days = generate_next_7_days()
-    print("\nChoose a date:")
-    for i, d in enumerate(days, start=1):
-        print(f"{i}. {d}")
-    choice = int(input("Enter date of your choice: "))
-    if choice < 1 or choice > len(days):
-        print("Invalid input. Try again.")
-        return date_selection()
-    else:
-        return days[choice - 1]
-
-
-# Display time slots of trainers
-def display_time_slots(bookings, trainer_key, date):
-    print(f"\nTime slots for {trainer_key} on {date}:")
-    trainer_slots = bookings[trainer_key]
-
-    available_slots = {}
-
-    for slot_id, slot in trainer_slots.items():
-        if slot["date"] == date:
-            status = "Available" if slot["booked_by"] is None else f"Booked by {slot['booked_by']}"
-            print(f"{slot_id}: {slot['start']} - {slot['end']} ({status})")
-            available_slots[slot_id] = slot
-
-# Booking time slot for trainers
-def booking_slots(bookings, trainer_key, member_name):
-    date = date_selection()
-
-    available_slots = display_time_slots(bookings, trainer_key, date)
-
-    if not available_slots:
-        print("\nNo available slots available for this date.")
-        return
-
-    slot_choice = input("Enter slot number to book a slot: ")
-
-    if slot_choice not in available_slots:
-        print("Invalid input. Try again.")
-        return booking_slots(bookings, trainer_key, member_name)
-
-    slot = available_slots[slot_choice]
-
-    if slot["booked_by"] is None:
-        slot["booked_by"] = member_name
-        print("Booking successful!")
-        save_bookings(bookings)
-    else:
-        print("This slot has already been booked.")
 
 # View booking function for members
 def view_member_bookings(bookings, member_name):
@@ -136,27 +60,7 @@ def view_member_bookings(bookings, member_name):
 
 
 def main():
-    bookings = load_bookings()
-    auto_generate_slots(bookings)
-    member_name = input("Enter your member name: ")
-
-    options = ["View my bookings","Book a slot","Exit"]
-    
-    while True:
-        choice = TUI(prompt = "Choose options", args=options, verbose=False)
-        match choice:
-            case 0:
-                view_member_bookings(bookings, member_name)
-                break
-
-            case 1:
-                trainer_key = trainer_selection(bookings)
-                booking_slots(bookings, trainer_key, member_name)
-                break
-
-            case 2:
-                print("Goodbye!")
-                break
+    generate_next_7_days("trainer_1")
 
 
 
