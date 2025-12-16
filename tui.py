@@ -195,5 +195,3 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt=""):
                 date_time += timedelta(hours=mod)
             case 4:
                 date_time += timedelta(minutes=mod)
-
-timeTUI(prompt="meow")
