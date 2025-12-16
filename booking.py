@@ -1,6 +1,6 @@
 import files
 import json
-from tui import TUI
+from tui import TUI, timeTUI
 from datetime import datetime
 from colors import RED, RESET, BG_MAGENTA, BOLD
 
@@ -30,7 +30,14 @@ def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, mi
     start = int(datetime(year, month, day, hour, minute).timestamp() * 1000)
     end = start + 60 * 60 * 1000
     
+    start = timeTUI(prompt="start", ms_timestamp=start)
+    end = timeTUI(prompt="end", ms_timestamp=end)
 
+    slots = bookings[trainer].keys()
+    max_slot = max([int(slot) for slot in slots]) if slots else 0
+    bookings[trainer][max_slot + 1] = {"start": start, "end": end, "bookedBy": None}
+    save_bookings(bookings)
+    
 
 def trainer_view(current_user):
     bookings = load_bookings()
