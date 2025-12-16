@@ -1,16 +1,38 @@
 {
-    "trainer_1": {
-        "2025-12-10": {
-            "1": {
-                "start": "10:00",
-                "end": "12:00",
-                "booked_by": null
-            },
-            "2": {
-                "start": "12:00",
-                "end": "14:00",
-                "booked_by": null
-            }
-        }
+  "trainer_user": {
+    "0": {
+      "start": 1699167200000,
+      "end": 1699170600000,
+      "bookedBy": null
+    },
+    "1": {
+      "start": 1699195200000,
+      "end": 1699201200000,
+      "bookedBy": "guy"
     }
+  },
+  "pcb": {
+    "0": {
+      "start": 1699208800000,
+      "end": 1699212400000,
+      "bookedBy": "member_user"
+    },
+    "1": {
+      "start": 1699232400000,
+      "end": 1699235000000,
+      "bookedBy": null
+    }
+  },
+  "ryanteoh": {
+    "0": {
+      "start": 1699244000000,
+      "end": 1699247600000,
+      "bookedBy": null
+    },
+    "1": {
+      "start": 1699264800000,
+      "end": 1699268400000,
+      "bookedBy": null
+    }
+  }
 }
