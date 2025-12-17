@@ -31,7 +31,11 @@ def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, mi
     end = start + 60 * 60 * 1000
     
     start = timeTUI(prompt="start", ms_timestamp=start)
+    if start is None:
+        return
     end = timeTUI(prompt="end", ms_timestamp=end)
+    if end is None:
+        return
 
     slots = bookings[trainer].keys()
     max_slot = max([int(slot) for slot in slots]) if slots else 0
