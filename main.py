@@ -321,8 +321,14 @@ def command_mode():
     except KeyboardInterrupt:
         print("\nBye!")
         offline()
-        time.sleep(1)
+
+        try:
+            time.sleep(1)
+        except KeyboardInterrupt:
+            return
+
         return
+
 
 def main():  # This function will be run first 
     user_data = commands.load_accounts() #returns None with errors
@@ -352,7 +358,11 @@ def main():  # This function will be run first
             exit(0)
         else:
             print(RED + "Invalid input" + RESET)
-            time.sleep(0.2)
+
+            try:
+                time.sleep(0.2)
+            except KeyboardInterrupt:
+                return
 
 
 if __name__ == "__main__":
