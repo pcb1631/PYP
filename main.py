@@ -15,6 +15,37 @@ import files
 #globals
 current_user = {}
 
+cmdlist = {} # This is for commands with arguments.
+cmdlist["manage_staff_accounts"] = {
+    "delete_account":   commands.admin_delete_account,
+    "add_account":      commands.admin_add_account,
+    "edit_account":     commands.admin_edit_account,
+    "view_account":     commands.admin_view_account
+}
+cmdlist["manage_member_accounts"] = {
+    # Add mma commands, and their respective functions here
+}
+cmdlist["manage_members"] = {
+}
+
+cmdlist["send_comments"] = {
+    "comment":  commands.send_comment
+}
+cmdlist["view_comments"] = {
+    "view":     commands.view_comments
+}
+cmdlist["Admin"] = {
+    "ban":      commands.admin_ban_account,
+    "unban":    commands.admin_unban_account,
+    "logs":     commands.viewlogs
+}
+cmdlist["view_profile"] = {
+    "view": commands.view_profile
+}
+cmdlist["update_profile"] = {
+    "update_username": commands.update_username,
+}
+
 def online():
     global current_user
     with open(files.ONLINE_PATH, "a") as f:
@@ -162,36 +193,6 @@ def command_mode():
     # Printing the values will show where in memory the function is stored, which is probably not safe
 
 
-    cmdlist = {} # This is for commands with arguments.
-    cmdlist["manage_staff_accounts"] = {
-        "delete_account":   commands.admin_delete_account,
-        "add_account":      commands.admin_add_account,
-        "edit_account":     commands.admin_edit_account,
-        "view_account":     commands.admin_view_account
-    }
-    cmdlist["manage_member_accounts"] = {
-        # Add mma commands, and their respective functions here
-    }
-    cmdlist["manage_members"] = {
-    }
-
-    cmdlist["send_comments"] = {
-        "comment":  commands.send_comment
-    }
-    cmdlist["view_comments"] = {
-        "view":     commands.view_comments
-    }
-    cmdlist["Admin"] = {
-        "ban":      commands.admin_ban_account,
-        "unban":    commands.admin_unban_account,
-        "logs":     commands.viewlogs
-    }
-    cmdlist["view_profile"] = {
-        "view": commands.view_profile
-    }
-    cmdlist["update_profile"] = {
-        "update_username": commands.update_username,
-    }
 
     def help():
         for p in permissions:
