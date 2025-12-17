@@ -4,6 +4,8 @@ from tui import TUI, timeTUI
 from datetime import datetime
 from colors import RED, RESET, BG_MAGENTA, BOLD
 
+from commands import load_accounts, save_accounts
+
 def epoch_to_readable(ms_timestamp):
     dt = datetime.fromtimestamp(ms_timestamp / 1000)
     return dt.strftime("%d/%m/%y %H:%M")
@@ -73,6 +75,36 @@ def trainer_view(current_user):
 
 def member_view(current_user):
     bookings = load_bookings()
+    user_data = load_accounts()
+    users = user_data["users"]
+    trainers = []
+
+    for user in users:
+        if users[user]["user_type"] == "Trainer":
+            trainers.append(user)
+
+    trainer = TUI(BG_MAGENTA, "Select trainer", trainers, verbose=True)
+    if trainer is None:
+        return
+
+    if trainer not in bookings or not bookings[trainer]:
+        print(f"Trainer {trainer} does not have any slots.")
+        return
+    
+
+
+    slots = []
+    for slot in bookings[trainer]:
+        if bookings[trainer][slot]["bookedBy"] is None:
+            slots.append(f"{slot} | {epoch_to_readable(bookings[trainer][slot]["start"])} ==> {epoch_to_readable(bookings[trainer][slot]["end"])}")
+    
+    _ = TUI(BG_MAGENTA, f"Available slots for {trainer}", slots, verbose=True)
+
+
+
+
+
+    '''
     print("Available slots:")
     for trainer in bookings:
         slots = bookings[trainer]
@@ -91,7 +123,7 @@ def member_view(current_user):
             print(f"start: {start}")
             print(f"end: {end}")
             print("\n")
-            
+    '''
     
 
 
