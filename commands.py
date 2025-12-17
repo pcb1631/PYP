@@ -5,6 +5,7 @@ import os
 import uuid
 import shutil
 import difflib
+
 from tui import TUI
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
 import files
@@ -78,7 +79,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
         return
 
     if delete_user is None:
-        delete_user = input("Enter username to delete: ")
+        delete_user = TUI(BG_RED, "Select user to delete", user_data["users"].keys(), verbose=False)
 
     if delete_user not in user_data["users"]:
         print("User not found")
@@ -91,6 +92,13 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     else:
         return
     
+    with open(files.ONLINE_PATH, "r") as f:
+        online_users = f.read().splitlines()
+        if delete_user in online_users:
+            with open(files.DELETE_PATH, "a") as f:
+                f.write(delete_user + "\n")
+
+
     # Save updated data
     if not save_accounts(user_data):
         return
@@ -121,6 +129,9 @@ def admin_add_account(current_user):
     email = input("Email: ")
     password = getpass.getpass("Password: ")
     usertype = input("User type (Must be verbatim of user type in accounts.json): ")
+    age = int(input("Age: "))
+    gender = input("Gender (m/f): ")
+    phone_number = input("Phone number: ")
 
     print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
     confirmed = input('\nAdd new user? (y/n): ')
@@ -129,6 +140,9 @@ def admin_add_account(current_user):
         user_data["users"][username] = {
             "password": password,
             "email": email,
+            "age": age,
+            "gender": gender,
+            "phone number": phone_number,
             "user_type": usertype,
             "uuid": str(uuid.uuid4())
         }
@@ -165,6 +179,9 @@ def admin_edit_account(current_user, username=None):
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
 
 
     new_username = input("New username (leave blank to keep current): ")
@@ -186,8 +203,19 @@ def admin_edit_account(current_user, username=None):
     if new_password == "":
         new_password = user_data["users"][username]["password"]
 
+    new_age = input("New age: ")
+    if new_age == "":
+        new_age = user_data["users"][username]["age"]
 
-    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}')
+    new_gender = input("New gender: ")
+    if new_gender == "":
+        new_gender = user_data["users"][username]["gender"]
+
+    new_phone_number = input("New phone number: ")
+    if new_phone_number == "":
+        new_phone_number = user_data["users"][username]["phone_number"]
+
+    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}\nPassword: {new_password}\nAge: {new_age}\nGender: {new_gender}\nPhone number: {new_phone_number}')
     confirmed = input('\nSave changes? (y/n): ')
 
     if confirmed.lower() == 'y':
@@ -196,12 +224,15 @@ def admin_edit_account(current_user, username=None):
         user_data["users"][new_username] = {
             "password": new_password,
             "email": new_email,
+            "age": new_age,
+            "gender": new_gender,
+            "phone_number": new_phone_number,
             "user_type": new_usertype,
             "uuid": uuid
         }
     else:
         return
-    
+
     
     # Log the update
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
@@ -212,6 +243,78 @@ def admin_edit_account(current_user, username=None):
     except Exception as e:
         print(RED + f"Error logging: {e}" + RESET)
 
+
+    if not save_accounts(user_data):
+        return
+    print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
+
+
+def user_edit_account(current_user):
+    username = current_user
+    user_data = load_accounts()
+
+    print(f"\nUsername: {username}")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
+
+    new_username = input("New username (leave blank to keep current): ")
+    if new_username == username:
+        print(RED + "lol" + RESET)
+        return
+    if new_username == "":
+        new_username = username
+
+    new_email = input("New email: ")
+    if new_email == "":
+        new_email = user_data["users"][username]["email"]
+
+    new_password = getpass.getpass("New password: ")
+    if new_password == "":
+        new_password = user_data["users"][username]["password"]
+
+    new_age = input("New age: ")
+    if new_age == "":
+        new_age = user_data["users"][username]["age"]
+
+    new_gender = input("New gender: ")
+    if new_gender == "":
+        new_gender = user_data["users"][username]["gender"]
+
+    new_phone_number = input("New phone number: ")
+    if new_phone_number == "":
+        new_phone_number = user_data["users"][username]["phone_number"]
+
+    user_type = user_data["users"][username]["user_type"]
+
+    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nPassword: {new_password}\nAge: {new_age}\nGender: {new_gender}\nPhone number: {new_phone_number}')
+    confirmed = input('\nSave changes? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        uuid = user_data["users"][username]["uuid"]
+        del user_data["users"][username]
+        user_data["users"][new_username] = {
+            "password": new_password,
+            "email": new_email,
+            "age": new_age,
+            "gender": new_gender,
+            "phone_number": new_phone_number,
+            "user_type": user_type,
+            "uuid": uuid
+        }
+    else:
+        return
+
+    # Log the update
+    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
+    try:
+        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+            log_file.write(log_entry)
+    except Exception as e:
+        print(RED + f"Error logging: {e}" + RESET)
 
     if not save_accounts(user_data):
         return
@@ -239,7 +342,27 @@ def admin_view_account(current_user, username=None):
     print(f"Email: {user_data['users'][username]['email']}")
     print(f"User type: {user_data['users'][username]['user_type']}")
     print(f"password: {pw}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
     print(f'UUID: {user_data["users"][username]["uuid"]}')
+
+def user_view_account(current_user):
+    user_data = load_accounts()
+    username = current_user
+
+    pw = input("Show password? (y/n): ")
+    if pw.lower() == "y":
+        pw = user_data["users"][username]["password"]
+    else:
+        pw = "*" * len(user_data["users"][username]["password"])
+
+    print(f"\nUsername: {username}")
+    print(f"Email: {user_data['users'][username]['email']}")
+    print(f"password: {pw}")
+    print(f"Age: {user_data['users'][username]['age']}")
+    print(f"Gender: {user_data['users'][username]['gender']}")
+    print(f"Phone number: {user_data['users'][username]['phone_number']}")
 
 def admin_ban_account(current_user, username=None):
     user_data = load_accounts()
@@ -283,7 +406,7 @@ def admin_ban_account(current_user, username=None):
         except Exception as e:
             print(RED + f"Error logging: {e}" + RESET)
 
-    print(GREEN + f"Account '{username}' banned successfully." + RESET)
+        print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
 def admin_unban_account(current_user, username=None):
     user_data = load_accounts()
@@ -318,7 +441,7 @@ def admin_unban_account(current_user, username=None):
         except Exception as e:
             print(RED + f"Error logging: {e}" + RESET)
 
-    print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
+        print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
 def direct_messages(current_user, username=None): # dont touch this yet 
     user_data = load_accounts()
@@ -363,85 +486,31 @@ def checkin(current_user, username=None):
     else:
         return
     
-def member_manage_profile(current_user):
+def view_profile(current_user):
     user_data = load_accounts()
     if user_data is None:
         return
 
+    if current_user:
+        print("\n--- Member Profile ---")
+        print(f"Username: {current_user['username']}")
+        print(f"User Type: {current_user['user_type']}")
+        print(f"Email: {user_data["users"][current_user["username"]]["email"]}")
 
-
-# Read booking.json
-def load_bookings(filename=files.BOOKING_PATH):
-    with open(filename, "r") as booking_file:
-        return json.load(booking_file)
-
-# Save bookings into json file
-def save_bookings(data, filename=files.BOOKING_PATH):
-    with open(filename, "w") as booking_file:
-        json.dump(data, booking_file, indent=4)
-
-# Displays trainer list
-def display_trainer_list(bookings):
-    print("Available Trainers:")
-    for i, trainer in enumerate(bookings.keys(), start=1):
-        print(f"{i}. {trainer}")
-
-# Let's user choose trainer
-def trainer_selection(bookings):
-    display_trainer_list(bookings)
-    choice = int(input("Enter trainer number of your choice: "))
-    if choice != [1, 2, 3, 4, 5]:
-        print("Invalid input. Try again.")
-        trainer_selection(bookings)
     else:
-        trainer_key = list(bookings.keys())[choice - 1]
-        return trainer_key
+        print("No profile to view.")
 
-# Display time slots of trainers
-def display_slots(bookings, trainer_key):
-    print(f"\nTime slots for {trainer_key}:")
-    trainer_slots = bookings[trainer_key]
-    for slot_id, slot in trainer_slots.items():
-        status = "Available" if slot["booked_by"] is None else f"Booked by {slot['booked_by']}"
-        print(f"{slot_id}: {slot['start']} - {slot['end']} ({status})")
+def update_username(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
 
-# Booking time slot for trainers
-def booking_slots(bookings, trainer_key, member_name):
-    display_slots(bookings, trainer_key)
-    slot_choice = input("Enter slot number to book a slot: ")
-
-    slot = bookings[trainer_key][slot_choice]
-    if slot != [1, 2, 3, 4, 5, 6]:
-        print("Invalid slot number")
-        booking_slots(bookings, trainer_key, member_name)
-    else:
-        if slot["booked_by"] is None:
-            slot["booked_by"] = member_name
-            print("Booking successful!")
-            save_bookings(bookings)  # save to json file
+    if current_user["username"] == current_user["username"]:
+        new_username = input("New username: ")
+        if new_username in user_data["users"]:
+            print(RED + "New username should not be same as previous username")
         else:
-            print("This slot has already been booked")
-
-# View booking function for members
-def view_member_bookings(bookings, member_name):
-    print(f"\n{member_name}'s bookings:")
-    found = False
-    for trainer_key, trainer_slots in bookings.items():  # Loop through trainers
-        for slot_id, slot in trainer_slots.items():      # Loop through slots
-            if slot["booked_by"] == member_name:
-                print(f"- Trainer: {trainer_key}, Slot {slot_id}: {slot['start']} - {slot['end']}")
-                found = True
-
-    if not found:
-        print("No bookings found.")
-
-def member_booking_menu(current_user):
-    bookings = load_bookings()
-    member_name = current_user["username"]
-    trainer_key = trainer_selection(bookings)
-    booking_slots(bookings, trainer_key, member_name)
-
-
+            print(GREEN + "New username updated successfully")
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
@@ -559,6 +628,3 @@ def viewlogs(current_user, logfile=None):
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
-
-
-

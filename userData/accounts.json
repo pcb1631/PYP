@@ -4,7 +4,9 @@
             "Admin"
         ],
         "Member": [
-            "send_comments"
+            "send_comments",
+            "view_profile",
+            "update_profile"
         ],
         "Trainer": [
             "send_comments",
@@ -82,6 +84,11 @@
             "email": "jeevacation@gmail.com",
             "user_type": "Trainer",
             "uuid": "986fa64e-7db0-49cc-92f6-2ab0e21a33a6"
+        "jianjun": {
+            "password": "chowjianjun0127*",
+            "email": "jianjun@gmail.com",
+            "user_type": "Member",
+            "uuid": "d95381e6-0912-4046-9f7a-efc48e6375ca"
         }
     }
 }

@@ -4,6 +4,7 @@ import os
 import difflib
 from datetime import datetime, timedelta
 import calendar
+import time
 from colors import BG_MAGENTA, RED, RESET
 
 if os.name == 'nt':
@@ -42,6 +43,7 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
     '''
     if options == []:
         print(RED + "Error: Options are empty!" + RESET)
+        time.sleep(1)
         return None
     
     l = len(options)

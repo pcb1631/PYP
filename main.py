@@ -15,6 +15,19 @@ import files
 #globals
 current_user = {}
 
+def online():
+    global current_user
+    with open(files.ONLINE_PATH, "a") as f:
+        f.write(current_user["username"] + "\n")
+
+def offline():
+    global current_user
+    with open(files.ONLINE_PATH, "r") as f:
+        online_users = f.read().splitlines()
+    with open(files.ONLINE_PATH, "w") as f:
+        for user in online_users:
+            if user != current_user["username"]:
+                f.write(user + "\n")
 def login(users):
     commands.clear()
     for _ in range(3):
@@ -116,6 +129,7 @@ def command_mode():
         time.sleep(1)
         exit(0)
     
+    online()
     #   Will now act like a shell with commands
     #   Commands are categorized by permissions, examples:
     #   msa admin_delete_account
@@ -139,7 +153,9 @@ def command_mode():
         "manage_member_accounts", 
         "send_comments", 
         "view_comments",
-        "test"] # Admin has all permissions, make sure to add every permission here
+        "view_profile", ]
+
+        # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
@@ -170,8 +186,11 @@ def command_mode():
         "unban":    commands.admin_unban_account,
         "logs":     commands.viewlogs
     }
-    cmdlist["test"] = {
-        "booking":  commands.member_booking_menu
+    cmdlist["view_profile"] = {
+        "view": commands.view_profile
+    }
+    cmdlist["update_profile"] = {
+        "update_username": commands.update_username,
     }
 
     def help():
@@ -194,17 +213,33 @@ def command_mode():
             command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] ')
             command = command.strip()   # remove leading and trailing whitespace
             command = command.split()   # splits each word into a list
+            if command == []:
+                continue
 
             # Check if user is banned   
             with open(files.BANNED_PATH, "r") as banned_file:
                 banned_users = banned_file.read().splitlines()
             
+            with open(files.DELETE_PATH, "r") as delete_file:
+                deleted_users = delete_file.read().splitlines()
+
             if current_user["username"] in banned_users:
                 print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
+                offline()
                 time.sleep(1)
                 exit(0)
             
+            if current_user["username"] in deleted_users:
+                print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
+                offline()
+                deleted_users.remove(current_user["username"])
 
+                with open(files.DELETE_PATH, "w") as f:
+                    f.write("\n".join(deleted_users))
+                
+                time.sleep(1)
+                exit(0)
+           
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
@@ -256,6 +291,7 @@ def command_mode():
 
                         if result == "EXIT":
                             print("Bye!")
+                            offline()
                             time.sleep(1)
                             return
                 
@@ -283,6 +319,7 @@ def command_mode():
 
     except KeyboardInterrupt:
         print("\nBye!")
+        offline()
         time.sleep(1)
         return
 
