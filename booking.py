@@ -16,6 +16,7 @@ def save_bookings(data, filename=files.BOOKING_PATH):
     with open(filename, "w") as booking_file:
         json.dump(data, booking_file, indent=4)
 
+
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
     trainer = current_user["username"]
@@ -67,12 +68,39 @@ def trainer_view(current_user):
 
         print(f"start: {start}")
         print(f"end: {end}")
-        print(f"bookedBy: {bookedBy}")
         print("\n")
+
+
+def member_view(current_user):
+    bookings = load_bookings()
+    print("Available slots:")
+    for trainer in bookings:
+        slots = bookings[trainer]
+        print(f"trainer: {trainer}")
+        for slot in slots:
+            bookedBy = slots[slot]["bookedBy"]
+            
+            if bookedBy is not None:
+                continue
+
+            print(f"slot {slot}:")
+
+            start = epoch_to_readable(slots[slot]["start"])
+            end = epoch_to_readable(slots[slot]["end"])
+
+            print(f"start: {start}")
+            print(f"end: {end}")
+            print("\n")
+            
+    
+
 
 current_user = {"username": "trainer_user"}
 
 def trainer_frontend(current_user):
     pass
 
-    
+def member_frontend(current_user):
+    pass
+
+member_view(current_user)
