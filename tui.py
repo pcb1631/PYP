@@ -2,6 +2,8 @@ import kb
 import shutil
 import os
 import difflib
+from datetime import datetime, timedelta
+import calendar
 import time
 from colors import BG_MAGENTA, RED, RESET
 
@@ -86,7 +88,7 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
                 try:
                     key = kb.get_key()
                     if key == b'\xe0':
-                        key += kb.get_key() # i cant do this in kb.py for some reason :/
+                        key += kb.get_key()
                     if key != None:
                         break
                     else:
@@ -121,7 +123,9 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
                     match = ""
                 continue
             case _ if key.isascii() and len(key) == 1:
-                key = key.decode("utf-8")
+                if os.name == "nt":
+                    key = key.decode('utf-8')
+
                 query += key
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
@@ -129,3 +133,69 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a 
                 else:
                     match = ""
                 continue
+
+def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt=""):
+    selection = 0
+    
+    date_time = datetime.fromtimestamp(ms_timestamp / 1000)
+    
+    while True:
+        time = [date_time.day, date_time.month, date_time.year, date_time.hour, date_time.minute]
+        clear()
+        buffer = []
+        buffer.append(prompt+"\n")
+        
+        for i in range(5):
+            if i == selection:
+                buffer.append(BG_MAGENTA + str(time[i]) + RESET)
+            else:
+                buffer.append(str(time[i]))
+        
+
+        print(' '.join(buffer))
+        
+        if os.name == 'nt':
+            while True:
+                try:
+                    key = kb.get_key()
+                    if key == b'\xe0':
+                        key += kb.get_key()
+                    if key != None:
+                        break
+                    else:
+                        continue
+                except KeyboardInterrupt:
+                    return None
+        else:
+            key = kb.get_key()
+            if key == "\x03": # CTRL + C 
+                return None
+
+        if key in keymap:
+            key = keymap[key]
+    
+        mod = 0
+
+        match key:
+            case "left":
+                selection = (selection - 1) % 5
+            case "right":
+                selection = (selection + 1) % 5
+            case "up":
+                mod = 1
+            case "down":
+                mod = -1
+            case "enter":
+                return ms_timestamp
+
+        match selection: # because im worried about leap years and months with different days
+            case 0:
+                date_time += timedelta(days=mod)
+            case 1:
+                date_time += timedelta(days=calendar.monthrange(date_time.year, date_time.month)[1] * mod)
+            case 2:
+                date_time += timedelta(days=365 * mod)
+            case 3:
+                date_time += timedelta(hours=mod)
+            case 4:
+                date_time += timedelta(minutes=mod)

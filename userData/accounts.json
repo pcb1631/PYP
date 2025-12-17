@@ -67,6 +67,24 @@
             "user_type": "Trainer",
             "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a"
         },
+        "Rinzer": {
+            "password": "Rinz058*",
+            "email": "rinzer67@gmail.com",
+            "user_type": "Admin",
+            "uuid": "ee6d4d0f-cadf-4f51-9e5d-59e05933edda"
+        },
+        "diddy": {
+            "password": "babyoil",
+            "email": "diddy@gmail.com",
+            "user_type": "Trainer",
+            "uuid": "45e12564-8504-4384-8a9e-247541d27231"
+        },
+        "epstein": {
+            "password": "island",
+            "email": "jeevacation@gmail.com",
+            "user_type": "Trainer",
+            "uuid": "986fa64e-7db0-49cc-92f6-2ab0e21a33a6"
+        },
         "jianjun": {
             "password": "chowjianjun0127*",
             "email": "jianjun@gmail.com",
