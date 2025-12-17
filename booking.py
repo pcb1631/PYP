@@ -95,7 +95,7 @@ def member_view(current_user):
 
     slots = []
     for slot in bookings[trainer]:
-        if bookings[trainer][slot]["bookedBy"] is None:
+        if bookings[trainer][slot]["bookedBy"] is None: # For safety reasons, members aren't allowed to view claimed slots
             slots.append(f"{slot} | {epoch_to_readable(bookings[trainer][slot]["start"])} ==> {epoch_to_readable(bookings[trainer][slot]["end"])}")
     
     _ = TUI(BG_MAGENTA, f"Available slots for {trainer}", slots, verbose=True)
