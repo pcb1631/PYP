@@ -32,9 +32,9 @@ def clear():                    # clear console
     else:                       # For macOS and Linux
         _ = os.system('clear')  # _ means idgaf about the return value
 
-def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False): # color must be a constant from colors.py, *args should be a string array 
+def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color must be a constant from colors.py, *args should be a string array 
     options = args              
-    selection = 0               # user's selection 
+    selection = idx               # user's selection 
     buffer = []                 # what to print after every "refresh"
                                 # verbose is Whether to return full string or just number
     '''
