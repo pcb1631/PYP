@@ -3,7 +3,7 @@ import json
 from tui import TUI, timeTUI
 import time
 from datetime import datetime
-from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD
+from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD, BLUE
 
 
 from commands import load_accounts, save_accounts
@@ -81,20 +81,56 @@ def trainer_view_and_modify(current_user):
     trainer = current_user["username"]
     slots = bookings[trainer]
 
-    for slot in slots:
-        print(f"slot {slot}:")
+    markings = [0] * len(slots)
+    idx = 0
+    while True: # this can be optimized later
+        options = []
+        options.append(BLUE + "Done" + RESET)
+        for slot in slots:
+            start = epoch_to_readable(slots[slot]["start"])
+            end = epoch_to_readable(slots[slot]["end"])
+            bookedBy = slots[slot]["bookedBy"]
+            
+            string = f"{slot} | {start} => {end}"
 
-        start = epoch_to_readable(slots[slot]["start"])
-        end = epoch_to_readable(slots[slot]["end"])
-        bookedBy = slots[slot]["bookedBy"]
+            if markings[int(slot)] == 1:
+                string += f"{RESET} {BG_RED}(Marked for deletion){RESET}"
+                options.append(string)
+                continue
+            if markings[int(slot)] == 2:
+                string += f"{RESET} {BG_GREEN}(Marked for freeing){RESET}"
+                options.append(string)
+                continue
+            
+            if bookedBy is None:
+                string += f"{RESET} {BG_GREEN}(Available){RESET}"
+            if bookedBy is not None:
+                string += f"{RESET} {BG_RED}(Booked){RESET}"
+                string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
+            
+            options.append(string)
 
-        print(f"start: {start}")
-        print(f"end: {end}")
-        print("\n")
+        selection = TUI(BG_PURPLE, "Select slot", options, verbose=False, idx=idx)
+        idx = selection
+        if selection is None:
+            return
+        if selection == 0:
+            break
+        selection -= 1 # offset for back
+
+        markings[selection] = (markings[selection] + 1) % 3 # cycle through 0, 1, 2
+
+
+
+
+
+
+    
+    
 
     
 
-current_user = {"username": 'pcb'}
+current_user = {"username": 'trainer_user'}
 
 def trainer_frontend(current_user):
     pass
@@ -168,4 +204,4 @@ def member_frontend(current_user):
             else:
                 continue        
 
-member_frontend(current_user)
+trainer_view_and_modify(current_user)
