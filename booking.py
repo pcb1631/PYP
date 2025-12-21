@@ -214,11 +214,6 @@ def attendance(current_user):
 
     
 
-current_user = {"username": 'trainer_user'}
-
-def trainer_frontend(current_user):
-    pass
-
 def member_frontend(current_user):
     bookings = load_bookings()
     user_data = load_accounts()
@@ -287,5 +282,3 @@ def member_frontend(current_user):
                 save_bookings(bookings)
             else:
                 continue        
-
-attendance(current_user)
