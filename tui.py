@@ -151,9 +151,9 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", user
 
         for i in range(5):
             if i == selection:
-                buffer.append(BG_MAGENTA + str(time[i]) + " " + RESET)
+                buffer.append(BG_MAGENTA + str(time[i]) + RESET + " ")
             else:
-                buffer.append(str(time[i]))
+                buffer.append(str(time[i]) + " ")
         
         conflict_slot = conflict(username, ms_timestamp)
         if conflict_slot is not None:
