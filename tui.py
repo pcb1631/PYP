@@ -186,6 +186,7 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt=""):
             case "down":
                 mod = -1
             case "enter":
+                ms_timestamp = date_time.timestamp() * 1000
                 return ms_timestamp
 
         match selection: # because im worried about leap years and months with different days

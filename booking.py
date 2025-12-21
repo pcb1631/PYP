@@ -176,4 +176,4 @@ def member_frontend(current_user):
             else:
                 continue        
 
-sort_slots("trainer_user")
+trainer_view(current_user)
