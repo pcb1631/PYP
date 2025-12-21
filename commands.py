@@ -348,14 +348,10 @@ def admin_view_account(current_user, username=None):
         pw = "*" * len(user_data["users"][username]["password"])
 
     print(f"\nUsername: {username}")
-    print(f"Email: {user_data['users'][username]['email']}")
-    print(f"User type: {user_data['users'][username]['user_type']}")
-    print(f"password: {pw}")
-    print(f"Age: {user_data['users'][username]['age']}")
-    print(f"Gender: {user_data['users'][username]['gender']}")
-    print(f"Phone number: {user_data['users'][username]['phone_number']}")
-    print(f'UUID: {user_data["users"][username]["uuid"]}')
-
+    keys = user_data["users"][username].keys()
+    for key in keys:
+        print(f"{key}: {user_data['users'][username][key]}")
+        
 def user_view_account(current_user):
     user_data = load_accounts()
     username = current_user
@@ -367,11 +363,9 @@ def user_view_account(current_user):
         pw = "*" * len(user_data["users"][username]["password"])
 
     print(f"\nUsername: {username}")
-    print(f"Email: {user_data['users'][username]['email']}")
-    print(f"password: {pw}")
-    print(f"Age: {user_data['users'][username]['age']}")
-    print(f"Gender: {user_data['users'][username]['gender']}")
-    print(f"Phone number: {user_data['users'][username]['phone_number']}")
+    keys = user_data["users"][username].keys()
+    for key in keys:
+        print(f"{key}: {user_data['users'][username][key]}")
 
 def admin_ban_account(current_user, username=None):
     user_data = load_accounts()
