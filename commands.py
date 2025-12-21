@@ -126,12 +126,12 @@ def admin_add_account(current_user):
         else:
             break
 
-    email =     input("Email: ")
-    password =  getpass.getpass("Password: ")
-    usertype =  input("User type (Must be verbatim of user type in accounts.json): ")
-    age =       int(input("Age: "))
-    gender =    input("Gender (m/f): ")
-    phone_number = input("Phone number: ")
+    email =         input("Email: ")
+    password =      getpass.getpass("Password: ")
+    usertype =      input("User type (Must be verbatim of user type in accounts.json): ")
+    age =           int(input("Age: "))
+    gender =        input("Gender (m/f): ")
+    phone_number =  input("Phone number: ")
 
     print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
     confirmed = input('\nAdd new user? (y/n): ')
@@ -153,7 +153,7 @@ def admin_add_account(current_user):
         with open(files.booking_path, "r") as f:
             booking_data = json.load(f)
 
-        booking_data[username] = {}
+        booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
         with open(files.booking_path, "w") as f:
             json.dump(booking_data, f, indent=4)
