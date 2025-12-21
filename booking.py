@@ -3,7 +3,7 @@ import json
 from tui import TUI, timeTUI
 import time
 from datetime import datetime
-from colors import BG_BLUE, BG_GREEN, BG_RED, RED, RESET, BG_MAGENTA, BOLD
+from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD
 
 
 from commands import load_accounts, save_accounts
@@ -101,31 +101,53 @@ def member_frontend(current_user):
             time.sleep(1)
             continue
         
-        slots = []
-        for slot in bookings[trainer]:
-            
-            bookedBy = bookings[trainer][slot]["bookedBy"]
-            start = epoch_to_readable(bookings[trainer][slot]["start"])
-            end = epoch_to_readable(bookings[trainer][slot]["end"])
+        while True:
+            slots = []
+            for slot in bookings[trainer]:
+                
+                bookedBy = bookings[trainer][slot]["bookedBy"]
+                start = epoch_to_readable(bookings[trainer][slot]["start"])
+                end = epoch_to_readable(bookings[trainer][slot]["end"])
 
-            string = f"{slot} | {start} => {end}"
+                string = f"{slot} | {start} => {end}"
+                
+                if bookedBy is None:
+                    string += f"{RESET} {BG_GREEN}(Available){RESET}"
+                
+                if bookedBy is not None:
+                    string += f"{RESET} {BG_RED}(Booked){RESET}"
+
+                if bookedBy == current_user["username"]:
+                    string += f"{RESET} {BG_BLUE}(Booked by you){RESET}"
+                
+                slots.append(string)
             
-            if bookedBy is None:
-                string += f"{RESET} {BG_GREEN}(Available){RESET}"
-            
+            slots.insert(0, "Back")
+            selection = TUI(BG_PURPLE, f"Slots for {trainer}", slots, verbose=False)
+
+            if selection == 0: # back
+                break
+            selection -= 1 # offset for back
+            selection = str(selection)
+
+            bookedBy = bookings[trainer][selection]["bookedBy"]
             if bookedBy is not None:
-                string += f"{RESET} {BG_RED}(Booked){RESET}"
-
-            if bookedBy == current_user["username"]:
-                string += f"{RESET} {BG_BLUE}(Booked by you){RESET}"
+                if bookedBy == current_user["username"]:
+                    print(RED + "Remove booking? (y/n)" + RESET)
+                    if input() == "y":
+                        bookings[trainer][selection]["bookedBy"] = None
+                        save_bookings(bookings)
+                    continue
+                else:
+                    print(RED + "Slot is already booked." + RESET)
+                    time.sleep(1)
+                    continue
             
-            slots.append(string)
-        
-        slots.append("Back")
-        selection = TUI(BG_MAGENTA, f"Slots for {trainer}", slots, verbose=True)
-
-        if selection == "Back":
-            continue
-        
+            print(f"Book slot {selection}? (y/n)")
+            if input() == "y":
+                bookings[trainer][selection]["bookedBy"] = current_user["username"]
+                save_bookings(bookings)
+            else:
+                continue        
 
 member_frontend(current_user)
