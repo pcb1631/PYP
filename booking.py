@@ -138,10 +138,6 @@ def member_frontend(current_user):
                         bookings[trainer][selection]["bookedBy"] = None
                         save_bookings(bookings)
                     continue
-                else:
-                    print(RED + "Slot is already booked." + RESET)
-                    time.sleep(1)
-                    continue
             
             print(f"Book slot {selection}? (y/n)")
             if input() == "y":
