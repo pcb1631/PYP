@@ -503,7 +503,8 @@ def standard_membership(current_user):
 
         if pp == "y":
             print("Thank you for purchasing our membership" + GREEN)
-            user_data["users"][current_user["username"]] = {"membership tier" : "Standard"}
+            if user_data["users"][current_user["username"]]["user_type"] == "Member":
+                user_data["users"][current_user["username"]]["membership_tier"]= "Standard"
 
         with open(files.ACCOUNTS_PATH, "w") as f:
             json.dump(user_data, f, indent=4)
