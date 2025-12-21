@@ -11,7 +11,7 @@ import commands
 from tui import TUI
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, RESET
 import files
-
+import booking
 #globals
 current_user = {}
 
@@ -45,7 +45,11 @@ cmdlist["view_profile"] = {
 cmdlist["update_profile"] = {
     "update_username": commands.update_username,
 }
-
+cmdlist["member_bookings"] = {
+    "menu": booking.member_frontend,
+}
+cmdlist["trainer_bookings"] = {
+}
 def online():
     global current_user
     with open(files.ONLINE_PATH, "a") as f:
@@ -184,9 +188,12 @@ def command_mode():
         "manage_member_accounts", 
         "send_comments", 
         "view_comments",
-        "view_profile", ]
+        "view_profile",
+        "member_bookings",
+        "trainer_bookings",
+        ]
 
-        # Admin has all permissions, make sure to add every permission here
+    # Admin has all permissions, make sure to add every permission here
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references

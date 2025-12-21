@@ -6,11 +6,13 @@
         "Member": [
             "send_comments",
             "view_profile",
-            "update_profile"
+            "update_profile",
+            "member_bookings"
         ],
         "Trainer": [
             "send_comments",
-            "view_comments"
+            "view_comments",
+            "trainer_bookings"
         ],
         "Front Desk": [
             "manage_member_accounts",
