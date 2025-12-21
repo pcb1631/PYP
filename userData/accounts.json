@@ -1,7 +1,12 @@
 {
     "permissions": {
-        "Admin": [
-            "Admin"
+        "debug": [
+            "debug"
+        ],
+        "admin": [
+            "ban",
+            "unban",
+            "logs"
         ],
         "Member": [
             "send_comments",
@@ -24,7 +29,7 @@
         "admin_user": {
             "password": "adminpass123",
             "email": "admin@example.com",
-            "user_type": "Admin",
+            "user_type": "admin",
             "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21"
         },
         "member_user": {
@@ -54,7 +59,7 @@
         "pcb": {
             "password": "meow",
             "email": "josiah.hoo@gmail.com",
-            "user_type": "Admin",
+            "user_type": "debug",
             "uuid": "ab12cd34-ef56-7890-ab12-cd34ef567890"
         },
         "bla": {
@@ -72,7 +77,7 @@
         "Rinzer": {
             "password": "Rinz058*",
             "email": "rinzer67@gmail.com",
-            "user_type": "Admin",
+            "user_type": "debug",
             "uuid": "ee6d4d0f-cadf-4f51-9e5d-59e05933edda"
         },
         "diddy": {

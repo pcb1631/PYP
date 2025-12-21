@@ -77,6 +77,10 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
 def trainer_view_and_modify(current_user):
     bookings = load_bookings()
     trainer = current_user["username"]
+
+    if trainer not in bookings:
+        print(RED + "You have no slots to modify" + RESET)
+        return
     slots = bookings[trainer]
 
     markings = [0] * len(slots)
