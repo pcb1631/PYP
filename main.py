@@ -22,9 +22,6 @@ cmdlist["manage_staff_accounts"] = {
     "edit_account":     commands.admin_edit_account,
     "view_account":     commands.admin_view_account
 }
-cmdlist["manage_member_accounts"] = {
-    # Add mma commands, and their respective functions here
-}
 cmdlist["manage_members"] = {
 }
 
@@ -43,7 +40,6 @@ cmdlist["view_profile"] = {
     "view": commands.view_profile
 }
 cmdlist["update_profile"] = {
-    "update_username": commands.update_username,
 }
 cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,

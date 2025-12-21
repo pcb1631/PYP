@@ -20,7 +20,7 @@
             "trainer_bookings"
         ],
         "Front Desk": [
-            "manage_member_accounts",
+            "manage_members",
             "view_ps"
         ],
         "Finance Manager": []
