@@ -4,7 +4,7 @@ from tui import TUI, timeTUI
 import time
 from datetime import datetime
 from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD, BLUE
-
+from utils import conflict
 
 from commands import load_accounts, save_accounts
 
@@ -41,7 +41,16 @@ def sort_slots(trainer):
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
     trainer = current_user["username"]
-
+    slots = bookings[trainer]
+    
+    hours = [8, 10, 14, 16]
+    for i in range(7):
+        for j in range(4):
+            start = int(datetime(datetime.now().year, datetime.now().month, datetime.now().day + i, hours[j], 0).timestamp() * 1000)
+            end = start + 60 * 60 * 1000
+            if conflict(trainer, start) or conflict(trainer, end):
+                continue
+            add_slots_epoch(current_user, start, end)
 
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
     bookings = load_bookings()
@@ -117,7 +126,15 @@ def trainer_view_and_modify(current_user):
     else:
         return
 
+def add_slots_epoch(current_user, start=int(datetime.now().timestamp() * 1000), end=int(datetime.now().timestamp() * 1000)):
+    bookings = load_bookings()
+    trainer = current_user["username"]
 
+    slots = bookings[trainer].keys()
+    max_slot = max([int(slot) for slot in slots]) if slots else 0
+    bookings[trainer][max_slot + 1] = {"start": start, "end": end, "bookedBy": None}
+    sort_slots(trainer)
+    save_bookings(bookings)
 
 
 
