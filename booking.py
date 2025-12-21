@@ -29,9 +29,9 @@ def sort_slots(trainer):
             "end": bookings[trainer][slot]["end"],
             "bookedBy": bookings[trainer][slot]["bookedBy"]
         } )
-    slots.sort(key=lambda x: x["start"])
+    slots.sort(key=lambda x: x["start"]) # sort with regards to start time
 
-    bookings[trainer] = {}
+    bookings[trainer] = {} # clear slots
 
     for i in range(len(slots)):
         bookings[trainer][str(i)] = slots[i]
