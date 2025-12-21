@@ -20,6 +20,22 @@ def save_bookings(data, filename=files.BOOKING_PATH):
     with open(filename, "w") as booking_file:
         json.dump(data, booking_file, indent=4)
 
+def sort_slots(trainer):
+    bookings = load_bookings()
+    slots = []
+    for slot in bookings[trainer]:
+        slots.append( {
+            "start": bookings[trainer][slot]["start"],
+            "end": bookings[trainer][slot]["end"],
+            "bookedBy": bookings[trainer][slot]["bookedBy"]
+        } )
+    slots.sort(key=lambda x: x["start"])
+
+    bookings[trainer] = {}
+
+    for i in range(len(slots)):
+        bookings[trainer][str(i)] = slots[i]
+    save_bookings(bookings)
 
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
@@ -76,7 +92,7 @@ def trainer_view(current_user):
 
     
 
-current_user = {"username": 'pcb'}
+current_user = {"username": 'trainer_user'}
 
 def trainer_frontend(current_user):
     pass
@@ -150,4 +166,4 @@ def member_frontend(current_user):
             else:
                 continue        
 
-member_frontend(current_user)
+sort_slots("trainer_user")
