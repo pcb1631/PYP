@@ -149,6 +149,15 @@ def admin_add_account(current_user):
     else:
         return
 
+    if usertype == "Trainer":
+        with open(files.booking_path, "r") as f:
+            booking_data = json.load(f)
+
+        booking_data[username] = {}
+        
+        with open(files.booking_path, "w") as f:
+            json.dump(booking_data, f, indent=4)
+
     if not save_accounts(user_data):
         return
 
