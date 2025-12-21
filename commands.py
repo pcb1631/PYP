@@ -178,71 +178,53 @@ def admin_edit_account(current_user, username=None):
         return
     
     if username is None:
-        username = TUI(BG_RED, "Select user to edit", user_data["users"].keys(), verbose=False)
+        username = TUI(BG_RED, "Select user to edit", list(user_data["users"].keys()), verbose=True)
 
     if username not in user_data["users"]:
         print("User does not exist")
         return
     
-    print(f"\nUsername: {username}")
-    print(f"Email: {user_data['users'][username]['email']}")
-    print(f"User type: {user_data['users'][username]['user_type']}")
-    print(f"password: {'*' * len(user_data['users'][username]['password'])}")
-    print(f"Age: {user_data['users'][username]['age']}")
-    print(f"Gender: {user_data['users'][username]['gender']}")
-    print(f"Phone number: {user_data['users'][username]['phone_number']}")
-
+    keys = user_data["users"][username].keys()
+    
+    print("\nCurrent user details:")
+    for key in keys:
+        if key == "password":
+            print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+        else:
+            print(f"{key}: {user_data['users'][username][key]}")
 
     new_username = input("New username (leave blank to keep current): ")
-    if new_username == username:
-        print(RED + "lol" + RESET)
-        return
     if new_username == "":
         new_username = username
-
-    new_email = input("New email: ")
-    if new_email == "":
-        new_email = user_data["users"][username]["email"]
-    
-    new_usertype = input("New user type: ")
-    if new_usertype == "":
-        new_usertype = user_data["users"][username]["user_type"]
-    
-    new_password = getpass.getpass("New password: ")
-    if new_password == "":
-        new_password = user_data["users"][username]["password"]
-
-    new_age = input("New age: ")
-    if new_age == "":
-        new_age = user_data["users"][username]["age"]
-
-    new_gender = input("New gender: ")
-    if new_gender == "":
-        new_gender = user_data["users"][username]["gender"]
-
-    new_phone_number = input("New phone number: ")
-    if new_phone_number == "":
-        new_phone_number = user_data["users"][username]["phone_number"]
-
-    print(f'\nUsername: {new_username or username}\nEmail: {new_email}\nUser type: {new_usertype}\nPassword: {new_password}\nAge: {new_age}\nGender: {new_gender}\nPhone number: {new_phone_number}')
-    confirmed = input('\nSave changes? (y/n): ')
-
-    if confirmed.lower() == 'y':
-        uuid = user_data["users"][username]["uuid"]
-        del user_data["users"][username]
-        user_data["users"][new_username] = {
-            "password": new_password,
-            "email": new_email,
-            "age": new_age,
-            "gender": new_gender,
-            "phone_number": new_phone_number,
-            "user_type": new_usertype,
-            "uuid": uuid
-        }
     else:
+        if new_username in user_data["users"]:
+            print("Username already exists")
+            return
+        user_data["users"][new_username] = user_data["users"][username]
+        del user_data["users"][username]
+
+    for key in keys:
+        if key == "uuid":
+            continue
+        if key == "password":
+            new_password = getpass.getpass("New password: ")
+            if new_password == "":
+                continue
+            else:
+                user_data["users"][new_username][key] = new_password
+                continue
+        new_value = input(f"New {key}: ")
+        if new_value == "":
+            continue
+        else:
+            user_data["users"][new_username][key] = new_value
+
+    confirm = input("\nConfirm changes? (y/n): ")
+    if confirm.lower() != "y":
         return
 
-    
+    if not save_accounts(user_data):
+        return
     # Log the update
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
