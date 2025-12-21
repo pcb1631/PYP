@@ -69,8 +69,8 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
         "bookedBy": None,
         "venue": None
     }
-    sort_slots(trainer)
     save_bookings(bookings)
+    sort_slots(trainer)
     
 def trainer_view_and_modify(current_user):
     bookings = load_bookings()
@@ -131,6 +131,7 @@ def trainer_view_and_modify(current_user):
             if markings[i] == 2:
                 bookings[trainer][str(i)]["bookedBy"] = None
         save_bookings(bookings)
+        sort_slots(trainer)
     else:
         return
 
@@ -146,9 +147,21 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp() * 1000), 
         "bookedBy": None,
         "venue": None
     }
-    sort_slots(trainer)
     save_bookings(bookings)
+    sort_slots(trainer)
 
+def attendance(current_user):
+    bookings = load_bookings()
+    trainer = current_user["username"]
+    slots = bookings[trainer]
+    options = []
+
+    for slot in slots:
+        if slots[slot]["end"] > int(datetime.now().timestamp() * 1000):
+            options.append(slot)
+        else:
+            break
+        
 
 
 
