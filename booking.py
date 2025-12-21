@@ -37,6 +37,16 @@ def sort_slots(trainer):
         bookings[trainer][str(i)] = slots[i]
     save_bookings(bookings)
 
+def conflict(trainer, time):
+    bookings = load_bookings()
+    slots = bookings[trainer]
+    for slot in slots:
+        if time >= slots[slot]["start"] and time <= slots[slot]["end"]:
+            return None
+        else: 
+            return slot
+
+
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
     trainer = current_user["username"]
