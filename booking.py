@@ -123,10 +123,10 @@ def member_frontend(current_user):
                 
                 slots.append(string)
             
-            slots.insert(0, "Back")
+            slots.insert(0, RED + "Back" + RESET)
             selection = TUI(BG_PURPLE, f"Slots for {trainer}", slots, verbose=False, idx=idx)
             idx = selection
-            
+
             if selection == 0 or selection is None: # back or Ctrl+C
                 break
             selection -= 1 # offset for back
@@ -135,7 +135,7 @@ def member_frontend(current_user):
             bookedBy = bookings[trainer][selection]["bookedBy"]
             if bookedBy is not None:
                 if bookedBy == current_user["username"]:
-                    print(RED + "Remove booking? (y/n)" + RESET)
+                    print(RED + "Free booking? (y/n)" + RESET)
                     if input() == "y":
                         bookings[trainer][selection]["bookedBy"] = None
                         save_bookings(bookings)
