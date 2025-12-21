@@ -48,6 +48,7 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
             if conflict(trainer, start) or conflict(trainer, end):
                 continue
             add_slots_epoch(current_user, start, end)
+    print(GREEN + "Generated time slots for next 7 days" + RESET)
 
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
     bookings = load_bookings()

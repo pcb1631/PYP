@@ -49,6 +49,11 @@ cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,
 }
 cmdlist["trainer_bookings"] = {
+    "generate": booking.generate_next_7_days,
+    "editor": booking.trainer_view_and_modify,
+    "attendance": booking.attendance,
+    "add": booking.add_slots,
+    "add_epoch": booking.add_slots_epoch,
 }
 def online():
     global current_user
@@ -65,28 +70,32 @@ def offline():
                 f.write(user + "\n")
 def login(users):
     commands.clear()
-    for _ in range(3):
-        username = input("Username: ")
-        password = getpass.getpass("Password: ") #getpass.getpass() hides password
-        time.sleep(1) #just to make it hard to bruteforce
+    try:
+        for _ in range(3):
+            username = input("Username: ")
+            password = getpass.getpass("Password: ") #getpass.getpass() hides password
+            time.sleep(1) #just to make it hard to bruteforce
 
-        if username in users:
-            if users[username]["password"] == password: #will crash if I put both in AND
-                print(GREEN + "Welcome to Fitness Center!" + RESET)
-                return {"username": username, "user_type": users[username]["user_type"]}
-        
-        print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
-        
+            if username in users:
+                if users[username]["password"] == password: #will crash if I put both in AND
+                    print(GREEN + "Welcome to Fitness Center!" + RESET)
+                    return {"username": username, "user_type": users[username]["user_type"]}
+            
+            print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
+            
 
-        # Log failed login attempt
-        import datetime
-        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-        log_entry = f"\n{timestamp} FAILED LOGIN ATTEMPT: {username}"
-        try:
-            with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-                log_file.write(log_entry)
-        except Exception as e:
-            print(RED + f"Error logging: {e}" + RESET)
+            # Log failed login attempt
+            import datetime
+            timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+            log_entry = f"\n{timestamp} FAILED LOGIN ATTEMPT: {username}"
+            try:
+                with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
+                    log_file.write(log_entry)
+            except Exception as e:
+                print(RED + f"Error logging: {e}" + RESET)
+    except KeyboardInterrupt:
+        print("Keyboard interrupt. Exiting...")
+        exit(0)
 
     print(RED + "You have exceeded three attempts, please run the program again" + RESET)
     exit(0)
