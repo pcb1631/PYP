@@ -119,6 +119,17 @@ def trainer_view_and_modify(current_user):
         selection -= 1 # offset for back
 
         markings[selection] = (markings[selection] + 1) % 3 # cycle through 0, 1, 2
+    
+    confirm = input("Save your changes? (y/n): ")
+    if confirm == "y":
+        for i in range(len(markings)):
+            if markings[i] == 1:
+                del bookings[trainer][str(i)]
+            if markings[i] == 2:
+                bookings[trainer][str(i)]["bookedBy"] = None
+        save_bookings(bookings)
+    else:
+        return
 
 
 
