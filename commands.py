@@ -337,7 +337,7 @@ def admin_view_account(current_user, username=None):
 
 def user_view_account(current_user):
     user_data = load_accounts()
-    username = current_user
+    username = current_user["username"]
 
     pw = input("Show password? (y/n): ")
     if pw.lower() == "y":
