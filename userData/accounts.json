@@ -12,7 +12,8 @@
             "send_comments",
             "view_profile",
             "update_profile",
-            "member_bookings"
+            "member_bookings",
+            "purchase_membership"
         ],
         "Trainer": [
             "send_comments",
@@ -94,9 +95,9 @@
         },
         "jianjun": {
             "password": "chowjianjun0127*",
-            "email": "jianjun+fitness@gmail.com",
+            "email": "jianjun@gmail.com",
             "user_type": "Member",
-            "uuid": "d95381e6-0912-4046-9f7a-efc48e6375ca"
+            "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758"
         }
     }
 }

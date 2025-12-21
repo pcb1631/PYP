@@ -489,6 +489,29 @@ def view_profile(current_user):
     else:
         print("No profile to view.")
 
+def standard_membership(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "membership_tier" in user_data["users"][current_user["username"]]:
+        print("You are had a membership")
+
+    elif current_user:
+        print("30 days membership - RM150" + YELLOW)
+        pp = input("Proceed payment? (y/n): ")
+
+        if pp == "y":
+            print("Thank you for purchasing our membership" + GREEN)
+            user_data["users"][current_user["username"]] = {"membership tier" : "Standard"}
+
+        with open(files.ACCOUNTS_PATH, "w") as f:
+            json.dump(user_data, f, indent=4)
+
+    else:
+            print("Payment cancelled" + RED)
+            return
+
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:

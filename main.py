@@ -8,6 +8,7 @@ import uuid
 
 #local project libraries
 import commands
+
 from tui import TUI
 from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, RESET
 import files
@@ -43,6 +44,9 @@ cmdlist["update_profile"] = {
 }
 cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,
+}
+cmdlist["purchase_membership"] = {
+    "standard": commands.standard_membership
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
