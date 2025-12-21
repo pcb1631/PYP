@@ -43,9 +43,7 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     trainer = current_user["username"]
 
 
-    save_bookings(bookings)
-
-def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, minute=0):
+def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
     bookings = load_bookings()
     trainer = current_user["username"]
     start = int(datetime(year, month, day, hour, minute).timestamp() * 1000)
@@ -64,18 +62,6 @@ def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, mi
     sort_slots(trainer)
     save_bookings(bookings)
     
-def delete_slot(current_user, slot=None):
-    trainer = current_user["username"]
-    bookings = load_bookings()
-    slots = bookings[trainer]
-    
-    if slot is None:
-        slot = input("Slot to delete: ")
-
-    slot = str(slot)
-    del bookings[trainer][slot]
-    save_bookings(bookings)
-
 def trainer_view_and_modify(current_user):
     bookings = load_bookings()
     trainer = current_user["username"]
