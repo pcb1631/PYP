@@ -61,6 +61,7 @@ def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, mi
     slots = bookings[trainer].keys()
     max_slot = max([int(slot) for slot in slots]) if slots else 0
     bookings[trainer][max_slot + 1] = {"start": start, "end": end, "bookedBy": None}
+    sort_slots(trainer)
     save_bookings(bookings)
     
 def delete_slot(current_user, slot=None):
@@ -75,7 +76,7 @@ def delete_slot(current_user, slot=None):
     del bookings[trainer][slot]
     save_bookings(bookings)
 
-def trainer_view(current_user):
+def trainer_view_and_modify(current_user):
     bookings = load_bookings()
     trainer = current_user["username"]
     slots = bookings[trainer]
@@ -93,7 +94,7 @@ def trainer_view(current_user):
 
     
 
-current_user = {"username": 'trainer_user'}
+current_user = {"username": 'pcb'}
 
 def trainer_frontend(current_user):
     pass
@@ -167,4 +168,4 @@ def member_frontend(current_user):
             else:
                 continue        
 
-add_slots(current_user)
+member_frontend(current_user)
