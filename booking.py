@@ -125,7 +125,7 @@ def member_frontend(current_user):
             slots.insert(0, "Back")
             selection = TUI(BG_PURPLE, f"Slots for {trainer}", slots, verbose=False)
 
-            if selection == 0 or selection is None: # back
+            if selection == 0 or selection is None: # back or Ctrl+C
                 break
             selection -= 1 # offset for back
             selection = str(selection)
