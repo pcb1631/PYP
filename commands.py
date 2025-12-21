@@ -154,7 +154,7 @@ def admin_add_account(current_user):
             booking_data = json.load(f)
 
         booking_data[username] = {}
-        
+
         with open(files.booking_path, "w") as f:
             json.dump(booking_data, f, indent=4)
 
@@ -508,18 +508,6 @@ def view_profile(current_user):
 
     else:
         print("No profile to view.")
-
-def update_username(current_user):
-    user_data = load_accounts()
-    if user_data is None:
-        return
-
-    if current_user["username"] == current_user["username"]:
-        new_username = input("New username: ")
-        if new_username in user_data["users"]:
-            print(RED + "New username should not be same as previous username")
-        else:
-            print(GREEN + "New username updated successfully")
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
