@@ -1,3 +1,4 @@
-# <start time> ==> <end time> <venue> TRAINER: <trainer> MEMBER: <username> <attendance>
-# examples:
-# 2025-12-22 18:45:12 ==> 2025-12-22 20:15:47 Venue: Gym TRAINER: trainer_user MEMBER: member_user YES
+trainer_user Slot:0 | 01/01/25 00:00 => 01/01/25 01:00 Booked by None Venue: None Absent
+trainer_user Slot:1 | 16/12/25 18:00 => 16/12/25 19:00 Booked by boo Venue: None Present
+trainer_user Slot:2 | 16/12/25 20:00 => 16/12/25 20:53 Booked by pcb Venue: None Absent
+trainer_user Slot:3 | 16/12/25 22:50 => 16/12/25 23:50 Booked by None Venue: None Present
