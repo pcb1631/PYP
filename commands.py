@@ -126,11 +126,11 @@ def admin_add_account(current_user):
         else:
             break
 
-    email = input("Email: ")
-    password = getpass.getpass("Password: ")
-    usertype = input("User type (Must be verbatim of user type in accounts.json): ")
-    age = int(input("Age: "))
-    gender = input("Gender (m/f): ")
+    email =     input("Email: ")
+    password =  getpass.getpass("Password: ")
+    usertype =  input("User type (Must be verbatim of user type in accounts.json): ")
+    age =       int(input("Age: "))
+    gender =    input("Gender (m/f): ")
     phone_number = input("Phone number: ")
 
     print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
@@ -178,7 +178,7 @@ def admin_edit_account(current_user, username=None):
         return
     
     if username is None:
-        username = input("User to edit: ")
+        username = TUI(BG_RED, "Select user to edit", user_data["users"].keys(), verbose=False)
 
     if username not in user_data["users"]:
         print("User does not exist")
@@ -351,7 +351,7 @@ def admin_view_account(current_user, username=None):
     keys = user_data["users"][username].keys()
     for key in keys:
         print(f"{key}: {user_data['users'][username][key]}")
-        
+
 def user_view_account(current_user):
     user_data = load_accounts()
     username = current_user
