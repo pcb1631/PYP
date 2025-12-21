@@ -37,15 +37,6 @@ def sort_slots(trainer):
         bookings[trainer][str(i)] = slots[i]
     save_bookings(bookings)
 
-def conflict(trainer, time):
-    bookings = load_bookings()
-    slots = bookings[trainer]
-    for slot in slots:
-        if time >= slots[slot]["start"] and time <= slots[slot]["end"]:
-            return None
-        else: 
-            return slot
-
 
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_bookings()
@@ -60,10 +51,10 @@ def add_slots(current_user, year=datetime.now().year, month=1, day=1, hour=0, mi
     start = int(datetime(year, month, day, hour, minute).timestamp() * 1000)
     end = start + 60 * 60 * 1000
     
-    start = timeTUI(prompt="start", ms_timestamp=start)
+    start = timeTUI(prompt="start", ms_timestamp=start, username=trainer)
     if start is None:
         return
-    end = timeTUI(prompt="end", ms_timestamp=end)
+    end = timeTUI(prompt="end", ms_timestamp=end, username=trainer)
     if end is None:
         return
 
@@ -176,4 +167,4 @@ def member_frontend(current_user):
             else:
                 continue        
 
-trainer_view(current_user)
+add_slots(current_user)

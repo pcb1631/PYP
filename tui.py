@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import calendar
 import time
 from colors import BG_MAGENTA, RED, RESET
+from utils import conflict
+import files
 
 if os.name == 'nt':
     keymap = {
@@ -134,23 +136,29 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color mus
                     match = ""
                 continue
 
-def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt=""):
+def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", username=""):
     selection = 0
     
     date_time = datetime.fromtimestamp(ms_timestamp / 1000)
     
     while True:
-        time = [date_time.day, date_time.month, date_time.year, date_time.hour, date_time.minute]
+        ms_timestamp = date_time.timestamp() * 1000
+
+        time = [date_time.day, date_time.month, date_time.year, date_time.hour, date_time.minute] # for displaying only
         clear()
         buffer = []
         buffer.append(prompt+"\n")
-        
+
         for i in range(5):
             if i == selection:
                 buffer.append(BG_MAGENTA + str(time[i]) + RESET)
             else:
                 buffer.append(str(time[i]))
         
+        conflict_slot = conflict(username, ms_timestamp)
+        if conflict_slot is not None:
+            buffer.append("\n")
+            buffer.append(f"{RED}In conflict with slot: {conflict_slot}{RESET}")
 
         print(' '.join(buffer))
         
