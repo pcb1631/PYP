@@ -235,8 +235,6 @@ def admin_edit_account(current_user, username=None):
         print(RED + f"Error logging: {e}" + RESET)
 
 
-    if not save_accounts(user_data):
-        return
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 
@@ -332,7 +330,10 @@ def admin_view_account(current_user, username=None):
     print(f"\nUsername: {username}")
     keys = user_data["users"][username].keys()
     for key in keys:
-        print(f"{key}: {user_data['users'][username][key]}")
+        if key == "password":
+            print(f"password: {pw}")
+        else:
+            print(f"{key}: {user_data['users'][username][key]}")
 
 def user_view_account(current_user):
     user_data = load_accounts()
@@ -347,7 +348,10 @@ def user_view_account(current_user):
     print(f"\nUsername: {username}")
     keys = user_data["users"][username].keys()
     for key in keys:
-        print(f"{key}: {user_data['users'][username][key]}")
+        if key == "password":
+            print(f"password: {pw}")
+        else:
+            print(f"{key}: {user_data['users'][username][key]}")
 
 def admin_ban_account(current_user, username=None):
     user_data = load_accounts()
