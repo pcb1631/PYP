@@ -315,7 +315,7 @@ def admin_view_account(current_user, username=None):
         return
     
     if username is None:
-        username = input("User to view: ")
+        username = TUI(BG_RED, "Select user to view", list(user_data["users"].keys()), verbose=True)
     
     if username not in user_data["users"]:
         print("User does not exist")
