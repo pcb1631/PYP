@@ -24,11 +24,7 @@ def sort_slots(trainer):
     bookings = load_bookings()
     slots = []
     for slot in bookings[trainer]:
-        slots.append( {
-            "start": bookings[trainer][slot]["start"],
-            "end": bookings[trainer][slot]["end"],
-            "bookedBy": bookings[trainer][slot]["bookedBy"]
-        } )
+        slots.append(bookings[trainer][slot])
     slots.sort(key=lambda x: x["start"]) # sort with regards to start time
 
     bookings[trainer] = {} # clear slots
@@ -67,7 +63,12 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
 
     slots = bookings[trainer].keys()
     max_slot = max([int(slot) for slot in slots]) if slots else 0
-    bookings[trainer][max_slot + 1] = {"start": start, "end": end, "bookedBy": None}
+    bookings[trainer][max_slot + 1] = {
+        "start": start,
+        "end": end,
+        "bookedBy": None,
+        "venue": None
+    }
     sort_slots(trainer)
     save_bookings(bookings)
     
@@ -85,6 +86,7 @@ def trainer_view_and_modify(current_user):
             start = epoch_to_readable(slots[slot]["start"])
             end = epoch_to_readable(slots[slot]["end"])
             bookedBy = slots[slot]["bookedBy"]
+            venue = slots[slot]["venue"]
             
             string = f"{slot} | {start} => {end}"
 
@@ -102,6 +104,12 @@ def trainer_view_and_modify(current_user):
             if bookedBy is not None:
                 string += f"{RESET} {BG_RED}(Booked){RESET}"
                 string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
+
+            if venue is None:
+                string += f"{RESET} {BG_RED}(Venue not set){RESET}"
+            else:
+                string += f"{RESET} {BG_BLUE}(Venue: {venue}){RESET}"
+
             
             options.append(string)
 
@@ -132,7 +140,12 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp() * 1000), 
 
     slots = bookings[trainer].keys()
     max_slot = max([int(slot) for slot in slots]) if slots else 0
-    bookings[trainer][max_slot + 1] = {"start": start, "end": end, "bookedBy": None}
+    bookings[trainer][max_slot + 1] = {
+        "start": start,
+        "end": end,
+        "bookedBy": None,
+        "venue": None
+    }
     sort_slots(trainer)
     save_bookings(bookings)
 

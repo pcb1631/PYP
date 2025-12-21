@@ -1,4 +1,4 @@
-#this logfile is for member check in and out
+# this logfile is for member check in and out
 # format:
 # dd/mm/yy HH:MM:SS, what action done by what user etc
 # examples:

@@ -3,46 +3,55 @@
         "0": {
             "start": 1735660800000,
             "end": 1735664400000,
-            "bookedBy": null
+            "bookedBy": null,
+            "venue": null
+
         },
         "1": {
             "start": 1765879200000,
             "end": 1765882800000,
-            "bookedBy": "boo"
+            "bookedBy": "boo",
+            "venue": null
         },
         "2": {
             "start": 1765886400000,
             "end": 1765889600000,
-            "bookedBy": "pcb"
+            "bookedBy": "pcb",
+            "venue": null
         },
         "3": {
             "start": 1765896600000,
             "end": 1765900200000,
-            "bookedBy": null
+            "bookedBy": null,
+            "venue": null
         }
     },
     "pcb": {
         "0": {
             "start": 1765886400000,
             "end": 1765889600000,
-            "bookedBy": "member_user"
+            "bookedBy": "member_user",
+            "venue": null
         },
         "1": {
             "start": 1765896600000,
             "end": 1765900200000,
-            "bookedBy": null
+            "bookedBy": null,
+            "venue": null
         }
     },
     "ryanteoh": {
         "0": {
             "start": 1765896600000,
             "end": 1765900200000,
-            "bookedBy": null
+            "bookedBy": null,
+            "venue": null
         },
         "1": {
             "start": 1765906600000,
             "end": 1765909600000,
-            "bookedBy": null
+            "bookedBy": null,
+            "venue": null
         }
     }
 }
