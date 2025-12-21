@@ -25,32 +25,14 @@
             "venue": null
         }
     },
-    "pcb": {
+    "epstein": {
         "0": {
-            "start": 1765886400000,
-            "end": 1765889600000,
-            "bookedBy": "member_user",
-            "venue": null
-        },
-        "1": {
-            "start": 1765896600000,
-            "end": 1765900200000,
+            "start": 1766671200000.0,
+            "end": 1767196800000.0,
             "bookedBy": null,
             "venue": null
         }
     },
-    "ryanteoh": {
-        "0": {
-            "start": 1765896600000,
-            "end": 1765900200000,
-            "bookedBy": null,
-            "venue": null
-        },
-        "1": {
-            "start": 1765906600000,
-            "end": 1765909600000,
-            "bookedBy": null,
-            "venue": null
-        }
-    }
+    "diddy": {},
+    "temp": {}
 }
