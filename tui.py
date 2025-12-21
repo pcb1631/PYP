@@ -151,7 +151,7 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", user
 
         for i in range(5):
             if i == selection:
-                buffer.append(BG_MAGENTA + str(time[i]) + RESET)
+                buffer.append(BG_MAGENTA + str(time[i]) + " " + RESET)
             else:
                 buffer.append(str(time[i]))
         
@@ -160,7 +160,7 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", user
             buffer.append("\n")
             buffer.append(f"{RED}In conflict with slot: {conflict_slot}{RESET}")
 
-        print(' '.join(buffer))
+        print(''.join(buffer))
         
         if os.name == 'nt':
             while True:
