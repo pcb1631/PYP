@@ -99,16 +99,16 @@ def trainer_view_and_modify(current_user):
                 options.append(string)
                 continue
             
-            if bookedBy is None:
-                string += f"{RESET} {BG_GREEN}(Available){RESET}"
-            if bookedBy is not None:
-                string += f"{RESET} {BG_RED}(Booked){RESET}"
-                string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
-
             if venue is None:
                 string += f"{RESET} {BG_RED}(Venue not set){RESET}"
             else:
                 string += f"{RESET} {BG_BLUE}(Venue: {venue}){RESET}"
+            
+            if bookedBy is None:
+                string += f"{RESET} {BG_GREEN}(Available){RESET}"
+            else:
+                string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
+
 
             
             options.append(string)
