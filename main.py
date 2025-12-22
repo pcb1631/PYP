@@ -5,6 +5,7 @@ import re
 import time
 import datetime
 import uuid
+import inspect
 
 #local project libraries
 import commands
@@ -219,8 +220,13 @@ def command_mode():
 
     def help():
         for p in permissions:
-            print(CYAN + f"{p}: {', '.join(cmdlist[p].keys())}" + RESET)
-
+            print(CYAN + f"{p}: " + RESET)
+            commands = cmdlist[p]
+            for c in commands:
+                print(BOLD + c + RESET, end="")
+                print(inspect.signature(commands[c])) # prints the signature of the function (what arguments it takes)
+            print()
+    
     mini_cmd_list = {           # This is for commands without arguments.
         "exit": lambda: "EXIT",
         "logout": lambda: "EXIT", # signal loop to return to main menu
