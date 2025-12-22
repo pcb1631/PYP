@@ -3,10 +3,9 @@ import json
 from tui import TUI, timeTUI
 import time
 from datetime import datetime
-from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD, BLUE
 from utils import conflict, epoch_to_readable
 from files import ATTENDANCE_PATH
-
+from colors import BLUE, BOLD, CYAN, DARK_GRAY, GOLD, GREEN, LIGHT_GRAY, MAGENTA, ORANGE, PINK, PURPLE, RED, RESET, WHITE, YELLOW
 from commands import load_accounts, save_accounts
 
 def load_bookings(filename=files.BOOKING_PATH):
