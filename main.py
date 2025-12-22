@@ -224,7 +224,10 @@ def command_mode():
             commands = cmdlist[p]
             for c in commands:
                 print(BOLD + c + RESET, end="")
-                print(inspect.signature(commands[c])) # prints the signature of the function (what arguments it takes)
+                
+                params = inspect.signature(commands[c]).parameters
+                del params['current_user']
+                print(str(params)) # prints the signature of the function (what arguments it takes)
             print()
         print("Usage: permission command [args]")
         print("Arguments that already have default values are optional")
