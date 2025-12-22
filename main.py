@@ -199,7 +199,7 @@ def command_mode():
         banned_users = banned_file.read().splitlines()
     
     if current_user["username"] in banned_users:
-        print(RED + f"Your account has been banned, please contact an debug to restate your account" + RESET)
+        print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
         time.sleep(1)
         exit(0)
     
@@ -279,13 +279,13 @@ def command_mode():
                 deleted_users = delete_file.read().splitlines()
 
             if current_user["username"] in banned_users:
-                print(RED + f"Your account has been banned, please contact an debug to restate your account" + RESET)
+                print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
                 offline()
                 time.sleep(1)
                 exit(0)
             
             if current_user["username"] in deleted_users:
-                print(RED + f"Your account has been deleted, please contact an debug to restate your account" + RESET)
+                print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
                 offline()
                 deleted_users.remove(current_user["username"])
 
