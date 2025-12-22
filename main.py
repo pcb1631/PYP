@@ -226,6 +226,12 @@ def command_mode():
                 print(BOLD + c + RESET, end="")
                 print(inspect.signature(commands[c])) # prints the signature of the function (what arguments it takes)
             print()
+        print("Usage: permission command [args]")
+        print("Arguments that already have default values are optional")
+        print("Examples of valid commands:")
+        print("trainer_bookings add")
+        print("trainer_bookings add 2025 12 22 15 42")
+        print("trainer_bookings add 2025 12")
     
     mini_cmd_list = {           # This is for commands without arguments.
         "exit": lambda: "EXIT",
