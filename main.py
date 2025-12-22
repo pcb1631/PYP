@@ -50,6 +50,9 @@ cmdlist["purchase_membership"] = {
     "premium": commands.premium_membership,
     "student": commands.student_membership,
 }
+cmdlist["upgrade_membership"] = {
+    "upgrade": commands.upgrade_membership,
+}
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
     "editor": booking.trainer_view_and_modify,
