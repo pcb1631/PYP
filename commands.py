@@ -492,6 +492,18 @@ def view_profile(current_user):
         else:
             print("Membership tier: None")
 
+        if "Age" in user_data["users"][current_user["username"]]:
+            print("Age:", user_data["users"][current_user["username"]]["Age"])
+
+        else:
+            print("Age: None")
+
+        if "Phone Number" in user_data["users"][current_user["username"]]:
+            print("Phone Number:", user_data["users"][current_user["username"]]["Phone Number"])
+
+        else:
+            print("Phone Number: None")
+
     else:
         print("No profile to view.")
 
