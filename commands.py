@@ -486,6 +486,12 @@ def view_profile(current_user):
         print(f"User Type: {current_user['user_type']}")
         print(f"Email: {user_data["users"][current_user["username"]]["email"]}")
 
+        if "membership_tier" in user_data["users"][current_user["username"]]:
+            print("Membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
+
+        else:
+            print("Membership tier: None")
+
     else:
         print("No profile to view.")
 
@@ -616,7 +622,6 @@ def upgrade_membership(current_user):
 
     elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
         print(RED + "You are already upgraded to Premium." + RESET)
-
 
 def cancel_membership(current_user):
     user_data = load_accounts()
