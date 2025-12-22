@@ -590,6 +590,31 @@ def upgrade_membership(current_user):
         else:
             print(RED + "Membership tier maintained as Standard" + RESET)
 
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
+        utp = input(BLUE + "Upgrade to Premium? (y/n): " + RESET)
+
+        if utp == "y":
+            pp = input(YELLOW + "RM160 will be charged for upgrade. Proceed payment? (y/n):" + RESET)
+
+            if pp == "y":
+              print(GREEN + "Membership upgraded. You membership tier is PREMIUM now" + RESET)
+
+              if user_data["users"][current_user["username"]]["user_type"] == "Member":
+                  user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
+
+              with open(files.ACCOUNTS_PATH, "w") as f:
+                  json.dump(user_data, f, indent=4)
+
+            else:
+              print(RED + "Payment cancelled" + RESET)
+
+        else:
+            print(RED + "Membership tier maintained as Student" + RESET)
+
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
+        print(RED + "You are already upgraded to Premium." + RESET)
+
+
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
