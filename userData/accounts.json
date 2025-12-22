@@ -28,8 +28,8 @@
         "Finance Manager": []
     },
     "users": {
-        "admin_user": {
-            "password": "adminpass123",
+        "admin": {
+            "password": "admin",
             "email": "admin@example.com",
             "user_type": "admin",
             "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21"
