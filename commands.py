@@ -495,6 +495,46 @@ def view_profile(current_user):
     else:
         print("No profile to view.")
 
+def update_age(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "Age" in user_data["users"][current_user["username"]]:
+        ua = input("Update age? (y/n):")
+        if ua == "y":
+            uaa = int(input(YELLOW + "Insert your age:" + RESET))
+            user_data["users"][current_user["username"]]["Age"] = uaa
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                  json.dump(user_data, f, indent=4)
+            print(GREEN + f"Age {uaa} updated successfully." + RESET)
+
+        else:
+            print(RED + "Age update cancelled." + RESET)
+    else:
+        age = input("You have not add your age. Add age? (y/n):")
+        if age == "y":
+            age = int(input(YELLOW + "Insert your age:" + RESET))
+            user_data["users"][current_user["username"]]["Age"] = age
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                json.dump(user_data, f, indent=4)
+            print(GREEN + f"Age {age} updated successfully." + RESET)
+        else:
+            print(RED + "Age update cancelled." + RESET)
+
+
+#try:
+       # new_age = int(input("Enter yout age:"))
+        #user_data["users"][current_user["username"]]["age"] = new_age
+        #with open(files.UPDATE_LOG_PATH, "a") as f:
+         #   json.dump(user_data, f, indent=4)
+        #print(GREEN + f"Age {new_age} updated successfully." + RESET)
+
+    #except ValueError:
+     #   print(RED + f"Invalid input." + RESET)
+
+
+
 def standard_membership(current_user):
     user_data = load_accounts()
     if user_data is None:
