@@ -537,6 +537,30 @@ def premium_membership(current_user):
             print(RED + "Payment cancelled" + RESET)
             return
 
+def student_membership(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "membership_tier" in user_data["users"][current_user["username"]]:
+        print(RED + "You are had a membership" + RESET)
+
+    elif current_user:
+        print(YELLOW + "30 days membership - RM90" + RESET)
+        pp = input("Proceed payment? (y/n): ")
+
+        if pp == "y":
+            print(GREEN + "Thank you for purchasing our membership" + RESET)
+            if user_data["users"][current_user["username"]]["user_type"] == "Member":
+                user_data["users"][current_user["username"]]["membership_tier"]= "Student"
+
+        with open(files.ACCOUNTS_PATH, "w") as f:
+            json.dump(user_data, f, indent=4)
+
+    else:
+            print(RED + "Payment cancelled" + RESET)
+            return
+
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
