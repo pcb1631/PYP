@@ -39,8 +39,8 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     hours = [8, 10, 14, 16]
     for i in range(7):
         for j in range(4):
-            start = int(datetime(datetime.now().year, datetime.now().month, datetime.now().day + i, hours[j], 0).timestamp() * 1000)
-            end = start + 60 * 60 * 1000
+            start = int(datetime(datetime.now().year, datetime.now().month, datetime.now().day + i, hours[j], 0).timestamp())
+            end = start + 60 * 60
             if conflict(trainer, start) or conflict(trainer, end):
                 continue
             add_slots_epoch(current_user, start, end)
@@ -49,13 +49,13 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
     bookings = load_bookings()
     trainer = current_user["username"]
-    start = int(datetime(year, month, day, hour, minute).timestamp() * 1000)
-    end = start + 60 * 60 * 1000
+    start = int(datetime(year, month, day, hour, minute).timestamp())
+    end = start + 60 * 60
     
-    start = timeTUI(prompt="start", ms_timestamp=start, username=trainer)
+    start = timeTUI(prompt="start", timestamp=start, username=trainer)
     if start is None:
         return
-    end = timeTUI(prompt="end", ms_timestamp=end, username=trainer)
+    end = timeTUI(prompt="end", timestamp=end, username=trainer)
     if end is None:
         return
 
@@ -137,7 +137,7 @@ def trainer_view_and_modify(current_user):
     else:
         return
 
-def add_slots_epoch(current_user, start=int(datetime.now().timestamp() * 1000), end=int(datetime.now().timestamp() * 1000)):
+def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int(datetime.now().timestamp())):
     bookings = load_bookings()
     trainer = current_user["username"]
 
@@ -165,7 +165,7 @@ def attendance(current_user):
         bookedBy = slots[slot]["bookedBy"]
         venue = slots[slot]["venue"]
         
-        if slots[slot]["end"] < int(datetime.now().timestamp() * 1000):
+        if slots[slot]["end"] < int(datetime.now().timestamp()):
             strings.append(f"{slot} | {start} => {end} {BG_BLUE}Booked by {bookedBy}{RESET} {BG_BLUE}Venue: {venue}{RESET}")
             strings_for_log.append(f"{slot} | {start} => {end} Booked by {bookedBy} Venue: {venue}")
         else:

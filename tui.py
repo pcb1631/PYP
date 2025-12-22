@@ -136,13 +136,13 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color mus
                     match = ""
                 continue
 
-def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", username=""):
+def timeTUI(timestamp=int(datetime.now().timestamp()), prompt="", username=""):
     selection = 0
     
-    date_time = datetime.fromtimestamp(ms_timestamp / 1000)
+    date_time = datetime.fromtimestamp(timestamp)
     
     while True:
-        ms_timestamp = date_time.timestamp() * 1000
+        timestamp = date_time.timestamp()
 
         time = [date_time.day, date_time.month, date_time.year, date_time.hour, date_time.minute] # for displaying only
         clear()
@@ -194,8 +194,8 @@ def timeTUI(ms_timestamp=int(datetime.now().timestamp() * 1000), prompt="", user
             case "down":
                 mod = -1
             case "enter":
-                ms_timestamp = date_time.timestamp() * 1000
-                return ms_timestamp
+                timestamp = date_time.timestamp()
+                return timestamp
 
         match selection: # because im worried about leap years and months with different days
             case 0:

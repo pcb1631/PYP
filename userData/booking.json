@@ -1,34 +1,34 @@
 {
     "trainer_user": {
         "0": {
-            "start": 1735660800000,
-            "end": 1735664400000,
+            "start": 1735660800,
+            "end": 1735664400,
             "bookedBy": null,
             "venue": null
         },
         "1": {
-            "start": 1765879200000,
-            "end": 1765882800000,
+            "start": 1765879200,
+            "end": 1765882800,
             "bookedBy": "boo",
             "venue": null
         },
         "2": {
-            "start": 1765886400000,
-            "end": 1765889600000,
+            "start": 1765886400,
+            "end": 1765889600,
             "bookedBy": "pcb",
             "venue": null
         },
         "3": {
-            "start": 1765896600000,
-            "end": 1765900200000,
+            "start": 1765896600,
+            "end": 1765900200,
             "bookedBy": "pcb",
             "venue": null
         }
     },
     "epstein": {
         "0": {
-            "start": 1766671200000.0,
-            "end": 1767196800000.0,
+            "start": 1766671200,
+            "end": 1767196800,
             "bookedBy": null,
             "venue": null
         }
