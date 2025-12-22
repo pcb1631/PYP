@@ -24,7 +24,7 @@ def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!),
         print("\nCancelled")
         return None
     except Exception as e:
-        print(RED + f"Error: {e}" + RESET)
+        print(RED + f"Error: {e}" + RESET) # Will catch TypeErrors, e.g. too many arguments or wrong data types
         return None
 
 cmdlist = {}    # This is for commands with arguments.
