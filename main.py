@@ -11,7 +11,7 @@ import inspect
 import commands
 
 from tui import TUI
-from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BOLD, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, RESET
+from colors import *
 import files
 import booking
 #globals

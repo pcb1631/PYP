@@ -5,7 +5,7 @@ import difflib
 from datetime import datetime, timedelta
 import calendar
 import time
-from colors import BG_MAGENTA, RED, RESET
+from colors import *
 from utils import conflict
 import files
 

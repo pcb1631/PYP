@@ -7,7 +7,7 @@ import shutil
 import difflib
 
 from tui import TUI
-from colors import RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE, BOLD, RESET
+from colors import *
 import files
 import kb
 
