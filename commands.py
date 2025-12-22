@@ -522,6 +522,33 @@ def update_age(current_user):
         else:
             print(RED + "Age update cancelled." + RESET)
 
+def update_phone_number(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "Phone Number" in user_data["users"][current_user["username"]]:
+        upn = input("Update Phone Number? (y/n):")
+        if upn == "y":
+            upn = int(input(YELLOW + "Insert your new Phone Number:" + RESET))
+            user_data["users"][current_user["username"]]["Phone Number"] = upn
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                json.dump(user_data, f, indent=4)
+            print(GREEN + f"Phone number {upn} updated successfully." + RESET)
+
+        else:
+            print(RED + "Phone Number update cancelled." + RESET)
+    else:
+        pn = input("You have not add your Phone Number. Add Phone Number? (y/n):")
+        if pn == "y":
+            pn = int(input(YELLOW + "Insert your Phone Number:" + RESET))
+            user_data["users"][current_user["username"]]["Phone Number"] = pn
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                json.dump(user_data, f, indent=4)
+            print(GREEN + f"Phone Number {pn} updated successfully." + RESET)
+        else:
+            print(RED + "Phone number update cancelled." + RESET)
+
 def standard_membership(current_user):
     user_data = load_accounts()
     if user_data is None:
