@@ -61,8 +61,9 @@ cmdlist["purchase_membership"] = {
     "premium": commands.premium_membership,
     "student": commands.student_membership,
 }
-cmdlist["upgrade_membership"] = {
+cmdlist["manage_membership"] = {
     "upgrade": commands.upgrade_membership,
+    "cancel": commands.cancel_membership,
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,

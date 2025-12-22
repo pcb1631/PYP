@@ -614,7 +614,21 @@ def upgrade_membership(current_user):
     elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
         print(RED + "You are already upgraded to Premium." + RESET)
 
-
+def cancel_membership(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    if "membership_tier" in user_data["users"][current_user["username"]]:
+        cm = input("Cancel membership? (y/n): ")
+        if cm == "y":
+            print(GREEN + "Membership cancelled." + RESET)
+            del user_data["users"][current_user["username"]]["membership_tier"]
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                json.dump(user_data, f, indent=4)
+        else:
+            print(RED + "You did not cancel membership" + RESET)
+    else:
+        print(RED + "You do not have a membership" + RESET)
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
