@@ -16,7 +16,7 @@ import booking
 #globals
 current_user = {}
 
-def safe_call(func, *args, **kwargs):
+def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!), **kwargs is for keyword arguments (order doesn't matter)
     try:
         return func(*args, **kwargs)
     except KeyboardInterrupt:
