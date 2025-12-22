@@ -16,6 +16,16 @@ import booking
 #globals
 current_user = {}
 
+def safe_call(func, *args, **kwargs):
+    try:
+        return func(*args, **kwargs)
+    except KeyboardInterrupt:
+        print("\nCancelled")
+        return None
+    except Exception as e:
+        print(RED + f"Error: {e}" + RESET)
+        return None
+
 cmdlist = {}    # This is for commands with arguments.
                 # The permission object in accounts.json contains user types, and user types contains the permissions 
 cmdlist["manage_staff_accounts"] = {
@@ -256,7 +266,7 @@ def command_mode():
             if len(command) < 2:
                 if command[0] == "tui":
                     verbose = True 
-                    perm = TUI(BG_MAGENTA + BOLD, "Select permission level", permissions, verbose)
+                    perm = TUI(BG_MAGENTA + BOLD, "Select permission level", list(permissions), verbose)
 
                     if perm is None:
                         continue
@@ -270,10 +280,7 @@ def command_mode():
                     args = []
                     func = cmdlist[perm][cmd_name]
 
-                    try:
-                        func(current_user, *args)
-                    except KeyboardInterrupt:
-                        print("\nCancelled")
+                    safe_call(func, current_user, *args)
                     continue
 
                 if command[0] in permissions:
@@ -288,10 +295,7 @@ def command_mode():
                     args = []
                     func = cmdlist[perm][cmd_name]
                     
-                    try:
-                        func(current_user, *args)
-                    except KeyboardInterrupt:
-                        print("\nCancelled")
+                    safe_call(func, current_user, *args)
                     continue
                 
                 if command[0] not in mini_cmd_list:
@@ -299,18 +303,13 @@ def command_mode():
                     continue
                 else:
                     func = mini_cmd_list[command[0]]
-                    try:
-                        result = func()
+                    result = safe_call(func)
 
-                        if result == "EXIT":
-                            print("Bye!")
-                            offline()
-                            time.sleep(1)
-                            return
-                
-                    except KeyboardInterrupt:
-                        print("\nCancelled")
-                        continue
+                    if result == "EXIT":
+                        print("Bye!")
+                        offline()
+                        time.sleep(1)
+                        return
                 
             else:
                 perm = command[0]
@@ -325,10 +324,7 @@ def command_mode():
                     continue
                 
                 func = cmdlist[perm][cmd_name]      # Call the function stored in the dictionary
-                try: 
-                    func(current_user, *args)
-                except KeyboardInterrupt:           # Cancel command with CTRL+C
-                    print("\nCancelled")
+                safe_call(func, current_user, *args)
 
     except KeyboardInterrupt:
         print("\nBye!")
