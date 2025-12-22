@@ -578,7 +578,7 @@ def upgrade_membership(current_user):
     if current_user:
         print(f"Your current membership_tier: {user_data["users"][current_user["username"]]["membership_tier"]}")
 
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
         utp = input(BLUE + "Upgrade to Premium? (y/n): " + RESET)
 
         if utp == "y":
