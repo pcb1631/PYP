@@ -80,12 +80,20 @@ def online():
 
 def offline():
     global current_user
+    count = 0
     with open(files.ONLINE_PATH, "r") as f:
         online_users = f.read().splitlines()
+    
     with open(files.ONLINE_PATH, "w") as f:
         for user in online_users:
             if user != current_user["username"]:
-                f.write(user + "\n")
+               f.write(user + "\n")
+            else:
+                count += 1
+                if count > 1:
+                    f.write(user + "\n") # do not overwrite instances of the same user
+
+
 
 def who():
     with open(files.ONLINE_PATH, "r") as f:
