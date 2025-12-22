@@ -90,7 +90,7 @@ def login(users):
         for _ in range(3):
             username = input("Username: ")
             password = getpass.getpass("Password: ") #getpass.getpass() hides password
-            time.sleep(1) #just to make it hard to bruteforce
+            time.sleep(0.2) #just to make it hard to bruteforce
 
             if username in users:
                 if users[username]["password"] == password: #will crash if I put both in AND
@@ -308,7 +308,7 @@ def command_mode():
                     if result == "EXIT":
                         print("Bye!")
                         offline()
-                        time.sleep(1)
+                        time.sleep(0.2)
                         return
                 
             else:
@@ -331,7 +331,7 @@ def command_mode():
         offline()
 
         try:
-            time.sleep(1)
+            time.sleep(0.2)
         except KeyboardInterrupt:
             return
 
