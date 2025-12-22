@@ -495,7 +495,7 @@ def standard_membership(current_user):
         return
 
     if "membership_tier" in user_data["users"][current_user["username"]]:
-        print(RED + "You are had a membership" + RESET)
+        print(RED + "You had a membership" + RESET)
 
     elif current_user:
         print(YELLOW + "30 days membership - RM150" + RESET)
@@ -519,7 +519,7 @@ def premium_membership(current_user):
         return
 
     if "membership_tier" in user_data["users"][current_user["username"]]:
-        print(RED + "You are had a membership" + RESET)
+        print(RED + "You had a membership" + RESET)
 
     elif current_user:
         print(YELLOW + "30 days membership - RM250" + RESET)
@@ -537,13 +537,9 @@ def premium_membership(current_user):
             print(RED + "Payment cancelled" + RESET)
             return
 
-def student_membership(current_user):
-    user_data = load_accounts()
-    if user_data is None:
-        return
 
     if "membership_tier" in user_data["users"][current_user["username"]]:
-        print(RED + "You are had a membership" + RESET)
+        print(RED + "You had a membership" + RESET)
 
     elif current_user:
         print(YELLOW + "30 days membership - RM90" + RESET)
@@ -560,6 +556,14 @@ def student_membership(current_user):
     else:
             print(RED + "Payment cancelled" + RESET)
             return
+
+def upgrade_membership(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if current_user:
+        print("")
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
