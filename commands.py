@@ -522,19 +522,6 @@ def update_age(current_user):
         else:
             print(RED + "Age update cancelled." + RESET)
 
-
-#try:
-       # new_age = int(input("Enter yout age:"))
-        #user_data["users"][current_user["username"]]["age"] = new_age
-        #with open(files.UPDATE_LOG_PATH, "a") as f:
-         #   json.dump(user_data, f, indent=4)
-        #print(GREEN + f"Age {new_age} updated successfully." + RESET)
-
-    #except ValueError:
-     #   print(RED + f"Invalid input." + RESET)
-
-
-
 def standard_membership(current_user):
     user_data = load_accounts()
     if user_data is None:
