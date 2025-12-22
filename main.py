@@ -226,8 +226,11 @@ def command_mode():
                 print(BOLD + c + RESET, end="")
                 param = inspect.signature(commands[c])
                 param = str(param)
-                param = param[13:-1]
-                print(param) # prints the signature of the function (what arguments it takes)
+                param = param[14:-1]
+                if param != "":
+                    print(": "+param) # prints the signature of the function (what arguments it takes)
+                else:
+                    print()
             print()
         print("Usage: permission command [args]       (arg order matters!)")
         print("Arguments that already have default values are optional")
