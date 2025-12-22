@@ -1,5 +1,7 @@
 import files
 import json
+from datetime import datetime
+
 def conflict(trainer, time):
     bookings = load_bookings()
     slots = bookings[trainer]
@@ -16,3 +18,7 @@ def load_bookings(filename=files.BOOKING_PATH):
 def save_bookings(data, filename=files.BOOKING_PATH):
     with open(filename, "w") as booking_file:
         json.dump(data, booking_file, indent=4)
+
+def epoch_to_readable(ms_timestamp):
+    dt = datetime.fromtimestamp(ms_timestamp / 1000)
+    return dt.strftime("%d/%m/%y %H:%M")

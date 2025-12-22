@@ -4,14 +4,10 @@ from tui import TUI, timeTUI
 import time
 from datetime import datetime
 from colors import BG_BLUE, BG_GREEN, BG_PURPLE, BG_RED, RED, RESET, BG_MAGENTA, BOLD, BLUE
-from utils import conflict
+from utils import conflict, epoch_to_readable
 from files import ATTENDANCE_PATH
 
 from commands import load_accounts, save_accounts
-
-def epoch_to_readable(ms_timestamp):
-    dt = datetime.fromtimestamp(ms_timestamp / 1000)
-    return dt.strftime("%d/%m/%y %H:%M")
 
 def load_bookings(filename=files.BOOKING_PATH):
     with open(filename, "r") as booking_file:
