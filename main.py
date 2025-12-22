@@ -226,7 +226,7 @@ def command_mode():
                 print(BOLD + c + RESET, end="")
                 param = inspect.signature(commands[c])
                 param = str(param)
-                param = param[14:-1]
+                param = param[14:-1] # remove the first 14 and last 1 characters
                 if param != "":
                     print(": "+param) # prints the signature of the function (what arguments it takes)
                 else:
