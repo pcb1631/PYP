@@ -86,6 +86,10 @@ def offline():
         for user in online_users:
             if user != current_user["username"]:
                 f.write(user + "\n")
+
+def who():
+    with open(files.ONLINE_PATH, "r") as f:
+        print(f.read().splitlines())
 def login(users):
     commands.clear()
     try:
@@ -244,7 +248,8 @@ def command_mode():
         "logout": lambda: "EXIT", # signal loop to return to main menu
         "help": help,
         "h": help,
-        "clear": commands.clear # clear console
+        "clear": commands.clear, # clear console
+        "who": who
     }                 
 
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.\nYou can do CTRL + C to cancel a command.")
