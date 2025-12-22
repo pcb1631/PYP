@@ -495,22 +495,46 @@ def standard_membership(current_user):
         return
 
     if "membership_tier" in user_data["users"][current_user["username"]]:
-        print("You are had a membership")
+        print(RED + "You are had a membership" + RESET)
 
     elif current_user:
-        print("30 days membership - RM150" + YELLOW)
+        print(YELLOW + "30 days membership - RM150" + RESET)
         pp = input("Proceed payment? (y/n): ")
 
         if pp == "y":
-            print("Thank you for purchasing our membership" + GREEN)
+            print(GREEN + "Thank you for purchasing our membership" + RESET)
             if user_data["users"][current_user["username"]]["user_type"] == "Member":
                 user_data["users"][current_user["username"]]["membership_tier"]= "Standard"
+
+            with open(files.ACCOUNTS_PATH, "w") as f:
+                json.dump(user_data, f, indent=4)
+
+        else:
+            print(RED + "Payment cancelled" + RESET)
+            return
+
+def premium_membership(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "membership_tier" in user_data["users"][current_user["username"]]:
+        print(RED + "You are had a membership" + RESET)
+
+    elif current_user:
+        print(YELLOW + "30 days membership - RM250" + RESET)
+        pp = input("Proceed payment? (y/n): ")
+
+        if pp == "y":
+            print(GREEN + "Thank you for purchasing our membership" + RESET)
+            if user_data["users"][current_user["username"]]["user_type"] == "Member":
+                user_data["users"][current_user["username"]]["membership_tier"]= "Premium"
 
         with open(files.ACCOUNTS_PATH, "w") as f:
             json.dump(user_data, f, indent=4)
 
     else:
-            print("Payment cancelled" + RED)
+            print(RED + "Payment cancelled" + RESET)
             return
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
