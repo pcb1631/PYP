@@ -16,7 +16,8 @@ import booking
 #globals
 current_user = {}
 
-cmdlist = {} # This is for commands with arguments.
+cmdlist = {}    # This is for commands with arguments.
+                # The permission object in accounts.json contains user types, and user types contains the permissions 
 cmdlist["manage_staff_accounts"] = {
     "delete_account":   commands.admin_delete_account,
     "add_account":      commands.admin_add_account,
@@ -32,7 +33,7 @@ cmdlist["send_comments"] = {
 cmdlist["view_comments"] = {
     "view":     commands.view_comments
 }
-cmdlist["admin"] = {
+cmdlist["admin"] = { # There is a user type "admin", and this is a permission called "admin". Keep in mind
     "ban":      commands.admin_ban_account,
     "unban":    commands.admin_unban_account,
     "logs":     commands.viewlogs

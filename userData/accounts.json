@@ -4,9 +4,8 @@
             "debug"
         ],
         "admin": [
-            "ban",
-            "unban",
-            "logs"
+            "manage_staff_accounts",
+            "admin"
         ],
         "Member": [
             "send_comments",
