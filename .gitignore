@@ -6,3 +6,5 @@ __pycache__/
 testing/
 .files.py.swp
 gitlog
+.gitignore
+lines_per_user.sh
