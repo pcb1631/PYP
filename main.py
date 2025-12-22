@@ -197,18 +197,7 @@ def command_mode():
     
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "debug" in permissions:
-        permissions = [
-        "admin", 
-        "manage_staff_accounts", 
-        "manage_member_accounts", 
-        "send_comments", 
-        "view_comments",
-        "view_profile",
-        "member_bookings",
-        "trainer_bookings",
-        ]
-
-    # Admin has all permissions, make sure to add every permission here
+        permissions = cmdlist.keys()
 
     # cmdlist contains permissions, and the permissions are dicts
     # Keys will store command names, values will store function references
