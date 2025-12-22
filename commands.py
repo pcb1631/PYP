@@ -566,6 +566,9 @@ def upgrade_membership(current_user):
     if user_data is None:
         return
 
+    if "membership_tier" not in user_data["users"][current_user["username"]]:
+        print(RED + "You do not have a membership" + RESET)
+
     if current_user:
         print(f"Your current membership_tier: {user_data["users"][current_user["username"]]["membership_tier"]}")
 
@@ -613,6 +616,7 @@ def upgrade_membership(current_user):
 
     elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
         print(RED + "You are already upgraded to Premium." + RESET)
+
 
 def cancel_membership(current_user):
     user_data = load_accounts()
