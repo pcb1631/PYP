@@ -155,7 +155,7 @@ def timeTUI(timestamp=int(datetime.now().timestamp()), prompt="", username=""):
             else:
                 buffer.append(str(time[i]) + " ")
         
-        conflict_slot = conflict(username, ms_timestamp)
+        conflict_slot = conflict(username, timestamp)
         if conflict_slot is not None:
             buffer.append("\n")
             buffer.append(f"{RED}In conflict with slot: {conflict_slot}{RESET}")
