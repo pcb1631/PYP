@@ -579,10 +579,19 @@ def standard_membership(current_user):
 
     standard_cost = 150
 
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard" or "Premium" or "Student":
+    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
         print(RED + "You had a membership" + RESET)
+        return
 
-    elif current_user:
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    else:
         print(YELLOW + "30 days Standard membership - RM150" + RESET)
         pp = input("Proceed payment? (y/n): ")
 
@@ -618,10 +627,19 @@ def premium_membership(current_user):
 
     premium_cost = 250
 
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard" or "Premium" or "Student":
+    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
         print(RED + "You had a membership" + RESET)
+        return
 
-    elif current_user:
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    else:
         print(YELLOW + "30 days Premium membership - RM250" + RESET)
         pp = input("Proceed payment? (y/n): ")
 
@@ -657,10 +675,19 @@ def student_membership(current_user):
 
     student_cost = 90
 
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard" or "Premium" or "Student":
+    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
         print(RED + "You had a membership" + RESET)
+        return
 
-    elif current_user:
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
+        print(RED + "You had a membership" + RESET)
+        return
+
+    else:
         print(YELLOW + "30 days Student membership - RM90" + RESET)
         pp = input("Proceed payment? (y/n): ")
 
