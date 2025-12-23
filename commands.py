@@ -608,9 +608,6 @@ def standard_membership(current_user):
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
 
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
-
         else:
             print(RED + "Payment cancelled" + RESET)
             return
@@ -655,10 +652,6 @@ def premium_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
-
         else:
             print(RED + "Payment cancelled" + RESET)
             return
@@ -703,9 +696,6 @@ def student_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)
