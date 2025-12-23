@@ -504,6 +504,12 @@ def view_profile(current_user):
         else:
             print("Phone Number: None")
 
+        if "balance - RM" in user_data["users"][current_user["username"]]:
+            print("Balance RM:", user_data["users"][current_user["username"]]["balance - RM"])
+
+        else:
+            print("Balance RM: 0")
+
     else:
         print("No profile to view.")
 
@@ -677,25 +683,6 @@ def student_membership(current_user):
         else:
             print(RED + "Payment cancelled" + RESET)
             return
-
-#    if "membership_tier" in user_data["users"][current_user["username"]]:
-#        print(RED + "You had a membership" + RESET)
-
-#    elif current_user:
-#        print(YELLOW + "30 days membership - RM90" + RESET)
-#        pp = input("Proceed payment? (y/n): ")
-
-#        if pp == "y":
- #           print(GREEN + "Thank you for purchasing our membership" + RESET)
-  #          if user_data["users"][current_user["username"]]["user_type"] == "Member":
-   #             user_data["users"][current_user["username"]]["membership_tier"]= "Student"
-
-    #    with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-
-#    else:
-     #       print(RED + "Payment cancelled" + RESET)
-      #      return
 
 def upgrade_membership(current_user):
     user_data = load_accounts()
