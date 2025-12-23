@@ -566,20 +566,35 @@ def standard_membership(current_user):
     if user_data is None:
         return
 
-    if "membership_tier" in user_data["users"][current_user["username"]]:
-        print(RED + "You had a membership" + RESET)
+    if "membership_tier" not in user_data["users"][current_user["username"]]:
+        user_data["users"][current_user["username"]]["membership_tier"] = "None"
+        with open(files.ACCOUNTS_PATH, "w") as f:
+            json.dump(user_data, f, indent=4)
+
+    standard_cost = 150
+
+    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
+        print(RED + "You had a Standard membership" + RESET)
 
     elif current_user:
         print(YELLOW + "30 days membership - RM150" + RESET)
         pp = input("Proceed payment? (y/n): ")
 
         if pp == "y":
-            print(GREEN + "Thank you for purchasing our membership" + RESET)
-            if user_data["users"][current_user["username"]]["user_type"] == "Member":
-                user_data["users"][current_user["username"]]["membership_tier"]= "Standard"
 
-            with open(files.ACCOUNTS_PATH, "w") as f:
-                json.dump(user_data, f, indent=4)
+            if user_data["users"][current_user["username"]]["balance - RM"] < standard_cost:
+                print(RED + "Insufficient balance. Please top up first." + RESET)
+
+            else:
+                user_data["users"][current_user["username"]]["balance - RM"] -= standard_cost
+                user_data["users"][current_user["username"]]["membership_tier"] = "Standard"
+                with open(files.ACCOUNTS_PATH, "w") as f:
+                    json.dump(user_data, f, indent=4)
+                print(
+                    GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
+
+                with open(files.ACCOUNTS_PATH, "w") as f:
+                    json.dump(user_data, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)

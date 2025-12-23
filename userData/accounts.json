@@ -99,7 +99,8 @@
             "email": "jianjun@gmail.com",
             "user_type": "Member",
             "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758",
-            "balance - RM": 2.0
+            "balance - RM": 4.0,
+            "membership_tier": "None"
         }
     }
 }
