@@ -13,7 +13,8 @@
             "update_profile",
             "member_bookings",
             "purchase_membership",
-            "manage_membership"
+            "manage_membership",
+            "make_payment"
         ],
         "Trainer": [
             "send_comments",
@@ -97,7 +98,8 @@
             "password": "chowjianjun0127*",
             "email": "jianjun@gmail.com",
             "user_type": "Member",
-            "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758"
+            "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758",
+            "balance - RM": 2.0
         }
     }
 }

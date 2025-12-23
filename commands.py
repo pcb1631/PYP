@@ -705,6 +705,28 @@ def cancel_membership(current_user):
     else:
         print(RED + "You do not have a membership" + RESET)
 
+def top_up_balance(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+    if "balance - RM" not in user_data["users"][current_user["username"]]:
+        user_data["users"][current_user["username"]]["balance - RM"] = 0
+
+    try:
+        amount = float(input("Enter top up amount (RM):"))
+        if amount < 0:
+            print(RED + "Invalid amount. Please enter a positive amount." + RESET)
+            return
+
+        user_data["users"][current_user["username"]]["balance - RM"] += amount
+
+        with open(files.ACCOUNTS_PATH, "w") as f:
+            json.dump(user_data, f, indent=4)
+        print(GREEN + f"Top up successful. New balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
+
+    except ValueError:
+        print(RED + "Invalid input. Please enter a number." + RESET)
+
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:

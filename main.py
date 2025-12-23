@@ -68,6 +68,9 @@ cmdlist["manage_membership"] = {
     "upgrade": commands.upgrade_membership,
     "cancel": commands.cancel_membership,
 }
+cmdlist["make_payment"] = {
+    "top up balance": commands.top_up_balance,
+}
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
     "editor": booking.trainer_view_and_modify,
