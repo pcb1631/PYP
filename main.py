@@ -270,7 +270,12 @@ def command_mode():
 
     try:                                # Wrapping the whole thing to catch keyboard interrupts
         while True:
-            command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] > ')
+            try:
+                command = input(f'[{current_user["user_type"]} {current_user["username"]}@Fitness Center] > ')
+            except EOFError:
+                print("EOF") # when you go in tui, exit from tui, and then press CTRL+C, this happens.s
+                time.sleep(1)
+                offline()
             command = command.strip()   # remove leading and trailing whitespace
             command = command.split()   # splits each word into a list
             if command == []:
