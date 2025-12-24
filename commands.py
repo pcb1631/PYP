@@ -706,6 +706,9 @@ def upgrade_membership(current_user):
     if user_data is None:
         return
 
+    standard_upgrade_cost = 100
+    student_upgrade_cost = 160
+
     if "membership_tier" not in user_data["users"][current_user["username"]]:
         print(RED + "You do not have a membership" + RESET)
         return
@@ -718,6 +721,13 @@ def upgrade_membership(current_user):
 
             if pp == "y":
               print(GREEN + "Membership upgraded. You membership tier is PREMIUM now" + RESET)
+              if user_data["users"][current_user["username"]]["balance - RM"] < standard_upgrade_cost:
+                  print(RED + "Insufficient balance. Please top up first." + RESET)
+
+              else:
+                  user_data["users"][current_user["username"]]["balance - RM"] -= standard_upgrade_cost
+                  with open(files.ACCOUNTS_PATH, "w") as f:
+                      json.dump(user_data, f, indent=4)
 
               if user_data["users"][current_user["username"]]["user_type"] == "Member":
                   user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
@@ -739,6 +749,13 @@ def upgrade_membership(current_user):
 
             if pp == "y":
               print(GREEN + "Membership upgraded. You membership tier is PREMIUM now" + RESET)
+              if user_data["users"][current_user["username"]]["balance - RM"] < student_upgrade_cost:
+                  print(RED + "Insufficient balance. Please top up first." + RESET)
+
+              else:
+                  user_data["users"][current_user["username"]]["balance - RM"] -= student_upgrade_cost
+                  with open(files.ACCOUNTS_PATH, "w") as f:
+                      json.dump(user_data, f, indent=4)
 
               if user_data["users"][current_user["username"]]["user_type"] == "Member":
                   user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
