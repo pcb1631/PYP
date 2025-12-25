@@ -607,6 +607,15 @@ def standard_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
+                transaction={
+                    "username": current_user["username"],
+                    "membership_tier": "Standard",
+                    "amount": standard_cost,
+                }
+                with open("transactions.json", "w") as f:
+                    json.dump(transaction, f, indent=4)
+                with open("transactions.json", "r") as f:
+                    transactions = json.load(f)
 
         else:
             print(RED + "Payment cancelled" + RESET)
