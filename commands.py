@@ -611,6 +611,7 @@ def standard_membership(current_user):
                     "username": current_user["username"],
                     "membership_tier": "Standard",
                     "amount": standard_cost,
+                    "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 }
                 with open("transactions.json", "w") as f:
                     json.dump(transaction, f, indent=4)
