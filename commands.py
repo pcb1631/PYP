@@ -596,6 +596,8 @@ def standard_membership(current_user):
         pp = input("Proceed payment? (y/n): ")
 
         if pp == "y":
+            if "balance - RM" not in user_data["users"][current_user["username"]]:
+                print(RED + "Insufficient balance. Please top up first." + RESET)
 
             if user_data["users"][current_user["username"]]["balance - RM"] < standard_cost:
                 print(RED + "Insufficient balance. Please top up first." + RESET)
@@ -652,6 +654,8 @@ def premium_membership(current_user):
         pp = input("Proceed payment? (y/n): ")
 
         if pp == "y":
+            if "balance - RM" not in user_data["users"][current_user["username"]]:
+                print(RED + "Insufficient balance. Please top up first." + RESET)
 
             if user_data["users"][current_user["username"]]["balance - RM"] < premium_cost:
                 print(RED + "Insufficient balance. Please top up first." + RESET)
@@ -707,6 +711,8 @@ def student_membership(current_user):
         pp = input("Proceed payment? (y/n): ")
 
         if pp == "y":
+            if "balance - RM" not in user_data["users"][current_user["username"]]:
+                print(RED + "Insufficient balance. Please top up first." + RESET)
 
             if user_data["users"][current_user["username"]]["balance - RM"] < student_cost:
                 print(RED + "Insufficient balance. Please top up first." + RESET)

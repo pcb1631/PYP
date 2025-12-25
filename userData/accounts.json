@@ -38,7 +38,10 @@
             "password": "memberpass123",
             "email": "member@example.com",
             "user_type": "Member",
-            "uuid": "1a6a3fd6-7b3f-4a2f-b7e4-1f6a2ec37a54"
+            "uuid": "1a6a3fd6-7b3f-4a2f-b7e4-1f6a2ec37a54",
+            "membership_tier": "Standard",
+            "balance - RM": 4850.0,
+            "Age": 18
         },
         "trainer_user": {
             "password": "trainerpass123",
@@ -99,8 +102,8 @@
             "email": "jianjun@gmail.com",
             "user_type": "Member",
             "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758",
-            "balance - RM": 40194.0,
-            "membership_tier": "Standard"
+            "balance - RM": 39944.0,
+            "membership_tier": "Premium"
         }
     }
 }
