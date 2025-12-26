@@ -412,13 +412,8 @@ def main():  # This function will be run first
             register(user_data) #the entire thing
         elif key == 2:
             exit(0)
-        else:
-            print(RED + "Invalid input" + RESET)
-
-            try:
-                time.sleep(0.2)
-            except KeyboardInterrupt:
-                return
+        elif key == None:
+            return
 
 
 if __name__ == "__main__":
