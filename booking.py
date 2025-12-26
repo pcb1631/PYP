@@ -212,9 +212,78 @@ def attendance(current_user):
         time.sleep(1)
         return
 
+def venue(current_user):
+    bookings = load_bookings()
+    user_data = load_accounts()
+    users = user_data["users"]
+    trainers = []
     
+    for user in users:
+        if users[user]["user_type"] == "Trainer":
+            trainers.append(user)
     
+    trainer = TUI(BG_MAGENTA, "Select trainer", trainers, verbose=True)
+    if trainer is None:
+        return
+    
+    slots = bookings[trainer]
+    markings = []
+    strings = []
+    for slot in slots:
+        string = ""
+        start = epoch_to_readable(slots[slot]["start"])
+        end   = epoch_to_readable(slots[slot]["end"])
+        string += f"{slot} | {start} => {end}"
+        
+        if slots[slot]["venue"] is None:
+            string += f"{RESET} {BG_RED}No venue{RESET}"
+            markings.append(None)
+        else:
+            string += f"{RESET} {BG_BLUE}Venue: {slots[slot]["venue"]}{RESET}"
+            markings.append(slots[slot]["venue"])
 
+        if slots[slot]["bookedBy"] is None:
+            string += f"{RESET} {BG_GREEN}Available{RESET}"
+        else:
+            string += f"{RESET} {BG_BLUE}Booked by: {slots[slot]["bookedBy"]}{RESET}"
+
+        strings.append(string)
+
+    idx = 0
+    while True:
+        options = []
+        for i in range(len(markings)):
+            if markings[i] is None:
+                options.append(strings[i])
+            else:
+                options.append(strings[i] + " " + BG_BLUE + "Venue: " + markings[i] + RESET)
+        options.insert(0, RED + "Done" + RESET)
+        
+        selection = TUI(BG_PURPLE, "Assign venues", options, verbose=False, idx=idx)
+        if selection is None:
+            return
+        if selection == 0:
+            break
+        idx = selection
+        selection -= 1
+
+
+        try:
+            venue = input(f"Enter venue for slot {selection}: ")
+            if venue == "":
+                venue = None 
+            
+            markings[selection] = venue
+        except KeyboardInterrupt:
+            print("\nCancelled")
+            continue
+    
+    confirm = input("Save changes? (y/n): ")
+    if confirm == "y":
+        for i in range(len(markings)):
+            if markings[i] is not None:
+                bookings[trainer][str(i)]["venue"] = markings[i]
+        save_bookings(bookings)
     
 
 def member_frontend(current_user):

@@ -81,6 +81,9 @@ cmdlist["trainer_bookings"] = {
     "add": booking.add_slots,
     "add_epoch": booking.add_slots_epoch,
 }
+cmdlist["admin_bookings"] = {
+    "assign": booking.venue,
+}
 def online():
     global current_user
     with open(files.ONLINE_PATH, "a") as f:
