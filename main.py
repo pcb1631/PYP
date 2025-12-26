@@ -69,10 +69,10 @@ cmdlist["manage_membership"] = {
     "cancel": commands.cancel_membership,
 }
 cmdlist["make_payment"] = {
-    "top up balance": commands.top_up_balance,
+    "topup": commands.top_up_balance,
 }
 cmdlist["transaction_history"] = {
-    "view transaction history": commands.transaction_history,
+    "view": commands.transaction_history,
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
