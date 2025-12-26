@@ -1,0 +1,19 @@
+{
+    "transaction": {
+        "jianjun": {
+            "membership_tier": "Premium",
+            "amount": 250,
+            "timestamp": "2025-12-26 15:56:28"
+        },
+        "member_user": {
+            "membership_tier": "Standard",
+            "amount": 150,
+            "timestamp": "2025-12-26 15:49:22"
+        },
+        "jj": {
+            "membership_tier": "Standard",
+            "amount": 150,
+            "timestamp": "2025-12-26 15:52:49"
+        }
+    }
+}

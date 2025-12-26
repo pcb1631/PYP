@@ -528,6 +528,7 @@ def transaction_history(current_user):
         print("Amount:", transactions["transaction"][current_user["username"]]["amount"])
         print("Timestamp:", transactions["transaction"][current_user["username"]]["timestamp"])
 
+
     else:
         print("No transaction to view.")
 
