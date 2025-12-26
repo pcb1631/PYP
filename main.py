@@ -71,6 +71,9 @@ cmdlist["manage_membership"] = {
 cmdlist["make_payment"] = {
     "top up balance": commands.top_up_balance,
 }
+cmdlist["transaction_history"] = {
+    "view transaction history": commands.transaction_history,
+}
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
     "editor": booking.trainer_view_and_modify,

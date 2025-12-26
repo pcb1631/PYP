@@ -513,6 +513,24 @@ def view_profile(current_user):
     else:
         print("No profile to view.")
 
+def transaction_history(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if current_user:
+
+        print("\n--- Transaction History ---")
+        print(f"Username: {current_user['username']}")
+        print("Membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
+        with open("transactions.json", 'r') as f:
+            transactions = json.load(f)
+        print("Amount:", transactions["transaction"][current_user["username"]]["amount"])
+        print("Timestamp:", transactions["transaction"][current_user["username"]]["timestamp"])
+
+    else:
+        print("No transaction to view.")
+
 def update_age(current_user):
     user_data = load_accounts()
     if user_data is None:

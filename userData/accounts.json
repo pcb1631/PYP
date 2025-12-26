@@ -14,7 +14,8 @@
             "member_bookings",
             "purchase_membership",
             "manage_membership",
-            "make_payment"
+            "make_payment",
+            "transaction_history"
         ],
         "Trainer": [
             "send_comments",
