@@ -108,9 +108,9 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color mus
 
         match key:
             case "up":
-                selection = max(0, selection - 1)
+                selection = (selection - 1) % l
             case "down":
-                selection = min(l-1, selection + 1)
+                selection = (selection + 1) % l
             case "enter":
                 if verbose is True:
                     return options[selection]
