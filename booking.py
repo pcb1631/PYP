@@ -325,6 +325,7 @@ def member_frontend(current_user):
 
                 if bookedBy == current_user["username"]:
                     string += f"{RESET} {BG_BLUE}(Booked by you){RESET}"
+                    string += f"{RESET} {BG_BLUE}(Venue: {bookings[trainer][slot]["venue"]})"
                 
                 slots.append(string)
             
