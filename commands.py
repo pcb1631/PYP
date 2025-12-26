@@ -675,20 +675,17 @@ def premium_membership(current_user):
                 with open("transactions.json",'r') as f:
                     transactions = json.load(f)
 
-                transaction_history={}
+                if "transaction" not in transactions:
+                    transactions["transaction"] = {}
 
-                transaction_history["transaction"]={
-                    current_user["username"]:{
-                        "membership_tier": "Premium",
-                        "amount": premium_cost,
-                        "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    }
-                }
-
-                transactions["transaction"].update(transaction_history)
+                transactions["transaction"][current_user["username"]]={
+                                "membership_tier": "Premium",
+                                "amount": premium_cost,
+                                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        }
 
                 with open("transactions.json", "w") as f:
-                    json.dump(transaction_history, f, indent=4)
+                    json.dump(transactions, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)
@@ -740,20 +737,17 @@ def student_membership(current_user):
             with open("transactions.json", 'r') as f:
                 transactions = json.load(f)
 
-            transaction_history = {}
+            if "transaction" not in transactions:
+                transactions["transaction"] = {}
 
-            transaction_history["transaction"] = {
-                current_user["username"]: {
-                    "membership_tier": "Student",
-                    "amount": student_cost,
-                    "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                }
+            transactions["transaction"][current_user["username"]] = {
+                "membership_tier": "Stundent",
+                "amount": student_cost,
+                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             }
 
-            transactions["transaction"].update(transaction_history)
-
             with open("transactions.json", "w") as f:
-                json.dump(transaction_history, f, indent=4)
+                json.dump(transactions, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)
