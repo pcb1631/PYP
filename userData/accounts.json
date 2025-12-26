@@ -39,7 +39,7 @@
             "email": "member@example.com",
             "user_type": "Member",
             "uuid": "1a6a3fd6-7b3f-4a2f-b7e4-1f6a2ec37a54",
-            "balance - RM": 4700.0,
+            "balance - RM": 4550.0,
             "Age": 18,
             "membership_tier": "Standard"
         },
@@ -102,8 +102,16 @@
             "email": "jianjun@gmail.com",
             "user_type": "Member",
             "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758",
-            "balance - RM": 37294.0,
-            "membership_tier": "Premium"
+            "balance - RM": 35134.0,
+            "membership_tier": "Standard"
+        },
+        "jj": {
+            "password": "jjchow12345*",
+            "email": "jjchow12345@gmail.com",
+            "user_type": "Member",
+            "uuid": "0b26884c-a7a3-42d2-8cdb-a4d31609dfa7",
+            "membership_tier": "Standard",
+            "balance - RM": 4850.0
         }
     }
 }

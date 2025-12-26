@@ -609,17 +609,21 @@ def standard_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-                transaction_history={}
 
-                transaction_history["transaction"]={
-                            current_user["username"]:{
+                with open("transactions.json",'r') as f:
+                    transactions = json.load(f)
+
+                if "transaction" not in transactions:
+                    transactions["transaction"] = {}
+
+                transactions["transaction"][current_user["username"]]={
                                 "membership_tier": "Standard",
                                 "amount": standard_cost,
                                 "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                         }
-                    }
+
                 with open("transactions.json", "w") as f:
-                    json.dump(transaction_history, f, indent=4)
+                    json.dump(transactions, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)
@@ -667,6 +671,10 @@ def premium_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
+
+                with open("transactions.json",'r') as f:
+                    transactions = json.load(f)
+
                 transaction_history={}
 
                 transaction_history["transaction"]={
@@ -676,6 +684,9 @@ def premium_membership(current_user):
                         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                     }
                 }
+
+                transactions["transaction"].update(transaction_history)
+
                 with open("transactions.json", "w") as f:
                     json.dump(transaction_history, f, indent=4)
 
@@ -725,15 +736,24 @@ def student_membership(current_user):
                     json.dump(user_data, f, indent=4)
                 print(
                     GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-            transaction = {
-                current_user["username"]:{
+
+            with open("transactions.json", 'r') as f:
+                transactions = json.load(f)
+
+            transaction_history = {}
+
+            transaction_history["transaction"] = {
+                current_user["username"]: {
                     "membership_tier": "Student",
                     "amount": student_cost,
                     "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 }
             }
+
+            transactions["transaction"].update(transaction_history)
+
             with open("transactions.json", "w") as f:
-                json.dump(transaction, f, indent=4)
+                json.dump(transaction_history, f, indent=4)
 
         else:
             print(RED + "Payment cancelled" + RESET)
