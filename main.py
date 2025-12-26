@@ -242,12 +242,12 @@ def command_mode():
 
 
     def help():
-        for p in permissions:
-            print(CYAN + f"{p}: " + RESET)
-            commands = cmdlist[p]
-            for c in commands:
-                print(BOLD + c + RESET, end="")
-                param = inspect.signature(commands[c])
+        for permission in permissions:
+            print(CYAN + f"{permission}: " + RESET)
+            commands = cmdlist[permission]
+            for command in commands:
+                print(BOLD + command + RESET, end="")
+                param = inspect.signature(commands[command])
                 param = str(param)
                 param = param[14:-1] # remove the first 14 and last 1 characters
                 if param != "":
