@@ -81,41 +81,40 @@ def trainer_view_and_modify(current_user):
         return
     slots = bookings[trainer]
 
+    strings = []
+    for slot in slots:
+        start = epoch_to_readable(slots[slot]["start"])
+        end = epoch_to_readable(slots[slot]["end"])
+        bookedBy = slots[slot]["bookedBy"]
+        venue = slots[slot]["venue"]
+
+        string = f"{slot} | {start} => {end}"
+
+        if venue is None:
+            string += f"{RESET} {BG_RED}(Venue not set){RESET}"
+        else:
+            string += f"{RESET} {BG_BLUE}(Venue: {venue}){RESET}"
+        
+        if bookedBy is None:
+            string += f"{RESET} {BG_GREEN}{DARK_GRAY}(Available){RESET}"
+        else:
+            string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
+
+        strings.append(string)
+
     markings = [0] * len(slots)
     idx = 0
     while True: # this can be optimized later
         options = []
         options.append(BLUE + "Done" + RESET)
-        for slot in slots:
-            start = epoch_to_readable(slots[slot]["start"])
-            end = epoch_to_readable(slots[slot]["end"])
-            bookedBy = slots[slot]["bookedBy"]
-            venue = slots[slot]["venue"]
+        for i in range(len(strings)):
+            if markings[i] == 0:
+                options.append(strings[i])
+            if markings[i] == 1:
+                options.append(strings[i] + " " + BG_RED + "Marked for deletion" + RESET)
+            if markings[i] == 2:
+                options.append(strings[i] + " " + BG_GREEN + DARK_GRAY + "Marked for freeing" + RESET)
             
-            string = f"{slot} | {start} => {end}"
-
-            if markings[int(slot)] == 1:
-                string += f"{RESET} {BG_RED}(Marked for deletion){RESET}"
-                options.append(string)
-                continue
-            if markings[int(slot)] == 2:
-                string += f"{RESET} {BG_GREEN}(Marked for freeing){RESET}"
-                options.append(string)
-                continue
-            
-            if venue is None:
-                string += f"{RESET} {BG_RED}(Venue not set){RESET}"
-            else:
-                string += f"{RESET} {BG_BLUE}(Venue: {venue}){RESET}"
-            
-            if bookedBy is None:
-                string += f"{RESET} {BG_GREEN}(Available){RESET}"
-            else:
-                string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
-
-
-            
-            options.append(string)
 
         selection = TUI(BG_PURPLE, "Select slot", options, verbose=False, idx=idx)
         idx = selection
