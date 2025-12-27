@@ -532,6 +532,31 @@ def transaction_history(current_user):
     else:
         print("No transaction to view.")
 
+def membership_renewal(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    now = datetime.datetime.now()
+
+    if current_user:
+        with open("transactions.json", 'r') as f:
+            transactions = json.load(f)
+
+        timestamp_str = transactions["transaction"][current_user["username"]]["timestamp"]
+        last_transaction_time = datetime.datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+
+        days_since = (now - last_transaction_time).days
+
+        if days_since <=30:
+            print("Membership renewal")
+
+        else:
+            print("You have not reach the expiry date")
+
+
+
+
 def update_age(current_user):
     user_data = load_accounts()
     if user_data is None:
