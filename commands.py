@@ -949,6 +949,9 @@ def notifications(current_user):
         print(GREEN + "Congrats you purchased our membership!" + RESET)
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
+    timedate = datetime.datetime.now() # Get the current date and time
+    date = timedate.strftime("%d/%m/%Y")
+    time = timedate.strftime("%H:%M:%S")
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
             user_data = json.load(f)
@@ -982,7 +985,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         try:
             with open(files.COMMENTS_LOG_PATH, "a") as message_file:
                 message_file.write(
-                    f"{current_user['username']}|{trainer_choice}|{message}\n"
+                    f"{date}|{time}|{current_user['username']}|{trainer_choice}|{message}\n"
                 )
         except FileNotFoundError:
             print(RED + "Error: comments.log file not found." + RESET)
@@ -1006,27 +1009,27 @@ def view_comments(current_user):
     delim = "|"
     try:
         inbox = []
-        with open(files.COMMENTS_LOG_PATH, "r", encoding="utf-8") as f: #Reads the messages.log file
+        with open(files.COMMENTS_LOG_PATH, "r", encoding="utf-8") as f: #Reads the comments.log file
             for raw in f:
                 line = raw.strip()
                 if not line:
                     continue
 
-                parts = line.split(delim, 2) #Split each line into 3 parts, with "|" being the seperator
-                if len(parts) < 3:
+                parts = line.split(delim, 4) #Split each line into 5 parts, with "|" being the seperator
+                if len(parts) < 5:
                     continue
 
-                member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
+                date, time, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
                 if current_user['username'] == trainer_username: # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
-                    inbox.append((member_username, message))
+                    inbox.append((date, time, member_username, message))
 
         if not inbox:
             print(f"You have not received any messages.")
             return
 
         print(f"\nComments:")
-        for idx, (member, msg) in enumerate(inbox, start=1):
-            print(f"{idx}. From {member}: {msg}")
+        for idx, (date, time, member, msg) in enumerate(inbox, start=1):
+            print(f"{idx}.[{date}|{time}] From {member}: {msg}")
 
     except FileNotFoundError:
         print("comments.log file not found.")
