@@ -948,6 +948,7 @@ def notifications(current_user):
         print(transactions["transaction"][current_user["username"]]["timestamp"])
         print(GREEN + "Congrats you purchased our membership!" + RESET)
 
+
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     timedate = datetime.datetime.now() # Get the current date and time
     date = timedate.strftime("%d/%m/%Y")
