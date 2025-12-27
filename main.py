@@ -80,7 +80,7 @@ cmdlist["notifications"] ={
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
-    "editor": booking.trainer_view_and_modify,
+    "editor": booking.trainer_editor,
     "attendance": booking.attendance,
     "add": booking.add_slots,
     "add_epoch": booking.add_slots_epoch,

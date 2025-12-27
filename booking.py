@@ -72,7 +72,7 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
     print("Added time slot to bookings")
     sort_slots(trainer)
     
-def trainer_view_and_modify(current_user):
+def trainer_editor(current_user):
     bookings = load_bookings()
     trainer = current_user["username"]
 
