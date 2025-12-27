@@ -159,60 +159,15 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
 
 def attendance(current_user):
     bookings = load_bookings()
-    trainer = current_user["username"]
-    slots = bookings[trainer]
+    user_data = load_accounts()
+    users = user_data["users"]
+    trainers = []
+    for user in users:
+        if users[user]["user_type"] == "Trainer":
+            trainers.append(user)
     
-    strings = []
-    strings_for_log = []
-    for slot in slots:
-        start = epoch_to_readable(slots[slot]["start"])
-        end = epoch_to_readable(slots[slot]["end"])
-        bookedBy = slots[slot]["bookedBy"]
-        venue = slots[slot]["venue"]
-        
-        if slots[slot]["end"] < int(datetime.now().timestamp()):
-            strings.append(f"{slot} | {start} => {end} {BG_BLUE}Booked by {bookedBy}{RESET} {BG_BLUE}Venue: {venue}{RESET}")
-            strings_for_log.append(f"{slot} | {start} => {end} Booked by {bookedBy} Venue: {venue}")
-        else:
-            break
-    
-    if len(strings) == 0:
-        print("No slots to mark attendance for.")
-        time.sleep(1)
-        return
-    
-    markings = [0] * len(strings)
-
-    idx = 0
-    while True:
-        options = []
-        options.append("Done")
-        for i in range(len(strings)):
-            if markings[i] == 1:
-                options.append(strings[i] + " " + BG_GREEN + "Present" + RESET)
-            elif markings[i] == 0:
-                options.append(strings[i] + " " + BG_RED + "Absent" + RESET)
-
-        selection = TUI(BG_PURPLE, "Mark attendance", options, verbose=False, idx=idx)
-        if selection is None:
-            return
-        if selection == 0:
-            break
-        idx = selection
-        selection -= 1
-        markings[selection] = (markings[selection] + 1) % 2
-    
-    try:
-        with open(ATTENDANCE_PATH, "a") as f:
-            for i in range(len(markings)):
-                if markings[i] == 1:
-                    f.write(f"{trainer} Slot:{strings_for_log[i]}       Present\n")
-                elif markings[i] == 0:
-                    f.write(f"{trainer} Slot:{strings_for_log[i]}       Absent\n")
-                f.write("\n")
-    except Exception as e:
-        print(f"Error writing to attendance log: {e}")
-        time.sleep(1)
+    trainer = TUI(BG_MAGENTA, "Select trainer", trainers, verbose=True)
+    if trainer is None:
         return
 
 def venue(current_user):

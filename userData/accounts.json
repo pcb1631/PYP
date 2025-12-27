@@ -26,7 +26,7 @@
         ],
         "Front Desk": [
             "manage_members",
-            "view_ps"
+            "attendance"
         ],
         "Finance Manager": []
     },
