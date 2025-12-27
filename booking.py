@@ -91,14 +91,14 @@ def trainer_view_and_modify(current_user):
         string = f"{slot} | {start} => {end}"
 
         if venue is None:
-            string += f"{RESET} {BG_RED}(Venue not set){RESET}"
+            string += f"{RESET} {BG_RED}{DARK_GRAY}(Venue not set){RESET}"
         else:
-            string += f"{RESET} {BG_BLUE}(Venue: {venue}){RESET}"
+            string += f"{RESET} {BG_BLUE}{DARK_GRAY}(Venue: {venue}){RESET}"
         
         if bookedBy is None:
             string += f"{RESET} {BG_GREEN}{DARK_GRAY}(Available){RESET}"
         else:
-            string += f"{RESET} {BG_BLUE}(Booked by {bookedBy}){RESET}"
+            string += f"{RESET} {BG_BLUE}{DARK_GRAY}(Booked by {bookedBy}){RESET}"
 
         strings.append(string)
 
@@ -113,7 +113,7 @@ def trainer_view_and_modify(current_user):
             if markings[i] == 1:
                 options.append(strings[i] + " " + BG_PURPLE + "Member attended" + RESET)
             if markings[i] == 2:
-                options.append(strings[i] + " " + BG_RED + "Marked for deletion" + RESET)
+                options.append(strings[i] + " " + BG_RED + DARK_GRAY + "Marked for deletion" + RESET)
             if markings[i] == 3:
                 options.append(strings[i] + " " + BG_GREEN + DARK_GRAY + "Marked for freeing" + RESET)
             
