@@ -548,11 +548,42 @@ def membership_renewal(current_user):
 
         days_since = (now - last_transaction_time).days
 
-        if days_since <=30:
-            print("Membership renewal")
+        if days_since >=30:
+            print("Your current membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
+            with open("transactions.json", 'r') as f:
+                transactions = json.load(f)
+            print("Amount:", transactions["transaction"][current_user["username"]]["amount"])
+            rn = input("Renew membership? (y/n): ")
+            if rn == 'y':
+                with open("transactions.json", 'r') as f:
+                    transactions = json.load(f)
+                    amount = transactions["transaction"][current_user["username"]]["amount"]
+                rnpm = input(YELLOW + f"RM{amount} will be charged. Pay now? (y/n): " + RESET)
+                if rnpm == 'y':
+                    print(GREEN + "Membership renew successfully." + RESET)
+                    cost = transactions["transaction"][current_user["username"]]["amount"]
+                    if "balance - RM" not in user_data["users"][current_user["username"]]:
+                        print(RED + "Insufficient balance. Please top up first." + RESET)
+
+                    if user_data["users"][current_user["username"]]["balance - RM"] < cost:
+                        print(RED + "Insufficient balance. Please top up first." + RESET)
+                    else:
+                        user_data["users"][current_user["username"]]["balance - RM"] -= cost
+                        with open(files.ACCOUNTS_PATH, "w") as f:
+                            json.dump(user_data, f, indent=4)
+                        print(
+                            GREEN + f"Membership has been renewed successfully. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
+
+                else:
+                    print(RED + "Payment cancelled" + RESET)
+
+            else:
+                print(RED + "Cancelled." + RESET)
+                return
 
         else:
-            print("You have not reach the expiry date")
+            print(RED + "You have not reach the expiry date" + RESET)
+            return
 
 def update_age(current_user):
     user_data = load_accounts()
