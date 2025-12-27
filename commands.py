@@ -554,9 +554,6 @@ def membership_renewal(current_user):
         else:
             print("You have not reach the expiry date")
 
-
-
-
 def update_age(current_user):
     user_data = load_accounts()
     if user_data is None:
