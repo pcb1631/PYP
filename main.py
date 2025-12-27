@@ -75,6 +75,9 @@ cmdlist["make_payment"] = {
 cmdlist["transaction_history"] = {
     "view": commands.transaction_history,
 }
+cmdlist["notifications"] ={
+    "receive_update": commands.notifications,
+}
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
     "editor": booking.trainer_view_and_modify,

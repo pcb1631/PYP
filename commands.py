@@ -934,6 +934,20 @@ def top_up_balance(current_user):
     except ValueError:
         print(RED + "Invalid input. Please enter a number." + RESET)
 
+def notifications(current_user):
+    user_data = load_accounts()
+    if user_data is None:
+        return
+
+    if "membership_tier" not in user_data["users"][current_user["username"]]:
+        print("No notification.")
+
+    else:
+        with open("transactions.json", 'r') as f:
+            transactions = json.load(f)
+        print(transactions["transaction"][current_user["username"]]["timestamp"])
+        print(GREEN + "Congrats you purchased our membership!" + RESET)
+
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
