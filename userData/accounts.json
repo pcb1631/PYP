@@ -5,7 +5,8 @@
         ],
         "admin": [
             "manage_staff_accounts",
-            "admin"
+            "admin",
+            "admin_bookings"
         ],
         "Member": [
             "send_comments",

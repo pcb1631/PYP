@@ -70,10 +70,10 @@ cmdlist["manage_membership"] = {
     "membership renewal": commands.membership_renewal,
 }
 cmdlist["make_payment"] = {
-    "top up balance": commands.top_up_balance,
+    "topup": commands.top_up_balance,
 }
 cmdlist["transaction_history"] = {
-    "view transaction history": commands.transaction_history,
+    "view": commands.transaction_history,
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
@@ -81,6 +81,9 @@ cmdlist["trainer_bookings"] = {
     "attendance": booking.attendance,
     "add": booking.add_slots,
     "add_epoch": booking.add_slots_epoch,
+}
+cmdlist["admin_bookings"] = {
+    "assign": booking.venue,
 }
 def online():
     global current_user
@@ -240,12 +243,12 @@ def command_mode():
 
 
     def help():
-        for p in permissions:
-            print(CYAN + f"{p}: " + RESET)
-            commands = cmdlist[p]
-            for c in commands:
-                print(BOLD + c + RESET, end="")
-                param = inspect.signature(commands[c])
+        for permission in permissions:
+            print(CYAN + f"{permission}: " + RESET)
+            commands = cmdlist[permission]
+            for command in commands:
+                print(BOLD + command + RESET, end="")
+                param = inspect.signature(commands[command])
                 param = str(param)
                 param = param[14:-1] # remove the first 14 and last 1 characters
                 if param != "":
@@ -410,13 +413,8 @@ def main():  # This function will be run first
             register(user_data) #the entire thing
         elif key == 2:
             exit(0)
-        else:
-            print(RED + "Invalid input" + RESET)
-
-            try:
-                time.sleep(0.2)
-            except KeyboardInterrupt:
-                return
+        elif key == None:
+            return
 
 
 if __name__ == "__main__":

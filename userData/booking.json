@@ -29,20 +29,20 @@
         "0": {
             "start": 820410600.0,
             "end": 820417800.0,
-            "bookedBy": null,
-            "venue": null
+            "bookedBy": "jianjun",
+            "venue": "epstein island"
         },
         "1": {
             "start": 1766448000,
             "end": 1766451600,
-            "bookedBy": null,
-            "venue": null
+            "bookedBy": "jianjun",
+            "venue": "G-0-1"
         },
         "2": {
             "start": 1766455200,
             "end": 1766458800,
-            "bookedBy": null,
-            "venue": null
+            "bookedBy": "member_user",
+            "venue": "G-4-1"
         },
         "3": {
             "start": 1766469600,
