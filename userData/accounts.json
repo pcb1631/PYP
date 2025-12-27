@@ -114,6 +114,12 @@
             "uuid": "0b26884c-a7a3-42d2-8cdb-a4d31609dfa7",
             "membership_tier": "Standard",
             "balance - RM": 4850.0
+        },
+        "jjjj": {
+            "password": "Test@123456",
+            "email": "ss@gmail.com",
+            "user_type": "Member",
+            "uuid": "94400e4f-f15c-46b4-8456-ba2d00477f8a"
         }
     }
 }
