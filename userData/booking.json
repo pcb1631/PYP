@@ -12,21 +12,21 @@
             "end": 1765882800,
             "bookedBy": "boo",
             "venue": null,
-            "Attended": false
+            "Attended": true
         },
         "2": {
             "start": 1765886400,
             "end": 1765889600,
             "bookedBy": "pcb",
             "venue": null,
-            "Attended": false
+            "Attended": true
         },
         "3": {
             "start": 1765896600,
             "end": 1765900200,
             "bookedBy": "pcb",
             "venue": null,
-            "Attended": false
+            "Attended": true
         }
     },
     "epstein": {

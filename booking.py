@@ -170,6 +170,58 @@ def attendance(current_user):
     if trainer is None:
         return
 
+    slots = bookings[trainer]
+
+    strings = []
+    for slot in slots:
+        start = epoch_to_readable(slots[slot]["start"])
+        end = epoch_to_readable(slots[slot]["end"])
+        bookedBy = slots[slot]["bookedBy"]
+        venue = slots[slot]["venue"]
+
+        string = f"{slot} | {start} => {end}"
+
+        if venue is None:
+            string += f"{RESET} {BG_RED}{DARK_GRAY}(Venue not set){RESET}"
+        else:
+            string += f"{RESET} {BG_BLUE}{DARK_GRAY}(Venue: {venue}){RESET}"
+        
+        if bookedBy is None:
+            string += f"{RESET} {BG_GREEN}{DARK_GRAY}(Available){RESET}"
+        else:
+            string += f"{RESET} {BG_BLUE}{DARK_GRAY}(Booked by {bookedBy}){RESET}"
+
+        strings.append(string)
+
+    markings = [0] * len(slots)
+    idx = 0
+    while True: # this can be optimized later
+        options = []
+        options.append(BLUE + "Done" + RESET)
+        for i in range(len(strings)):
+            if markings[i] == 0:
+                options.append(strings[i])
+            if markings[i] == 1:
+                options.append(strings[i] + " " + BG_PURPLE + "Member attended" + RESET)
+        selection = TUI(BG_PURPLE, "Select slot", options, verbose=False, idx=idx)
+        idx = selection
+        if selection is None:
+            return
+        if selection == 0:
+            break
+        selection -= 1 # offset for back
+
+        markings[selection] = (markings[selection] + 1) % 2 # cycle through 0, 1
+    
+    confirm = input("Save your changes? (y/n): ")
+    if confirm == "y":
+        for i in range(len(markings)):
+            if markings[i] == 1:
+                bookings[trainer][str(i)]["Attended"] = True
+        save_bookings(bookings)
+    else:
+        return
+
 def venue(current_user):
     bookings = load_bookings()
     user_data = load_accounts()
