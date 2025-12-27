@@ -111,8 +111,10 @@ def trainer_view_and_modify(current_user):
             if markings[i] == 0:
                 options.append(strings[i])
             if markings[i] == 1:
-                options.append(strings[i] + " " + BG_RED + "Marked for deletion" + RESET)
+                options.append(strings[i] + " " + BG_PURPLE + "Member attended" + RESET)
             if markings[i] == 2:
+                options.append(strings[i] + " " + BG_RED + "Marked for deletion" + RESET)
+            if markings[i] == 3:
                 options.append(strings[i] + " " + BG_GREEN + DARK_GRAY + "Marked for freeing" + RESET)
             
 
@@ -124,14 +126,16 @@ def trainer_view_and_modify(current_user):
             break
         selection -= 1 # offset for back
 
-        markings[selection] = (markings[selection] + 1) % 3 # cycle through 0, 1, 2
+        markings[selection] = (markings[selection] + 1) % 4 # cycle through 0, 1, 2, 3
     
     confirm = input("Save your changes? (y/n): ")
     if confirm == "y":
         for i in range(len(markings)):
             if markings[i] == 1:
-                del bookings[trainer][str(i)]
+                bookings[trainer][str(i)]["Attended"] = True
             if markings[i] == 2:
+                del bookings[trainer][str(i)]
+            if markings[i] == 3:
                 bookings[trainer][str(i)]["bookedBy"] = None
         save_bookings(bookings)
         sort_slots(trainer)

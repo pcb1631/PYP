@@ -4,25 +4,29 @@
             "start": 1735660800,
             "end": 1735664400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "1": {
             "start": 1765879200,
             "end": 1765882800,
             "bookedBy": "boo",
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "2": {
             "start": 1765886400,
             "end": 1765889600,
             "bookedBy": "pcb",
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "3": {
             "start": 1765896600,
             "end": 1765900200,
             "bookedBy": "pcb",
-            "venue": null
+            "venue": null,
+            "Attended": false
         }
     },
     "epstein": {
@@ -30,181 +34,211 @@
             "start": 820410600.0,
             "end": 820417800.0,
             "bookedBy": "jianjun",
-            "venue": "epstein island"
+            "venue": "epstein island",
+            "Attended": false
         },
         "1": {
             "start": 1766448000,
             "end": 1766451600,
             "bookedBy": "jianjun",
-            "venue": "G-0-1"
+            "venue": "G-0-1",
+            "Attended": false
         },
         "2": {
             "start": 1766455200,
             "end": 1766458800,
             "bookedBy": "member_user",
-            "venue": "G-4-1"
+            "venue": "G-4-1",
+            "Attended": false
         },
         "3": {
             "start": 1766469600,
             "end": 1766473200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "4": {
             "start": 1766476800,
             "end": 1766480400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "5": {
             "start": 1766534400,
             "end": 1766538000,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "6": {
             "start": 1766541600,
             "end": 1766545200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "7": {
             "start": 1766556000,
             "end": 1766559600,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "8": {
             "start": 1766563200,
             "end": 1766566800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "9": {
             "start": 1766620800,
             "end": 1766624400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "10": {
             "start": 1766628000,
             "end": 1766631600,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "11": {
             "start": 1766642400,
             "end": 1766646000,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "12": {
             "start": 1766649600,
             "end": 1766653200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "13": {
             "start": 1766671200,
             "end": 1767196800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "14": {
             "start": 1766707200,
             "end": 1766710800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "15": {
             "start": 1766714400,
             "end": 1766718000,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "16": {
             "start": 1766728800,
             "end": 1766732400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "17": {
             "start": 1766736000,
             "end": 1766739600,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "18": {
             "start": 1766793600,
             "end": 1766797200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "19": {
             "start": 1766800800,
             "end": 1766804400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "20": {
             "start": 1766815200,
             "end": 1766818800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "21": {
             "start": 1766822400,
             "end": 1766826000,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "22": {
             "start": 1766880000,
             "end": 1766883600,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "23": {
             "start": 1766887200,
             "end": 1766890800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "24": {
             "start": 1766901600,
             "end": 1766905200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "25": {
             "start": 1766908800,
             "end": 1766912400,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "26": {
             "start": 1766966400,
             "end": 1766970000,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "27": {
             "start": 1766973600,
             "end": 1766977200,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "28": {
             "start": 1766988000,
             "end": 1766991600,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         },
         "29": {
             "start": 1766995200,
             "end": 1766998800,
             "bookedBy": null,
-            "venue": null
+            "venue": null,
+            "Attended": false
         }
     },
     "diddy": {},
