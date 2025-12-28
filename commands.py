@@ -256,7 +256,7 @@ def user_edit_account(current_user):
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 def admin_view_account(current_user, username=None):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     
@@ -282,7 +282,10 @@ def admin_view_account(current_user, username=None):
             print(f"{key}: {user_data['users'][username][key]}")
 
 def user_view_account(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+    
     username = current_user["username"]
 
     pw = input("Show password? (y/n): ")
@@ -300,7 +303,7 @@ def user_view_account(current_user):
             print(f"{key}: {user_data['users'][username][key]}")
 
 def admin_ban_account(current_user, username=None):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     
@@ -344,7 +347,7 @@ def admin_ban_account(current_user, username=None):
         print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
 def admin_unban_account(current_user, username=None):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     
@@ -379,7 +382,7 @@ def admin_unban_account(current_user, username=None):
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
 def direct_messages(current_user, username=None): # dont touch this yet 
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data == None:
         return
 
@@ -390,7 +393,7 @@ def direct_messages(current_user, username=None): # dont touch this yet
 
     
 def view_profile(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -428,7 +431,7 @@ def view_profile(current_user):
         print("No profile to view.")
 
 def transaction_history(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -447,7 +450,7 @@ def transaction_history(current_user):
         print("No transaction to view.")
 
 def membership_renewal(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -500,7 +503,7 @@ def membership_renewal(current_user):
             return
 
 def update_age(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -527,7 +530,7 @@ def update_age(current_user):
             print(RED + "Age update cancelled." + RESET)
 
 def update_phone_number(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -554,7 +557,7 @@ def update_phone_number(current_user):
             print(RED + "Phone number update cancelled." + RESET)
 
 def standard_membership(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
