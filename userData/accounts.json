@@ -183,6 +183,16 @@
             "gender": null,
             "phone number": null,
             "balance - RM": 0
+        },
+        "member": {
+            "password": "member",
+            "email": "",
+            "age": 10,
+            "gender": "m",
+            "phone number": "0",
+            "user_type": "Member",
+            "uuid": "1282730c-03a7-4d68-a663-3fbad7b6d325",
+            "balance - RM": 0
         }
     }
 }

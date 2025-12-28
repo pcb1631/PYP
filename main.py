@@ -54,8 +54,7 @@ cmdlist["view_profile"] = {
     "view": commands.view_profile
 }
 cmdlist["update_profile"] = {
-    "age": commands.update_age,
-    "phone_number": commands.update_phone_number,
+    "edit": commands.user_edit_account
 }
 cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,
