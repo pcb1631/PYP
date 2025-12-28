@@ -5,8 +5,24 @@ from colors import *
 import files
 from utils import *
 
-def transaction_history(current_user):
-    pass
+def transaction_history_self(current_user):
+    options = []
+
+    with open(files.TRANSACTION_PATH, "r") as f:
+        transactions = f.read().splitlines()
+        for transaction in transactions:
+            line = transaction.split(" ")
+            if line[1] == "#":
+                continue
+            if line[1] == current_user["username"]:
+                time = epoch_to_readable(float(line[0]))
+                options.append(f"{BLUE}{time}{RESET} {GREEN}RM{line[2]}{RESET}")
+    while True:
+        _ = TUI(BG_PURPLE + BOLD, "Transaction History", options, False)
+        if _ is None:
+            break
+
+
 def membership_renewal(current_user):
     pass
 

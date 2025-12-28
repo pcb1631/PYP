@@ -4,7 +4,7 @@
             "debug"
         ],
         "admin": [
-            "manage_staff_accounts",
+            "manage_staff",
             "admin",
             "admin_bookings"
         ],
@@ -13,7 +13,7 @@
             "profile",
             "member_bookings",
             "membership",
-            "transaction_history"
+            "my_transactions"
         ],
         "Trainer": [
             "send_comments",
@@ -200,8 +200,8 @@
             "phone number": "0",
             "user_type": "Member",
             "uuid": "1282730c-03a7-4d68-a663-3fbad7b6d325",
-            "balance - RM": 0.0,
-            "membership_tier": null
+            "balance - RM": 850.0,
+            "membership_tier": "Premium"
         }
     }
 }

@@ -30,11 +30,11 @@ def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!),
 
 cmdlist = {}    # This is for commands with arguments.
                 # The permission object in accounts.json contains user types, and user types contains the permissions 
-cmdlist["manage_staff_accounts"] = {
-    "delete_account":   commands.admin_delete_account,
-    "add_account":      commands.admin_add_account,
-    "edit_account":     commands.admin_edit_account,
-    "view_account":     commands.admin_view_account
+cmdlist["manage_staff"] = {
+    "delete":   commands.admin_delete_account,
+    "add":      commands.admin_add_account,
+    "edit":     commands.admin_edit_account,
+    "view":     commands.admin_view_account
 }
 cmdlist["manage_members"] = {
 }
@@ -64,8 +64,8 @@ cmdlist["membership"] = {
     "renewal": membership.membership_renewal,
     "topup": membership.top_up_balance,
 }
-cmdlist["transaction_history"] = {
-    "view": membership.transaction_history,
+cmdlist["my_transactions"] = {
+    "view": membership.transaction_history_self,
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
