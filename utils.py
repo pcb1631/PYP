@@ -11,14 +11,6 @@ def conflict(trainer, time):
         else: 
             return None
 
-def load_bookings(filename=files.BOOKING_PATH):
-    with open(filename, "r") as booking_file:
-        return json.load(booking_file)
-
-def save_bookings(data, filename=files.BOOKING_PATH):
-    with open(filename, "w") as booking_file:
-        json.dump(data, booking_file, indent=4)
-
 def epoch_to_readable(timestamp):
     dt = datetime.fromtimestamp(timestamp)
     return dt.strftime("%d/%m/%y %H:%M")

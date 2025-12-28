@@ -1,22 +1,13 @@
-import files
 import json
 from tui import TUI, timeTUI
 import time
 from datetime import datetime
-from utils import conflict, epoch_to_readable
-from files import ATTENDANCE_PATH
-from commands import load_accounts, save_accounts
+from utils import *
 from colors import *
 
+load_bookings = load_json(files.BOOKING_PATH)
+save_bookings = save_json(files.BOOKING_PATH)
 
-
-def load_bookings(filename=files.BOOKING_PATH):
-    with open(filename, "r") as booking_file:
-        return json.load(booking_file)
-
-def save_bookings(data, filename=files.BOOKING_PATH):
-    with open(filename, "w") as booking_file:
-        json.dump(data, booking_file, indent=4)
 
 def sort_slots(trainer):
     bookings = load_bookings()

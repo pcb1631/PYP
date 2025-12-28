@@ -175,13 +175,10 @@ def admin_edit_account(current_user, username=None):
     if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
         return
     # Log the update
-    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+    timestamp = epoch_to_readable(time.time()) 
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
-    try:
-        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-            log_file.write(log_entry)
-    except Exception as e:
-        print(RED + f"Error logging: {e}" + RESET)
+    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+        return
 
 
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
