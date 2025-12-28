@@ -682,7 +682,7 @@ def cancel_membership(current_user):
         print(RED + "You do not have a membership" + RESET)
 
 def top_up_balance(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     if "balance - RM" not in user_data["users"][current_user["username"]]:
@@ -707,56 +707,41 @@ def top_up_balance(current_user):
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     timedate = epoch_to_readable(time.time()) # Get the current date and time
-    try:
-        with open(files.ACCOUNTS_PATH, "r") as f:
-            user_data = json.load(f)
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
 
-        #Displays a list of all trainers in the JSON file
-        trainers = []
+    #Displays a list of all trainers in the JSON file
+    trainers = []
 
-        for username in user_data["users"]:
-            if user_data["users"][username].get("user_type") == "Trainer":
-                trainers.append(username)
+    for username in user_data["users"]:
+        if user_data["users"][username].get("user_type") == "Trainer":
+            trainers.append(username)
 
-        if not trainers:
-            print("No trainers found in the system.")
-            return
+    if not trainers:
+        print("No trainers found in the system.")
+        return
 
-        # User will now choose which trainer to send a message to
-        verbose = True
-        trainer_choice = TUI(BG_MAGENTA + BOLD, "Which trainer would you like to send a message to?\n", trainers, verbose)
+    # User will now choose which trainer to send a message to
+    verbose = True
+    trainer_choice = TUI(BG_MAGENTA + BOLD, "Which trainer would you like to send a message to?\n", trainers, verbose)
 
-        if trainer_choice is None:
-            return
+    if trainer_choice is None:
+        return
 
-        # User will now type their message
-        message = input("Please enter your message: ").strip()
+    # User will now type their message
+    message = input("Please enter your message: ").strip()
 
-        if not message:
-            print(RED + "Comment cannot be empty." + RESET)
-            return
+    if not message:
+        print(RED + "Comment cannot be empty." + RESET)
+        return
 
-        #The message will now be saved in 'messages.log' in the format: current_user|trainer name|message
-        try:
-            with open(files.COMMENTS_LOG_PATH, "a") as message_file:
-                message_file.write(
-                    f"{timedate}|{current_user['username']}|{trainer_choice}|{message}\n"
-                )
-        except FileNotFoundError:
-            print(RED + "Error: comments.log file not found." + RESET)
-        except Exception as e:
-            print(RED + f"An unexpected error occurred: {e}" + RESET)
+    if not write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH):
+        return
 
-        print(GREEN + "\nYour message has been successfully sent." + RESET)
+    print(GREEN + "\nYour message has been successfully sent." + RESET)
 
-    except FileNotFoundError:
-        print(RED + "Error: account.json file not found." + RESET)
 
-    except json.decoder.JSONDecodeError:
-        print(RED + "Error: accounts.json file has been corrupted" + RESET)
-
-    except Exception as e:
-        print(RED + f"An unexpected error occurred: {e}" + RESET)
 
 # For trainers to view messages that have been sent to them
 def view_comments(current_user):
