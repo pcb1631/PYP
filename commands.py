@@ -21,29 +21,6 @@ def clear():                    # clear console
         _ = os.system('clear')  # _ means idgaf about the return value
     
 
-def load_json_file(filepath):       # generic json loader
-    try:
-        with open(filepath, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(RED + f"Error: Can't find {filepath}" + RESET)
-        return None
-    except json.JSONDecodeError:
-        print(RED + f"Error: Invalid JSON format in '{filepath}'." + RESET)
-        return None
-    except Exception as e:
-        print(RED + f'Error: {e}' + RESET)
-        return None
-    
-def save_json_file(filepath, data): # generic json saver
-    try:
-        with open(filepath, "w") as f:
-            json.dump(data, f, indent=4)
-        return True
-    except Exception as e:
-        print(RED + f"Error saving to {filepath}: {e}" + RESET)
-        return False
-
 def load_accounts():                # returns None with errors
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
@@ -128,7 +105,12 @@ def admin_add_account(current_user):
     gender =        input("Gender (m/f): ")
     phone_number =  input("Phone number: ")
 
-    print(f'\nUsername: {username}\nEmail: {email}\nUser type: {usertype}')
+    print("Username: " + username)
+    print("Email: " + email)
+    print("User type: " + usertype)
+    print("Age: " + str(age))
+    print("Gender: " + gender)
+    print("Phone number: " + phone_number)
     confirmed = input('\nAdd new user? (y/n): ')
 
     if confirmed.lower() == 'y':
@@ -145,13 +127,12 @@ def admin_add_account(current_user):
         return
 
     if usertype == "Trainer":
-        with open(files.booking_path, "r") as f:
-            booking_data = json.load(f)
-
+        booking_data = load_json_file(files.BOOKING_PATH)
+        
         booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
-        with open(files.booking_path, "w") as f:
-            json.dump(booking_data, f, indent=4)
+        if not save_json_file(files.BOOKING_PATH, booking_data):
+            return
 
     if not save_accounts(user_data):
         return
@@ -1031,3 +1012,6 @@ def viewlogs(current_user, logfile=None):
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
+
+def test ():
+    print(current_user)
