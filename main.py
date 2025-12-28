@@ -79,6 +79,13 @@ cmdlist["admin_bookings"] = {
 cmdlist["attendance"] = {
     "attendance": booking.attendance,
 }
+cmdlist["transactions"] = {
+    "view": membership.transaction_history,
+}
+
+
+
+
 def online():
     global current_user
     with open(files.ONLINE_PATH, "a") as f:

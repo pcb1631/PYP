@@ -12,11 +12,27 @@ def transaction_history_self(current_user):
         transactions = f.read().splitlines()
         for transaction in transactions:
             line = transaction.split(" ")
-            if line[1] == "#":
+            if line[0] == "#":
                 continue
             if line[1] == current_user["username"]:
                 time = epoch_to_readable(float(line[0]))
-                options.append(f"{BLUE}{time}{RESET} {GREEN}RM{line[2]}{RESET}")
+                options.append(BLUE + time + RESET + " " + GREEN + "RM" + line[2] + RESET)
+    while True:
+        _ = TUI(BG_PURPLE + BOLD, "Transaction History", options, False)
+        if _ is None:
+            break
+
+def transaction_history(current_user):
+    options = []
+
+    with open(files.TRANSACTION_PATH, "r") as f:
+        transactions = f.read().splitlines()
+        for transaction in transactions:
+            line = transaction.split(" ")
+            if line[0] == "#":
+                continue
+            time = epoch_to_readable(float(line[0]))
+            options.append(BLUE + time + RESET + " " + line[1] + " " + GREEN + "RM" + line[2] + RESET)
     while True:
         _ = TUI(BG_PURPLE + BOLD, "Transaction History", options, False)
         if _ is None:

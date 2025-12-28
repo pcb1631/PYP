@@ -24,7 +24,9 @@
             "manage_members",
             "attendance"
         ],
-        "Finance Manager": []
+        "Finance Manager": [
+            "transactions"
+        ]
     },
     "users": {
         "admin": {
