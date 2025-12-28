@@ -56,17 +56,11 @@ cmdlist["profile"] = {
 cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,
 }
-cmdlist["purchase_membership"] = {
-    "standard": commands.standard_membership,
-    "premium": commands.premium_membership,
-    "student": commands.student_membership,
-}
-cmdlist["manage_membership"] = {
+cmdlist["membership"] = {
+    "buy": commands.buy_membership,
     "upgrade": commands.upgrade_membership,
     "cancel": commands.cancel_membership,
-    "membership renewal": commands.membership_renewal,
-}
-cmdlist["make_payment"] = {
+    "renewal": commands.membership_renewal,
     "topup": commands.top_up_balance,
 }
 cmdlist["transaction_history"] = {

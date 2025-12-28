@@ -1,5 +1,6 @@
 import files
 import json
+from colors import *
 from datetime import datetime
 
 def conflict(trainer, time):

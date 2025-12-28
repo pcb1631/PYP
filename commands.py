@@ -356,354 +356,114 @@ def direct_messages(current_user, username=None): # dont touch this yet
 def transaction_history(current_user):
     pass
 def membership_renewal(current_user):
+    pass
+
+def buy_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
-    now = epoch_to_readable(time.time())
-
-    if current_user:
-        with open("transactions.json", 'r') as f:
-            transactions = json.load(f)
-
-        timestamp_str = transactions["transaction"][current_user["username"]]["timestamp"]
-        last_transaction_time = epoch_to_readable(timestamp_str)
-
-        days_since = (now - last_transaction_time).days
-
-        if days_since >=30:
-            print("Your current membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
-            with open("transactions.json", 'r') as f:
-                transactions = json.load(f)
-            print("Amount:", transactions["transaction"][current_user["username"]]["amount"])
-            rn = input("Renew membership? (y/n): ")
-            if rn == 'y':
-                with open("transactions.json", 'r') as f:
-                    transactions = json.load(f)
-                    amount = transactions["transaction"][current_user["username"]]["amount"]
-                rnpm = input(YELLOW + f"RM{amount} will be charged. Pay now? (y/n): " + RESET)
-                if rnpm == 'y':
-                    print(GREEN + "Membership renew successfully." + RESET)
-                    cost = transactions["transaction"][current_user["username"]]["amount"]
-                    if "balance - RM" not in user_data["users"][current_user["username"]]:
-                        print(RED + "Insufficient balance. Please top up first." + RESET)
-
-                    if user_data["users"][current_user["username"]]["balance - RM"] < cost:
-                        print(RED + "Insufficient balance. Please top up first." + RESET)
-                    else:
-                        user_data["users"][current_user["username"]]["balance - RM"] -= cost
-                        with open(files.ACCOUNTS_PATH, "w") as f:
-                            json.dump(user_data, f, indent=4)
-                        print(
-                            GREEN + f"Membership has been renewed successfully. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-                else:
-                    print(RED + "Payment cancelled" + RESET)
-
-            else:
-                print(RED + "Cancelled." + RESET)
-                return
-
-        else:
-            print(RED + "You have not reach the expiry date" + RESET)
-            return
-
-def standard_membership(current_user):
-    user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
+    tier = user_data["users"][current_user["username"]]["membership_tier"]
+    if tier is not None:
+        print(RED + "You already have a membership" + RESET)
         return
 
-    if "membership_tier" not in user_data["users"][current_user["username"]]:
-        user_data["users"][current_user["username"]]["membership_tier"] = "None"
-        with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-
-    standard_cost = 150
-
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
-        print(RED + "You had a membership" + RESET)
+    prices = [150, 250, 100]
+    tiers = ["Standard", "Premium", "Student"]
+    options = [
+        f"Standard - RM{prices[0]}", 
+        f"Premium - RM{prices[1]}", 
+        f"Student - RM{prices[2]}"
+    ]
+    tier = TUI(BG_PURPLE + BOLD, "Pick a membership tier", options, False)
+    if tier is None:
         return
 
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
-        print(RED + "You had a membership" + RESET)
+    balance = user_data["users"][current_user["username"]]["balance - RM"]
+    if balance < prices[tier]:
+        print(RED + "Insufficient balance. Please top up first." + RESET)
+        print("Your current balance: RM" + str(balance))
         return
 
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
-        print(RED + "You had a membership" + RESET)
-        return
+    print("Your balance after purchase: RM" + str(balance - prices[tier]))
+    
+    confirm = input(YELLOW + "Proceed payment? (y/n): " + RESET)
+    
+    if confirm == "y":
+        user_data["users"][current_user["username"]]["balance - RM"] -= prices[tier]
+        user_data["users"][current_user["username"]]["membership_tier"] = tiers[tier]
+        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+            print(GREEN + "Membership has been purchased successfully." + RESET)
 
+        log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} BOUGHT MEMBERSHIP { tiers[tier] }"
+        write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+
+        transaction_entry = f"{str(time.time())} {current_user['username']} {prices[tier]}"
+        write_line(transaction_entry, files.TRANSACTION_PATH)
+    
+    
     else:
-        print(YELLOW + "30 days Standard membership - RM150" + RESET)
-        pp = input("Proceed payment? (y/n): ")
-
-        if pp == "y":
-            if "balance - RM" not in user_data["users"][current_user["username"]]:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            if user_data["users"][current_user["username"]]["balance - RM"] < standard_cost:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            else:
-                user_data["users"][current_user["username"]]["balance - RM"] -= standard_cost
-                user_data["users"][current_user["username"]]["membership_tier"] = "Standard"
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
-                print(
-                    GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-                with open("transactions.json",'r') as f:
-                    transactions = json.load(f)
-
-                if "transaction" not in transactions:
-                    transactions["transaction"] = {}
-
-                transactions["transaction"][current_user["username"]]={
-                                "membership_tier": "Standard",
-                                "amount": standard_cost,
-                                "timestamp": epoch_to_readable(time.time()),
-                        }
-
-                with open("transactions.json", "w") as f:
-                    json.dump(transactions, f, indent=4)
-
-        else:
-            print(RED + "Payment cancelled" + RESET)
-            return
-
-def premium_membership(current_user):
-    user_data = load_accounts()
-    if user_data is None:
-        return
-
-    if "membership_tier" not in user_data["users"][current_user["username"]]:
-        user_data["users"][current_user["username"]]["membership_tier"] = "None"
-        with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-
-    premium_cost = 250
-
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    else:
-        print(YELLOW + "30 days Premium membership - RM250" + RESET)
-        pp = input("Proceed payment? (y/n): ")
-
-        if pp == "y":
-            if "balance - RM" not in user_data["users"][current_user["username"]]:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            if user_data["users"][current_user["username"]]["balance - RM"] < premium_cost:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            else:
-                user_data["users"][current_user["username"]]["balance - RM"] -= premium_cost
-                user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
-                print(
-                    GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-                with open("transactions.json",'r') as f:
-                    transactions = json.load(f)
-
-                if "transaction" not in transactions:
-                    transactions["transaction"] = {}
-
-                transactions["transaction"][current_user["username"]]={
-                                "membership_tier": "Premium",
-                                "amount": premium_cost,
-                                "timestamp": epoch_to_readable(time.time()),
-                        }
-
-                with open("transactions.json", "w") as f:
-                    json.dump(transactions, f, indent=4)
-
-        else:
-            print(RED + "Payment cancelled" + RESET)
-            return
-
-def student_membership(current_user):
-    user_data = load_accounts()
-    if user_data is None:
-        return
-
-    if "membership_tier" not in user_data["users"][current_user["username"]]:
-        user_data["users"][current_user["username"]]["membership_tier"] = "None"
-        with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-
-    student_cost = 90
-
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
-        print(RED + "You had a membership" + RESET)
-        return
-
-    else:
-        print(YELLOW + "30 days Student membership - RM90" + RESET)
-        pp = input("Proceed payment? (y/n): ")
-
-        if pp == "y":
-            if "balance - RM" not in user_data["users"][current_user["username"]]:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            if user_data["users"][current_user["username"]]["balance - RM"] < student_cost:
-                print(RED + "Insufficient balance. Please top up first." + RESET)
-
-            else:
-                user_data["users"][current_user["username"]]["balance - RM"] -= student_cost
-                user_data["users"][current_user["username"]]["membership_tier"] = "Student"
-                with open(files.ACCOUNTS_PATH, "w") as f:
-                    json.dump(user_data, f, indent=4)
-                print(
-                    GREEN + f"Thank you for purchasing our membership. Your current balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
-            with open("transactions.json", 'r') as f:
-                transactions = json.load(f)
-
-            if "transaction" not in transactions:
-                transactions["transaction"] = {}
-
-            transactions["transaction"][current_user["username"]] = {
-                "membership_tier": "Stundent",
-                "amount": student_cost,
-                "timestamp": epoch_to_readable(time.time()),
-            }
-
-            with open("transactions.json", "w") as f:
-                json.dump(transactions, f, indent=4)
-
-        else:
-            print(RED + "Payment cancelled" + RESET)
-            return
+        print(RED + "Payment cancelled" + RESET)
+    return
 
 def upgrade_membership(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-
-    standard_upgrade_cost = 100
-    student_upgrade_cost = 160
-
-    if "membership_tier" not in user_data["users"][current_user["username"]]:
+    
+    tier = user_data["users"][current_user["username"]]["membership_tier"]
+    if tier is None:
         print(RED + "You do not have a membership" + RESET)
         return
-
-    if user_data["users"][current_user["username"]]["membership_tier"] == "Standard":
-        utp = input(BLUE + "Upgrade to Premium? (y/n): " + RESET)
-
-        if utp == "y":
-            pp = input(YELLOW + "RM100 will be charged for upgrade. Proceed payment? (y/n):" + RESET)
-
-            if pp == "y":
-              print(GREEN + "Membership upgraded. You membership tier is PREMIUM now" + RESET)
-              if user_data["users"][current_user["username"]]["balance - RM"] < standard_upgrade_cost:
-                  print(RED + "Insufficient balance. Please top up first." + RESET)
-
-              else:
-                  user_data["users"][current_user["username"]]["balance - RM"] -= standard_upgrade_cost
-                  with open(files.ACCOUNTS_PATH, "w") as f:
-                      json.dump(user_data, f, indent=4)
-
-              if user_data["users"][current_user["username"]]["user_type"] == "Member":
-                  user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
-
-              with open(files.ACCOUNTS_PATH, "w") as f:
-                  json.dump(user_data, f, indent=4)
-
-            else:
-              print(RED + "Payment cancelled" + RESET)
-
-        else:
-            print(RED + "Membership tier maintained as Standard" + RESET)
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Student":
-        utp = input(BLUE + "Upgrade to Premium? (y/n): " + RESET)
-
-        if utp == "y":
-            pp = input(YELLOW + "RM160 will be charged for upgrade. Proceed payment? (y/n):" + RESET)
-
-            if pp == "y":
-              print(GREEN + "Membership upgraded. You membership tier is PREMIUM now" + RESET)
-              if user_data["users"][current_user["username"]]["balance - RM"] < student_upgrade_cost:
-                  print(RED + "Insufficient balance. Please top up first." + RESET)
-
-              else:
-                  user_data["users"][current_user["username"]]["balance - RM"] -= student_upgrade_cost
-                  with open(files.ACCOUNTS_PATH, "w") as f:
-                      json.dump(user_data, f, indent=4)
-
-              if user_data["users"][current_user["username"]]["user_type"] == "Member":
-                  user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
-
-              with open(files.ACCOUNTS_PATH, "w") as f:
-                  json.dump(user_data, f, indent=4)
-
-            else:
-              print(RED + "Payment cancelled" + RESET)
-
-        else:
-            print(RED + "Membership tier maintained as Student" + RESET)
-
-    elif user_data["users"][current_user["username"]]["membership_tier"] == "Premium":
+    
+    if tier == "Student":
+        pass
+    elif tier == "Standard":
+        pass
+    elif tier == "Premium":
         print(RED + "You are already upgraded to Premium." + RESET)
 
 def cancel_membership(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     if "membership_tier" in user_data["users"][current_user["username"]]:
-        cm = input("Cancel membership? (y/n): ")
-        if cm == "y":
-            print(GREEN + "Membership cancelled." + RESET)
-            del user_data["users"][current_user["username"]]["membership_tier"]
-            with open(files.ACCOUNTS_PATH, "w") as f:
-                json.dump(user_data, f, indent=4)
+        confirm = input("Cancel membership? (y/n): ")
+        if confirm == "y":
+            user_data["users"][current_user["username"]]["membership_tier"] = None
+            if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+                print(GREEN + "Membership cancelled." + RESET)
+            else:
+                print(RED + "Failed to cancel membership." + RESET)
         else:
             print(RED + "You did not cancel membership" + RESET)
     else:
         print(RED + "You do not have a membership" + RESET)
 
-def top_up_balance(current_user):
+def top_up_balance(current_user, amount=None):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    if "balance - RM" not in user_data["users"][current_user["username"]]:
-        user_data["users"][current_user["username"]]["balance - RM"] = 0
-
     try:
-        amount = float(input("Enter top up amount (RM):"))
+        if amount is None:
+            amount = float(input("Enter top up amount (RM): "))
+        else:
+            amount = float(amount)
+
         if amount < 0:
             print(RED + "Invalid amount. Please enter a positive amount." + RESET)
             return
-
-        user_data["users"][current_user["username"]]["balance - RM"] += amount
-
-        with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-        print(GREEN + f"Top up successful. New balance: RM{user_data["users"][current_user["username"]]["balance - RM"]}." + RESET)
-
     except ValueError:
         print(RED + "Invalid input. Please enter a number." + RESET)
+        return
 
-
+    user_data["users"][current_user["username"]]["balance - RM"] += amount
+    balance = user_data["users"][current_user["username"]]["balance - RM"]
+        
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+    else:
+        print(RED + "Failed to top up balance." + RESET)
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     timedate = epoch_to_readable(time.time()) # Get the current date and time

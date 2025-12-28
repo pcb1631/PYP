@@ -12,9 +12,7 @@
             "send_comments",
             "profile",
             "member_bookings",
-            "purchase_membership",
-            "manage_membership",
-            "make_payment",
+            "membership",
             "transaction_history"
         ],
         "Trainer": [
@@ -37,7 +35,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "member_user": {
             "password": "memberpass123",
@@ -58,7 +57,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "frontdesk": {
             "password": "frontdesk",
@@ -68,7 +68,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "finance": {
             "password": "finance",
@@ -78,7 +79,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "pcb": {
             "password": "meow",
@@ -88,7 +90,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "bla": {
             "password": "1234567890qwertyuiop!",
@@ -98,7 +101,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "temp": {
             "password": "meow",
@@ -108,7 +112,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "Rinzer": {
             "password": "Rinz058*",
@@ -118,7 +123,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "diddy": {
             "password": "babyoil",
@@ -128,7 +134,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "epstein": {
             "password": "island",
@@ -138,7 +145,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "jianjun": {
             "password": "chowjianjun0127*",
@@ -170,7 +178,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "test": {
             "password": "1234567890!",
@@ -180,7 +189,8 @@
             "age": 0,
             "gender": null,
             "phone number": null,
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": null
         },
         "member": {
             "password": "member",
@@ -190,7 +200,8 @@
             "phone number": "0",
             "user_type": "Member",
             "uuid": "1282730c-03a7-4d68-a663-3fbad7b6d325",
-            "balance - RM": 0
+            "balance - RM": 0.0,
+            "membership_tier": null
         }
     }
 }
