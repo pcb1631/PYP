@@ -39,9 +39,6 @@ def transaction_history(current_user):
             break
 
 
-def membership_renewal(current_user):
-    pass
-
 def buy_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
@@ -106,12 +103,36 @@ def upgrade_membership(current_user):
         print(RED + "You do not have a membership" + RESET)
         return
     
-    if tier == "Student":
-        pass
-    elif tier == "Standard":
-        pass
-    elif tier == "Premium":
-        print(RED + "You are already upgraded to Premium." + RESET)
+    if tier == "Premium":
+        print(RED + "Premium is the highest tier." + RESET)
+        return
+    
+    balance = user_data["users"][current_user["username"]]["balance - RM"]
+    if balance < 110:
+        print(RED + "Insufficient balance. Please top up first." + RESET)
+        print("Your current balance: RM" + str(balance))
+        return
+    
+    confirm = input(YELLOW + "Proceed payment? (y/n): " + RESET)
+    if confirm == "y":
+        user_data["users"][current_user["username"]]["balance - RM"] -= 110
+        user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
+        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+            print(GREEN + "Membership has been upgraded successfully." + RESET)
+        else:
+            print(RED + "Failed to upgrade membership." + RESET)
+            return
+        
+        log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} UPGRADED MEMBERSHIP { tier } TO PREMIUM"
+        write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+        
+        transaction_entry = f"{str(time.time())} {current_user['username']} 110"
+        write_line(transaction_entry, files.TRANSACTION_PATH)
+        
+
+
+    
+
 
 def cancel_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
