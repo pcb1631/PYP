@@ -61,7 +61,6 @@ cmdlist["membership"] = {
     "buy": membership.buy_membership,
     "upgrade": membership.upgrade_membership,
     "cancel": membership.cancel_membership,
-    "renewal": membership.membership_renewal,
     "topup": membership.top_up_balance,
 }
 cmdlist["my_transactions"] = {

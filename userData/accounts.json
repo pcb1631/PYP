@@ -202,8 +202,8 @@
             "phone number": "0",
             "user_type": "Member",
             "uuid": "1282730c-03a7-4d68-a663-3fbad7b6d325",
-            "balance - RM": 850.0,
-            "membership_tier": null
+            "balance - RM": 640.0,
+            "membership_tier": "Premium"
         }
     }
 }

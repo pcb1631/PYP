@@ -112,6 +112,8 @@ def upgrade_membership(current_user):
         print(RED + "Insufficient balance. Please top up first." + RESET)
         print("Your current balance: RM" + str(balance))
         return
+    else: 
+        print("Your balance after purchase: RM" + str(balance - 110))
     
     confirm = input(YELLOW + "Proceed payment? (y/n): " + RESET)
     if confirm == "y":
