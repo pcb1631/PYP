@@ -18,6 +18,10 @@ def sort_slots(trainer):
 
     for i in range(len(slots)):
         bookings[trainer][str(i)] = slots[i]
+    current_user = {
+        "username": trainer,
+        "user_type": "Trainer"
+    }
     save_json(files.BOOKING_PATH, bookings, current_user)
 
 
@@ -26,10 +30,13 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     trainer = current_user["username"]
     slots = bookings[trainer]
     
+    now = datetime.now()
+    timestamp = int(datetime(now.year, now.month, now.day).timestamp())
+
     hours = [8, 10, 14, 16]
     for i in range(7):
         for j in range(4):
-            start = int(datetime(datetime.now().year, datetime.now().month, datetime.now().day + i, hours[j], 0).timestamp())
+            start = timestamp + (i * 24 * 60 * 60) + (hours[j] * 60 * 60)
             end = start + 60 * 60
             if conflict(trainer, start) or conflict(trainer, end):
                 continue
@@ -162,11 +169,13 @@ def attendance(current_user):
     slots = bookings[trainer]
 
     strings = []
+    markings = [0] * len(slots)
     for slot in slots:
         start = epoch_to_readable(slots[slot]["start"])
         end = epoch_to_readable(slots[slot]["end"])
         bookedBy = slots[slot]["bookedBy"]
         venue = slots[slot]["venue"]
+        attended = slots[slot]["Attended"]
 
         string = f"{slot} | {start} => {end}"
 
@@ -180,16 +189,17 @@ def attendance(current_user):
         else:
             string += f"{RESET} {BG_BLUE}{DARK_GRAY}(Booked by {bookedBy}){RESET}"
 
+        if attended:
+            markings[int(slot)] = 1
         strings.append(string)
 
-    markings = [0] * len(slots)
     idx = 0
     while True: # this can be optimized later
         options = []
         options.append(BLUE + "Done" + RESET)
         for i in range(len(strings)):
             if markings[i] == 0:
-                options.append(strings[i])
+                options.append(strings[i] + " " + BG_RED + "Member absent" + RESET)
             if markings[i] == 1:
                 options.append(strings[i] + " " + BG_PURPLE + "Member attended" + RESET)
         selection = TUI(BG_PURPLE, "Select slot", options, verbose=False, idx=idx)
@@ -207,6 +217,8 @@ def attendance(current_user):
         for i in range(len(markings)):
             if markings[i] == 1:
                 bookings[trainer][str(i)]["Attended"] = True
+            else:
+                bookings[trainer][str(i)]["Attended"] = False
         save_json(files.BOOKING_PATH, bookings, current_user)
     else:
         return
@@ -226,7 +238,7 @@ def venue(current_user):
         return
     
     slots = bookings[trainer]
-    markings = []
+    markings = [None] * len(slots)
     strings = []
     for slot in slots:
         string = ""
@@ -236,10 +248,8 @@ def venue(current_user):
         
         if slots[slot]["venue"] is None:
             string += f"{RESET} {BG_RED}No venue{RESET}"
-            markings.append(None)
         else:
             string += f"{RESET} {BG_BLUE}Venue: {slots[slot]["venue"]}{RESET}"
-            markings.append(slots[slot]["venue"])
 
         if slots[slot]["bookedBy"] is None:
             string += f"{RESET} {BG_GREEN}Available{RESET}"
@@ -255,7 +265,7 @@ def venue(current_user):
             if markings[i] is None:
                 options.append(strings[i])
             else:
-                options.append(strings[i] + " " + BG_BLUE + "Venue: " + markings[i] + RESET)
+                options.append(strings[i] + " " + BG_BLUE + "Change to venue: " + markings[i] + RESET)
         options.insert(0, RED + "Done" + RESET)
         
         selection = TUI(BG_PURPLE, "Assign venues", options, verbose=False, idx=idx)
@@ -324,7 +334,7 @@ def member_frontend(current_user):
 
                 if bookedBy == current_user["username"]:
                     string += f"{RESET} {BG_BLUE}(Booked by you){RESET}"
-                    string += f"{RESET} {BG_BLUE}(Venue: {bookings[trainer][slot]["venue"]})"
+                    string += f"{RESET} {BG_BLUE}(Venue: {bookings[trainer][slot]["venue"]}){RESET}"
                 
                 slots.append(string)
             

@@ -241,6 +241,14 @@
             "Attended": false
         }
     },
-    "diddy": {},
+    "diddy": {
+        "0": {
+            "start": 1767268800.0,
+            "end": 1767270000.0,
+            "bookedBy": "member",
+            "venue": "B-3-12",
+            "Attended": false
+        }
+    },
     "temp": {}
 }

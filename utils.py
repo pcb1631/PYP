@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 def conflict(trainer, time):
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     slots = bookings[trainer]
     for slot in slots:
         if time >= slots[slot]["start"] and time <= slots[slot]["end"]:
