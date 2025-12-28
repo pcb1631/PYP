@@ -63,6 +63,12 @@ def buy_membership(current_user):
         if save_json(files.ACCOUNTS_PATH, user_data, current_user):
             print(GREEN + "Membership has been purchased successfully." + RESET)
 
+        expiretime = time.time() + 30 * 24 * 60 * 60  # one month
+        expirytime = load_json(files.EXPIRY_PATH)
+        expirytime[current_user["username"]] = expiretime
+        if save_json(files.EXPIRY_PATH, expirytime, current_user):
+            print(GREEN + "Membership expiry time has been set successfully." + RESET)
+
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} BOUGHT MEMBERSHIP { tiers[tier] }"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
