@@ -24,9 +24,25 @@ def epoch_to_readable(timestamp):
     return dt.strftime("%d/%m/%y %H:%M")
 
 def find(username, filepath):
-    with open(filepath, "r") as f:
-        data = f.read().splitlines()
+    try:
+        with open(filepath, "r") as f:
+            data = f.read().splitlines()
+    except FileNotFoundError:
+        print(RED + f"Error: Can't find {filepath}" + RESET)
+        return False
+    except Exception as e:
+        print(RED + f"Error: {e}" + RESET)
+        return False
     return username in data
+
+def write_line(line, filepath):
+    try:
+        with open(filepath, "a") as f:
+            f.write(line)
+    except Exception as e:
+        print(RED + f"Error writing to {filepath}: {e}" + RESET)
+        return False
+    return True
 
 
 def load_json_file(filepath):       # generic json loader

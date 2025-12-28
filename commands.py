@@ -5,12 +5,13 @@ import os
 import uuid
 import shutil
 import difflib
+import time
 
 from tui import TUI
 from colors import *
 import files
 import kb
-
+from utils import *
 # this file (commands.py) will contain some abstraction, and the functions provided for commands in command mode
 
 def clear():                    # clear console
@@ -78,10 +79,12 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     if user_data is None:
         return
 
-    if delete_user is None:
-        delete_user = TUI(BG_RED, "Select user to delete", user_data["users"].keys(), verbose=False)
+    users = list(user_data["users"])
 
-    if delete_user not in user_data["users"]:
+    if delete_user is None:
+        delete_user = TUI(BG_RED, "Select user to delete", users, verbose=True)
+
+    if delete_user not in users:
         print("User not found")
         return
 
@@ -92,27 +95,19 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     else:
         return
     
-    with open(files.ONLINE_PATH, "r") as f:
-        online_users = f.read().splitlines()
-        if delete_user in online_users:
-            with open(files.DELETE_PATH, "a") as f:
-                f.write(delete_user + "\n")
+    if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
+        write_line(delete_user, files.DELETE_PATH)
 
-
-    # Save updated data
-    if not save_accounts(user_data):
+    if save_json_file(files.ACCOUNTS_PATH, user_data):
+        print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
+    else:
+        print(RED + f"Failed to delete account '{delete_user}'." + RESET)
         return
 
-    # Log the deletion
-    timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user["username"]}\n"
-    try:
-        with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-            log_file.write(log_entry)
-    except Exception as e:
-        print(RED + f"Error logging: {e}" + RESET)
-
-    print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
+    timestamp = epoch_to_readable(time.time())
+    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}\n"
+    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+        return
 
 def admin_add_account(current_user):
     user_data = load_accounts()
