@@ -13,6 +13,7 @@ from tui import TUI
 from colors import *
 import files
 import booking
+import membership
 #globals
 current_user = {}
 
@@ -57,14 +58,14 @@ cmdlist["member_bookings"] = {
     "menu": booking.member_frontend,
 }
 cmdlist["membership"] = {
-    "buy": commands.buy_membership,
-    "upgrade": commands.upgrade_membership,
-    "cancel": commands.cancel_membership,
-    "renewal": commands.membership_renewal,
-    "topup": commands.top_up_balance,
+    "buy": membership.buy_membership,
+    "upgrade": membership.upgrade_membership,
+    "cancel": membership.cancel_membership,
+    "renewal": membership.membership_renewal,
+    "topup": membership.top_up_balance,
 }
 cmdlist["transaction_history"] = {
-    "view": commands.transaction_history,
+    "view": membership.transaction_history,
 }
 cmdlist["trainer_bookings"] = {
     "generate": booking.generate_next_7_days,
