@@ -707,6 +707,10 @@ def top_up_balance(current_user):
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     timedate = epoch_to_readable(time.time()) # Get the current date and time
+    
+    timedate = list(timedate)
+    timedate[8] = '|'
+    timedate = ''.join(timedate)
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
@@ -759,17 +763,17 @@ def view_comments(current_user):
                 if len(parts) < 5:
                     continue
 
-                timedate, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
+                date, time, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
                 if current_user['username'] == trainer_username: # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
-                    inbox.append((timedate, member_username, message))
+                    inbox.append((date, time, member_username, message))
 
         if not inbox:
             print(f"You have not received any messages.")
             return
 
         print(f"\nComments:")
-        for idx, (timedate, member, msg) in enumerate(inbox, start=1):
-            print(f"{idx}.[{timedate}] From {member}: {msg}")
+        for idx, (date, time, member, msg) in enumerate(inbox, start=1):
+            print(f"{idx}.[{date} {time}] From {member}: {msg}")
 
     except FileNotFoundError:
         print("comments.log file not found.")
