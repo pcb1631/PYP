@@ -322,28 +322,27 @@ def admin_unban_account(current_user, username=None):
     if username is None:
         username = TUI(MAGENTA + BOLD, "Select user to unban", users,True)
     
-    if username is None:    #User pressed CTRL+C
+    if username is None:    #User pressed CTRL+C in TUI
         return
     
     confirmed = input(f'\n Unban user "{username}"? (y/n): ')
     
     if confirmed.lower() == 'y':
         try:
-            with open(files.BANNED_PATH, "r+") as banned_file:
-                banned_file.seek(0)
-                banned_file.truncate()
-                banned_file.write("\n".join([line for line in banned_file if line.strip() != username]))
+            with open(files.BANNED_PATH, "r") as f:
+                banned_users = f.read().splitlines()
+            with open(files.BANNED_PATH, "w") as f:
+                for user in banned_users:
+                    if user != username:
+                        f.write(user)
         except Exception as e:
             print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
 
         #log the unban
         timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
         log_entry = f"\n{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}\n"
-        try:
-            with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-                log_file.write(log_entry)
-        except Exception as e:
-            print(RED + f"Error logging: {e}" + RESET)
+        if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+            return
 
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
