@@ -30,7 +30,7 @@ def find(username, filepath):
 def write_line(line, filepath):
     try:
         with open(filepath, "a") as f:
-            f.write(line)
+            f.write("\n" + line)
     except Exception as e:
         print(RED + f"Error writing to {filepath}: {e}" + RESET)
         return False

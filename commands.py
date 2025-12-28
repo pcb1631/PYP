@@ -1,10 +1,7 @@
 import getpass
 import json
-import datetime
 import os
 import uuid
-import shutil
-import difflib
 import time
 
 from tui import TUI
@@ -305,7 +302,7 @@ def admin_ban_account(current_user, username=None):
             return
 
         #log the ban 
-        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+        timestamp = epoch_to_readable(time.time()) 
         log_entry = f"\n{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}\n"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
@@ -339,7 +336,7 @@ def admin_unban_account(current_user, username=None):
             print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
 
         #log the unban
-        timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
+        timestamp = epoch_to_readable(time.time()) 
         log_entry = f"\n{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}\n"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
@@ -380,14 +377,14 @@ def membership_renewal(current_user):
     if user_data is None:
         return
 
-    now = datetime.datetime.now()
+    now = epoch_to_readable(time.time())
 
     if current_user:
         with open("transactions.json", 'r') as f:
             transactions = json.load(f)
 
         timestamp_str = transactions["transaction"][current_user["username"]]["timestamp"]
-        last_transaction_time = datetime.datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
+        last_transaction_time = epoch_to_readable(timestamp_str)
 
         days_since = (now - last_transaction_time).days
 
@@ -480,7 +477,7 @@ def standard_membership(current_user):
                 transactions["transaction"][current_user["username"]]={
                                 "membership_tier": "Standard",
                                 "amount": standard_cost,
-                                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                "timestamp": epoch_to_readable(time.time()),
                         }
 
                 with open("transactions.json", "w") as f:
@@ -542,7 +539,7 @@ def premium_membership(current_user):
                 transactions["transaction"][current_user["username"]]={
                                 "membership_tier": "Premium",
                                 "amount": premium_cost,
-                                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                "timestamp": epoch_to_readable(time.time()),
                         }
 
                 with open("transactions.json", "w") as f:
@@ -604,7 +601,7 @@ def student_membership(current_user):
             transactions["transaction"][current_user["username"]] = {
                 "membership_tier": "Stundent",
                 "amount": student_cost,
-                "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "timestamp": epoch_to_readable(time.time()),
             }
 
             with open("transactions.json", "w") as f:
@@ -726,9 +723,7 @@ def top_up_balance(current_user):
 
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
-    timedate = datetime.datetime.now() # Get the current date and time
-    date = timedate.strftime("%d/%m/%Y")
-    time = timedate.strftime("%H:%M:%S")
+    timedate = epoch_to_readable(time.time()) # Get the current date and time
     try:
         with open(files.ACCOUNTS_PATH, "r") as f:
             user_data = json.load(f)
@@ -762,7 +757,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         try:
             with open(files.COMMENTS_LOG_PATH, "a") as message_file:
                 message_file.write(
-                    f"{date}|{time}|{current_user['username']}|{trainer_choice}|{message}\n"
+                    f"{timedate}|{current_user['username']}|{trainer_choice}|{message}\n"
                 )
         except FileNotFoundError:
             print(RED + "Error: comments.log file not found." + RESET)
@@ -796,17 +791,17 @@ def view_comments(current_user):
                 if len(parts) < 5:
                     continue
 
-                date, time, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
+                timedate, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
                 if current_user['username'] == trainer_username: # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
-                    inbox.append((date, time, member_username, message))
+                    inbox.append((timedate, member_username, message))
 
         if not inbox:
             print(f"You have not received any messages.")
             return
 
         print(f"\nComments:")
-        for idx, (date, time, member, msg) in enumerate(inbox, start=1):
-            print(f"{idx}.[{date}|{time}] From {member}: {msg}")
+        for idx, (timedate, member, msg) in enumerate(inbox, start=1):
+            print(f"{idx}.[{timedate}] From {member}: {msg}")
 
     except FileNotFoundError:
         print("comments.log file not found.")
