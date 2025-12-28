@@ -370,45 +370,6 @@ def direct_messages(current_user, username=None): # dont touch this yet
     if username is None:
         username = TUI(BG_MAGENTA + BOLD, "Pick someone to talk to", users, True)
 
-    
-def view_profile(current_user):
-    user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
-
-    if current_user:
-        print("\n--- Member Profile ---")
-        print(f"Username: {current_user['username']}")
-        print(f"User Type: {current_user['user_type']}")
-        print(f"Email: {user_data["users"][current_user["username"]]["email"]}")
-
-        if "membership_tier" in user_data["users"][current_user["username"]]:
-            print("Membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
-
-        else:
-            print("Membership tier: None")
-
-        if "Age" in user_data["users"][current_user["username"]]:
-            print("Age:", user_data["users"][current_user["username"]]["Age"])
-
-        else:
-            print("Age: None")
-
-        if "Phone Number" in user_data["users"][current_user["username"]]:
-            print("Phone Number:", user_data["users"][current_user["username"]]["Phone Number"])
-
-        else:
-            print("Phone Number: None")
-
-        if "balance - RM" in user_data["users"][current_user["username"]]:
-            print("Balance RM:", user_data["users"][current_user["username"]]["balance - RM"])
-
-        else:
-            print("Balance RM: 0")
-
-    else:
-        print("No profile to view.")
-
 def transaction_history(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:

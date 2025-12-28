@@ -51,7 +51,7 @@ cmdlist["admin"] = { # There is a user type "admin", and this is a permission ca
     "logs":     commands.viewlogs
 }
 cmdlist["profile"] = {
-    "view": commands.view_profile,
+    "view": commands.user_view_account,
     "edit": commands.user_edit_account
 }
 cmdlist["member_bookings"] = {
