@@ -50,10 +50,8 @@ cmdlist["admin"] = { # There is a user type "admin", and this is a permission ca
     "unban":    commands.admin_unban_account,
     "logs":     commands.viewlogs
 }
-cmdlist["view_profile"] = {
-    "view": commands.view_profile
-}
-cmdlist["update_profile"] = {
+cmdlist["profile"] = {
+    "view": commands.view_profile,
     "edit": commands.user_edit_account
 }
 cmdlist["member_bookings"] = {

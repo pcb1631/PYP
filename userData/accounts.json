@@ -10,8 +10,7 @@
         ],
         "Member": [
             "send_comments",
-            "view_profile",
-            "update_profile",
+            "profile",
             "member_bookings",
             "purchase_membership",
             "manage_membership",
