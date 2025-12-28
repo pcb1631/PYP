@@ -9,6 +9,7 @@ import inspect
 
 #local project libraries
 import commands
+from utils import *
 
 from tui import TUI
 from colors import *
@@ -115,6 +116,7 @@ def offline():
 def who():
     with open(files.ONLINE_PATH, "r") as f:
         print(f.read().splitlines())
+
 def login(users):
     commands.clear()
     try:
@@ -202,8 +204,10 @@ def register(user_data):
         print("\n\nRegister cancelled")
         return
 
+    temp = {}
+    temp["username"] = None
     if confirmed.lower() == "y":
-        if commands.save_accounts(user_data): #returns False with errors
+        if save_json(files.ACCOUNTS_PATH, user_data, temp): 
             print(GREEN + "Registered user, please login again" + RESET)
             time.sleep(2)
         return
@@ -221,19 +225,7 @@ def command_mode():
         exit(0)
     
     online()
-    #   Will now act like a shell with commands
-    #   Commands are categorized by permissions, examples:
-    #   msa admin_delete_account
-    #   msa admin_add_account 
-    #   msa admin_delete_account john_doe
-    #   mma delete_account 
-    #   etc.
-    #   First word is permission, second word is command, following words are arguments
-    #   Some commands wont have arguments
-    #   Users are only allowed to run commands, if the permission of the command is in the permissions list
-
-    #I think after we're done with everything, I'll build something like a TUI when the user just types a permission
-    user_data = commands.load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
     
@@ -393,7 +385,7 @@ def command_mode():
 
 
 def main():  # This function will be run first 
-    user_data = commands.load_accounts() #returns None with errors
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
     

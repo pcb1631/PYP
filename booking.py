@@ -6,7 +6,6 @@ from utils import *
 from colors import *
 
 load_bookings = load_json(files.BOOKING_PATH)
-save_bookings = save_json(files.BOOKING_PATH)
 
 
 def sort_slots(trainer):
@@ -20,7 +19,7 @@ def sort_slots(trainer):
 
     for i in range(len(slots)):
         bookings[trainer][str(i)] = slots[i]
-    save_bookings(bookings)
+    save_json(files.BOOKING_PATH, bookings, current_user)
 
 
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
@@ -59,7 +58,7 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
         "bookedBy": None,
         "venue": None
     }
-    save_bookings(bookings)
+    save_json(files.BOOKING_PATH, bookings, current_user)
     print("Added time slot to bookings")
     sort_slots(trainer)
     
@@ -128,7 +127,7 @@ def trainer_editor(current_user):
                 del bookings[trainer][str(i)]
             if markings[i] == 3:
                 bookings[trainer][str(i)]["bookedBy"] = None
-        save_bookings(bookings)
+        save_json(files.BOOKING_PATH, bookings, current_user)
         sort_slots(trainer)
     else:
         return
@@ -145,7 +144,7 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
         "bookedBy": None,
         "venue": None
     }
-    save_bookings(bookings)
+    save_json(files.BOOKING_PATH, bookings, current_user)
     sort_slots(trainer)
 
 def attendance(current_user):
@@ -209,7 +208,7 @@ def attendance(current_user):
         for i in range(len(markings)):
             if markings[i] == 1:
                 bookings[trainer][str(i)]["Attended"] = True
-        save_bookings(bookings)
+        save_json(files.BOOKING_PATH, bookings, current_user)
     else:
         return
 
@@ -284,7 +283,7 @@ def venue(current_user):
         for i in range(len(markings)):
             if markings[i] is not None:
                 bookings[trainer][str(i)]["venue"] = markings[i]
-        save_bookings(bookings)
+        save_json(files.BOOKING_PATH, bookings, current_user)
     
 
 def member_frontend(current_user):
@@ -345,7 +344,7 @@ def member_frontend(current_user):
                     print(RED + "Free booking? (y/n)" + RESET)
                     if input() == "y":
                         bookings[trainer][selection]["bookedBy"] = None
-                        save_bookings(bookings)
+                        save_json(files.BOOKING_PATH, bookings, current_user)
                     continue
                 else:
                     continue
@@ -353,6 +352,6 @@ def member_frontend(current_user):
             print(f"Book slot {selection}? (y/n)")
             if input() == "y":
                 bookings[trainer][selection]["bookedBy"] = current_user["username"]
-                save_bookings(bookings)
+                save_json(files.BOOKING_PATH, bookings, current_user)
             else:
                 continue        

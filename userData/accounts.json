@@ -121,6 +121,12 @@
             "email": "ss@gmail.com",
             "user_type": "Member",
             "uuid": "94400e4f-f15c-46b4-8456-ba2d00477f8a"
+        },
+        "test": {
+            "password": "1234567890!",
+            "email": "test@test.test",
+            "user_type": "Member",
+            "uuid": "1280c180-4fdb-4410-9824-042b602dea74"
         }
     }
 }
