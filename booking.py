@@ -4,12 +4,11 @@ import time
 from datetime import datetime
 from utils import *
 from colors import *
-
-load_bookings = load_json(files.BOOKING_PATH)
+import files
 
 
 def sort_slots(trainer):
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     slots = []
     for slot in bookings[trainer]:
         slots.append(bookings[trainer][slot])
@@ -23,7 +22,7 @@ def sort_slots(trainer):
 
 
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
     slots = bookings[trainer]
     
@@ -38,7 +37,7 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     print(GREEN + "Generated time slots for next 7 days" + RESET)
 
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
     start = int(datetime(year, month, day, hour, minute).timestamp())
     end = start + 60 * 60
@@ -63,7 +62,7 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
     sort_slots(trainer)
     
 def trainer_editor(current_user):
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
 
     if trainer not in bookings:
@@ -133,7 +132,7 @@ def trainer_editor(current_user):
         return
 
 def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int(datetime.now().timestamp())):
-    bookings = load_bookings()
+    bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
 
     slots = bookings[trainer].keys()
@@ -148,8 +147,8 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
     sort_slots(trainer)
 
 def attendance(current_user):
-    bookings = load_bookings()
-    user_data = load_accounts()
+    bookings = load_json(files.BOOKING_PATH)
+    user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]
     trainers = []
     for user in users:
@@ -213,8 +212,8 @@ def attendance(current_user):
         return
 
 def venue(current_user):
-    bookings = load_bookings()
-    user_data = load_accounts()
+    bookings = load_json(files.BOOKING_PATH)
+    user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]
     trainers = []
     
@@ -287,8 +286,8 @@ def venue(current_user):
     
 
 def member_frontend(current_user):
-    bookings = load_bookings()
-    user_data = load_accounts()
+    bookings = load_json(files.BOOKING_PATH)
+    user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]
     trainers = []
 
