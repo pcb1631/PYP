@@ -28,7 +28,7 @@ def clear():                    # clear console
 
 #THE FIRST ARGUMENT IS ALWAYS current_user
 def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -51,7 +51,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
 
-    if save_json_file(files.ACCOUNTS_PATH, user_data, current_user):
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
         print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
     else:
         print(RED + f"Failed to delete account '{delete_user}'." + RESET)
@@ -63,7 +63,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
         return
 
 def admin_add_account(current_user):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
 
@@ -103,14 +103,14 @@ def admin_add_account(current_user):
         return
 
     if usertype == "Trainer":
-        booking_data = load_json_file(files.BOOKING_PATH)
+        booking_data = load_json(files.BOOKING_PATH)
         
         booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
-        if not save_json_file(files.BOOKING_PATH, booking_data, current_user):
+        if not save_json(files.BOOKING_PATH, booking_data, current_user):
             return
 
-    if not save_accounts(user_data, current_user):
+    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
         return
 
     # Log the account creation
@@ -125,7 +125,7 @@ def admin_add_account(current_user):
     print(GREEN + f"Account '{username}' created successfully." + RESET)
 
 def admin_edit_account(current_user, username=None):
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
     
@@ -175,7 +175,7 @@ def admin_edit_account(current_user, username=None):
     if confirm.lower() != "y":
         return
 
-    if not save_accounts(user_data):
+    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
         return
     # Log the update
     timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
@@ -192,7 +192,7 @@ def admin_edit_account(current_user, username=None):
 
 def user_edit_account(current_user):
     username = current_user
-    user_data = load_accounts()
+    user_data = load_json(files.ACCOUNTS_PATH)
 
     print(f"\nUsername: {username}")
     print(f"Email: {user_data['users'][username]['email']}")

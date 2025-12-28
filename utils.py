@@ -45,7 +45,7 @@ def write_line(line, filepath):
     return True
 
 
-def load_json_file(filepath):       # generic json loader
+def load_json(filepath):       # generic json loader
     try:
         with open(filepath, "r") as f:
             return json.load(f)
@@ -59,7 +59,7 @@ def load_json_file(filepath):       # generic json loader
         print(RED + f'Error: {e}' + RESET)
         return None
     
-def save_json_file(filepath, data, current_user): # generic json saver
+def save_json(filepath, data, current_user): # generic json saver
     username = current_user["username"]
     
     if find(username, files.BANNED_PATH):
