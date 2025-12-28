@@ -15,8 +15,7 @@
             "purchase_membership",
             "manage_membership",
             "make_payment",
-            "transaction_history",
-            "notifications"
+            "transaction_history"
         ],
         "Trainer": [
             "send_comments",
