@@ -354,24 +354,7 @@ def direct_messages(current_user, username=None): # dont touch this yet
         username = TUI(BG_MAGENTA + BOLD, "Pick someone to talk to", users, True)
 
 def transaction_history(current_user):
-    user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
-
-    if current_user:
-
-        print("\n--- Transaction History ---")
-        print(f"Username: {current_user['username']}")
-        print("Membership tier:", user_data["users"][current_user["username"]]["membership_tier"])
-        with open("transactions.json", 'r') as f:
-            transactions = json.load(f)
-        print("Amount:", transactions["transaction"][current_user["username"]]["amount"])
-        print("Timestamp:", transactions["transaction"][current_user["username"]]["timestamp"])
-
-
-    else:
-        print("No transaction to view.")
-
+    pass
 def membership_renewal(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
