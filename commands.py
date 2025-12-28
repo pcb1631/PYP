@@ -303,7 +303,7 @@ def admin_ban_account(current_user, username=None):
 
         #log the ban 
         timestamp = epoch_to_readable(time.time()) 
-        log_entry = f"\n{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}\n"
+        log_entry = f"{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
 
@@ -337,7 +337,7 @@ def admin_unban_account(current_user, username=None):
 
         #log the unban
         timestamp = epoch_to_readable(time.time()) 
-        log_entry = f"\n{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}\n"
+        log_entry = f"{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
 
