@@ -35,7 +35,11 @@
             "password": "admin",
             "email": "admin@example.com",
             "user_type": "admin",
-            "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21"
+            "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "member_user": {
             "password": "memberpass123",
@@ -43,62 +47,100 @@
             "user_type": "Member",
             "uuid": "1a6a3fd6-7b3f-4a2f-b7e4-1f6a2ec37a54",
             "balance - RM": 4550.0,
-            "Age": 18,
-            "membership_tier": "Standard"
+            "membership_tier": "Standard",
+            "age": 18,
+            "gender": null,
+            "phone number": null
         },
         "trainer_user": {
             "password": "trainerpass123",
             "email": "trainer@example.com",
             "user_type": "Trainer",
-            "uuid": "c8a1a3e4-0c3d-4d7b-8a1e-2f4b5c6d7e8f"
+            "uuid": "c8a1a3e4-0c3d-4d7b-8a1e-2f4b5c6d7e8f",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "frontdesk": {
             "password": "frontdesk",
             "email": "frontdesk@example.com",
             "user_type": "Front Desk",
-            "uuid": "9b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"
+            "uuid": "9b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "finance": {
             "password": "finance",
             "email": "finance@example.com",
             "user_type": "Finance Manager",
-            "uuid": "e1d2c3b4-a5f6-47b8-9c0d-1e2f3a4b5c6d"
+            "uuid": "e1d2c3b4-a5f6-47b8-9c0d-1e2f3a4b5c6d",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "pcb": {
             "password": "meow",
             "email": "josiah.hoo@gmail.com",
             "user_type": "debug",
-            "uuid": "ab12cd34-ef56-7890-ab12-cd34ef567890"
+            "uuid": "ab12cd34-ef56-7890-ab12-cd34ef567890",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "bla": {
             "password": "1234567890qwertyuiop!",
             "email": "josiahhoo@gmail.com",
             "user_type": "Member",
-            "uuid": "0f1e2d3c-4b5a-6978-90ab-cdef12345678"
+            "uuid": "0f1e2d3c-4b5a-6978-90ab-cdef12345678",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "temp": {
             "password": "meow",
             "email": "temp@temp.com",
             "user_type": "Trainer",
-            "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a"
+            "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "Rinzer": {
             "password": "Rinz058*",
             "email": "rinzer67@gmail.com",
             "user_type": "debug",
-            "uuid": "ee6d4d0f-cadf-4f51-9e5d-59e05933edda"
+            "uuid": "ee6d4d0f-cadf-4f51-9e5d-59e05933edda",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "diddy": {
             "password": "babyoil",
             "email": "diddy@gmail.com",
             "user_type": "Trainer",
-            "uuid": "45e12564-8504-4384-8a9e-247541d27231"
+            "uuid": "45e12564-8504-4384-8a9e-247541d27231",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "epstein": {
             "password": "island",
             "email": "jeevacation@gmail.com",
             "user_type": "Trainer",
-            "uuid": "986fa64e-7db0-49cc-92f6-2ab0e21a33a6"
+            "uuid": "986fa64e-7db0-49cc-92f6-2ab0e21a33a6",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "jianjun": {
             "password": "chowjianjun0127*",
@@ -106,7 +148,10 @@
             "user_type": "Member",
             "uuid": "84aedaa9-be38-42d9-b6a1-452fb0db5758",
             "balance - RM": 34434.0,
-            "membership_tier": "Standard"
+            "membership_tier": "Standard",
+            "age": 0,
+            "gender": null,
+            "phone number": null
         },
         "jj": {
             "password": "jjchow12345*",
@@ -114,19 +159,30 @@
             "user_type": "Member",
             "uuid": "0b26884c-a7a3-42d2-8cdb-a4d31609dfa7",
             "membership_tier": "Standard",
-            "balance - RM": 4850.0
+            "balance - RM": 4850.0,
+            "age": 0,
+            "gender": null,
+            "phone number": null
         },
         "jjjj": {
             "password": "Test@123456",
             "email": "ss@gmail.com",
             "user_type": "Member",
-            "uuid": "94400e4f-f15c-46b4-8456-ba2d00477f8a"
+            "uuid": "94400e4f-f15c-46b4-8456-ba2d00477f8a",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         },
         "test": {
             "password": "1234567890!",
             "email": "test@test.test",
             "user_type": "Member",
-            "uuid": "1280c180-4fdb-4410-9824-042b602dea74"
+            "uuid": "1280c180-4fdb-4410-9824-042b602dea74",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0
         }
     }
 }
