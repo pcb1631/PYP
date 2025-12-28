@@ -186,7 +186,12 @@ def register(user_data):
             "password": password,
             "email": email,
             "user_type": "Member",
-            "uuid": str(uuid.uuid4())
+            "uuid": str(uuid.uuid4()),
+            "balance - RM": 0,
+            "membership_tier": None,
+            "age": 0,
+            "gender": None,
+            "phone number": None
         }
 
         commands.clear()
