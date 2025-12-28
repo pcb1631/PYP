@@ -294,34 +294,21 @@ def admin_ban_account(current_user, username=None):
     if username is None:    #User pressed CTRL+C
         return
     
-    try:
-        with open(files.BANNED_PATH, "r") as banned_file:
-            banned_users = banned_file.read().splitlines()
-    except Exception as e:
-        print(RED + f"Error reading {files.BANNED_PATH}: {e}" + RESET)
-        return
-    
-    if username in banned_users:
+    if find(username, files.BANNED_PATH):
         print(RED + "User is already banned" + RESET)
         return
     
     confirmed = input(f'\n Ban user "{username}"? (y/n): ')
 
     if confirmed.lower() == 'y':
-        try:
-            with open(files.BANNED_PATH, "a") as banned_file:
-                banned_file.write(username + "\n")
-        except Exception as e:
-            print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
+        if not write_line(username, files.BANNED_PATH):
+            return
 
         #log the ban 
         timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
         log_entry = f"\n{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}\n"
-        try:
-            with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-                log_file.write(log_entry)
-        except Exception as e:
-            print(RED + f"Error logging: {e}" + RESET)
+        if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+            return
 
         print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
