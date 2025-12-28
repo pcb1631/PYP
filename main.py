@@ -219,11 +219,26 @@ def command_mode():
         time.sleep(1)
         exit(0)
     
-    online()
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
-    
+    online()
+    tier = user_data["users"][current_user["username"]]["membership_tier"]
+    if tier is not None:
+        expiry = load_json(files.EXPIRY_PATH)
+
+        if expiry is not None and current_user["username"] in expiry:
+
+            if time.time() > expiry[current_user["username"]]:
+                print(RED + "Your membership has expired. Please renew it." + RESET)
+                user_data["users"][current_user["username"]]["membership_tier"] = None
+                save_json(files.ACCOUNTS_PATH, user_data, current_user)
+            else:
+                timeleft = expiry[current_user["username"]] - time.time()
+                timeleft = timeleft // (24 * 60 * 60) # convert to days
+                print(YELLOW + "Time before membership expires: " + str(int(timeleft)) + " days" + RESET)
+
+
     permissions = user_data["permissions"].get(current_user["user_type"], [])
     if "debug" in permissions:
         permissions = cmdlist.keys()
