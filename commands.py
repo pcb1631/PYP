@@ -20,30 +20,6 @@ def clear():                    # clear console
     else:                       # For macOS and Linux
         _ = os.system('clear')  # _ means idgaf about the return value
     
-
-def load_accounts():                # returns None with errors
-    try:
-        with open(files.ACCOUNTS_PATH, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(RED + "Error: Can't find accounts.json" + RESET)
-        return None
-    except json.JSONDecodeError:
-        print(RED + "Error: Invalid JSON format in 'accounts.json'." + RESET)
-        return None
-    except Exception as e:
-        print(RED + f'Error: {e}' + RESET)
-        return None
-
-def save_accounts(user_data):       # returns False with errors
-    try:
-        with open(files.ACCOUNTS_PATH, "w") as f:
-            json.dump(user_data, f, indent=4)
-        return True
-    except Exception as e:
-        print(RED + f"Error saving accounts: {e}" + RESET)
-        return False
-
 # TODO: Select user via uuid for admin functions 
 
 
@@ -75,7 +51,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
 
-    if save_json_file(files.ACCOUNTS_PATH, user_data):
+    if save_json_file(files.ACCOUNTS_PATH, user_data, current_user):
         print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
     else:
         print(RED + f"Failed to delete account '{delete_user}'." + RESET)
@@ -131,10 +107,10 @@ def admin_add_account(current_user):
         
         booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
-        if not save_json_file(files.BOOKING_PATH, booking_data):
+        if not save_json_file(files.BOOKING_PATH, booking_data, current_user):
             return
 
-    if not save_accounts(user_data):
+    if not save_accounts(user_data, current_user):
         return
 
     # Log the account creation
