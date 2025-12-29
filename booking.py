@@ -80,10 +80,10 @@ def trainer_editor(current_user):
 
     strings = []
     for slot in slots:
-        start = epoch_to_readable(slots[slot]["start"])
-        end = epoch_to_readable(slots[slot]["end"])
-        bookedBy = slots[slot]["bookedBy"]
-        venue = slots[slot]["venue"]
+        start       = epoch_to_readable(slots[slot]["start"])
+        end         = epoch_to_readable(slots[slot]["end"])
+        bookedBy    = slots[slot]["bookedBy"]
+        venue       = slots[slot]["venue"]
 
         string = f"{slot} | {start} => {end}"
 
@@ -99,9 +99,9 @@ def trainer_editor(current_user):
 
         strings.append(string)
 
-    markings = [0] * len(slots)
+    markings = [0] * len(slots) 
     idx = 0
-    while True: # this can be optimized later
+    while True: 
         options = []
         options.append(BLUE + "Done" + RESET)
         for i in range(len(strings)):
@@ -134,8 +134,9 @@ def trainer_editor(current_user):
                 del bookings[trainer][str(i)]
             if markings[i] == 3:
                 bookings[trainer][str(i)]["bookedBy"] = None
+
         save_json(files.BOOKING_PATH, bookings, current_user)
-        sort_slots(trainer)
+        sort_slots(trainer) # yes, i have to sort it after saving
     else:
         return
 
@@ -146,10 +147,11 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
     slots = bookings[trainer].keys()
     max_slot = max([int(slot) for slot in slots]) if slots else 0
     bookings[trainer][max_slot + 1] = {
-        "start": start,
-        "end": end,
+        "start":    start,
+        "end":      end,
         "bookedBy": None,
-        "venue": None
+        "venue":    None,
+        "Attended": False
     }
     save_json(files.BOOKING_PATH, bookings, current_user)
     sort_slots(trainer)
@@ -195,7 +197,7 @@ def attendance(current_user):
         strings.append(string)
 
     idx = 0
-    while True: # this can be optimized later
+    while True:
         options = []
         options.append(BLUE + "Done" + RESET)
         for i in range(len(strings)):
