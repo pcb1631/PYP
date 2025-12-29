@@ -286,7 +286,7 @@ def admin_ban_account(current_user, username=None):
     users = list(user_data["users"].keys())
 
     if username is None:
-        username = TUI(MAGENTA + BOLD, "Select user to ban", users,True)
+        username = TUI(BG_PURPLE + BOLD, RED + "Select user to ban" + RESET, users,True)
     
     if username is None:    #User pressed CTRL+C
         return
