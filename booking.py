@@ -31,14 +31,14 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     slots = bookings[trainer]
     
     now = datetime.now()
-    timestamp = int(datetime(now.year, now.month, now.day).timestamp())
+    timestamp = int(datetime(now.year, now.month, now.day).timestamp()) # start of today
 
-    hours = [8, 10, 14, 16]
+    hours = [8, 10, 14, 16] # 8am, 10am, 2pm, 4pm
     for i in range(7):
         for j in range(4):
-            start = timestamp + (i * 24 * 60 * 60) + (hours[j] * 60 * 60)
-            end = start + 60 * 60
-            if conflict(trainer, start) or conflict(trainer, end):
+            start = timestamp + (i * 24 * 60 * 60) + (hours[j] * 60 * 60) 
+            end = start + 60 * 60                                          # 1 hour after
+            if conflict(trainer, start) or conflict(trainer, end):         # if start or end time is between existing time range
                 continue
             add_slots_epoch(current_user, start, end)
     print(GREEN + "Generated time slots for next 7 days" + RESET)
@@ -46,8 +46,8 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
-    start = int(datetime(year, month, day, hour, minute).timestamp())
-    end = start + 60 * 60
+    start = int(datetime(year, month, day, hour, minute).timestamp()) # not time.time() because args
+    end = start + 60 * 60                                             # an hour after
     
     start = timeTUI(prompt="start", timestamp=start, username=trainer)
     if start is None:
@@ -57,12 +57,13 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
         return
 
     slots = bookings[trainer].keys()
-    max_slot = max([int(slot) for slot in slots]) if slots else 0
+    max_slot = max([int(slot) for slot in slots]) if slots else 0       # get max slot number
     bookings[trainer][max_slot + 1] = {
         "start": start,
         "end": end,
         "bookedBy": None,
-        "venue": None
+        "venue": None,
+        "Attended": False
     }
     save_json(files.BOOKING_PATH, bookings, current_user)
     print("Added time slot to bookings")
