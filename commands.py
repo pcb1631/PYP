@@ -181,6 +181,12 @@ def admin_edit_account(current_user, username=None):
 
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
+    if user_data["users"][new_username]["user_type"] == "Trainer":
+        booking_data = load_json(files.BOOKING_PATH)
+        booking_data[new_username] = {}
+        if not save_json(files.BOOKING_PATH, booking_data, current_user):
+            print(RED + "Failed to add" + new_username + "to booking.json" + RESET)
+
 
 def user_edit_account(current_user):
     username = current_user["username"]
