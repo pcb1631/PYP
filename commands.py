@@ -187,6 +187,50 @@ def admin_edit_account(current_user, username=None):
         if not save_json(files.BOOKING_PATH, booking_data, current_user):
             print(RED + "Failed to add" + new_username + "to booking.json" + RESET)
 
+def fd_delete_account(current_user, delete_user=None):
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+
+    users = user_data["users"]
+
+    members = []
+    for user in users:
+        if users[user]["user_type"] == "Member":
+            members.append(user)
+
+    if delete_user is None:
+        delete_user = TUI(BG_RED, "Select member to delete", members, verbose=True)
+
+    if users[delete_user]["user_type"] != "Member":
+        print(RED + delete_user +" is not a Member." + RESET)
+        return
+
+    if delete_user not in users:
+        print("User not found")
+        return
+
+    confirmed = input(f'\n Delete user "{delete_user}"? (y/n): ')
+
+    if confirmed.lower() == 'y':
+        del user_data["users"][delete_user]
+    else:
+        return
+
+    if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
+        write_line(delete_user, files.DELETE_PATH)
+
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
+    else:
+        print(RED + f"Failed to delete account '{delete_user}'." + RESET)
+        return
+
+    timestamp = epoch_to_readable(time.time())
+    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}\n"
+    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+        return
+
 
 def user_edit_account(current_user):
     username = current_user["username"]
@@ -465,3 +509,4 @@ def viewlogs(current_user, logfile=None):
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
+

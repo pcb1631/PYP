@@ -29,7 +29,7 @@ def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!),
         return None
 
 cmdlist = {}    # This is for commands with arguments.
-                # The permission object in accounts.json contains user types, and user types contains the permissions 
+                # The permission object in accounts.json contains user types, and user types contains the permissions
 cmdlist["manage_staff"] = {
     "delete":   commands.admin_delete_account,
     "add":      commands.admin_add_account,
@@ -37,6 +37,7 @@ cmdlist["manage_staff"] = {
     "view":     commands.admin_view_account
 }
 cmdlist["manage_members"] = {
+    "delete":   commands.fd_delete_account,
 }
 
 cmdlist["send_comments"] = {
@@ -95,7 +96,7 @@ def offline():
     count = 0
     with open(files.ONLINE_PATH, "r") as f:
         online_users = f.read().splitlines()
-    
+
     with open(files.ONLINE_PATH, "w") as f:
         for user in online_users:
             if user != current_user["username"]:
@@ -123,9 +124,9 @@ def login(users):
                 if users[username]["password"] == password: #will crash if I put both in AND
                     print(GREEN + "Welcome to Fitness Center!" + RESET)
                     return {"username": username, "user_type": users[username]["user_type"]}
-            
+
             print(RED + "Username does not exist or password is incorrect. Please try again" + RESET)
-            
+
 
             # Log failed login attempt
             import datetime
@@ -156,7 +157,7 @@ def register(user_data):
             else:
                 print(GREEN + "Username available" + RESET)
                 break
-        
+
         time.sleep(0.1) #small delay for UX
         print("\nPassword must contain at least one number, one symbol, and 10 characters")
         while True:
@@ -165,7 +166,7 @@ def register(user_data):
             if len(password) <= 10:
                 print(RED + "Password must be more than 10 characters." + RESET)
                 continue
-            
+
             if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
                 print(RED + "Password must contain at least one number." + RESET)
                 continue
@@ -178,7 +179,7 @@ def register(user_data):
 
         email = input("Email: ")
 
-        while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex 
+        while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex
             print(RED + "Invalid email format. Please try again." + RESET)
             email = input("Email: ")
 
@@ -196,7 +197,7 @@ def register(user_data):
 
         commands.clear()
         print(f'Username: {username} \nemail: {email}')
-        
+
         confirmed = input("\nRegister? (y/n) ")
 
     except KeyboardInterrupt:
@@ -206,7 +207,7 @@ def register(user_data):
     temp = {}
     temp["username"] = None
     if confirmed.lower() == "y":
-        if save_json(files.ACCOUNTS_PATH, user_data, temp): 
+        if save_json(files.ACCOUNTS_PATH, user_data, temp):
             print(GREEN + "Registered user, please login again" + RESET)
             time.sleep(2)
         return
@@ -214,15 +215,15 @@ def register(user_data):
         return
 
 def command_mode():
-    # Check if user is banned   
+    # Check if user is banned
     with open(files.BANNED_PATH, "r") as banned_file:
         banned_users = banned_file.read().splitlines()
-    
+
     if current_user["username"] in banned_users:
         print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
         time.sleep(1)
         exit(0)
-    
+
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
@@ -273,7 +274,7 @@ def command_mode():
         print("trainer_bookings add")
         print("trainer_bookings add 2025 12 22 15 42")
         print("trainer_bookings add 2025 12")
-    
+
     mini_cmd_list = {           # This is for commands without arguments.
         "exit": lambda: "EXIT",
         "logout": lambda: "EXIT", # signal loop to return to main menu
@@ -281,7 +282,7 @@ def command_mode():
         "h": help,
         "clear": commands.clear, # clear console
         "who": who
-    }                 
+    }
 
     print("\nType 'h' or 'help' for list of commands within your permission level, 'exit' or CTRL+C to logout and quit.\nYou can do CTRL + C to cancel a command.")
     print(CYAN + f"\nYour permissions: {', '.join(permissions)}" + RESET)
@@ -299,10 +300,10 @@ def command_mode():
             if command == []:
                 continue
 
-            # Check if user is banned   
+            # Check if user is banned
             with open(files.BANNED_PATH, "r") as banned_file:
                 banned_users = banned_file.read().splitlines()
-            
+
             with open(files.DELETE_PATH, "r") as delete_file:
                 deleted_users = delete_file.read().splitlines()
 
@@ -311,7 +312,7 @@ def command_mode():
                 offline()
                 time.sleep(1)
                 exit(0)
-            
+
             if current_user["username"] in deleted_users:
                 print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
                 offline()
@@ -319,19 +320,19 @@ def command_mode():
 
                 with open(files.DELETE_PATH, "w") as f:
                     f.write("\n".join(deleted_users))
-                
+
                 time.sleep(1)
                 exit(0)
-           
+
             if len(command) < 2:
                 if command[0] == "tui":
-                    verbose = True 
+                    verbose = True
                     perm = TUI(BG_MAGENTA + BOLD, "Select permission level", list(permissions), verbose)
 
                     if perm is None:
                         continue
 
-                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
+                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable.
                     cmd_name = TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
@@ -346,7 +347,7 @@ def command_mode():
                 if command[0] in permissions:
                     verbose = True
                     perm = command[0]
-                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable. 
+                    options = list(cmdlist[perm].keys()) # Since it's a dict, we need to make it subscriptable.
                     cmd_name = TUI(BG_MAGENTA + BOLD, f"Select command for permission {perm}\n", options, verbose)
 
                     if cmd_name is None:                 # if user prematurely presses CTRL+C
@@ -354,10 +355,10 @@ def command_mode():
 
                     args = []
                     func = cmdlist[perm][cmd_name]
-                    
+
                     safe_call(func, current_user, *args)
                     continue
-                
+
                 if command[0] not in mini_cmd_list:
                     print(RED + "Unknown command or invalid format" + RESET)
                     continue
@@ -370,19 +371,19 @@ def command_mode():
                         offline()
                         time.sleep(0.2)
                         return
-                
+
             else:
                 perm = command[0]
                 cmd_name = command[1]
                 args = command[2:] if len(command) > 2 else []
-                
+
                 if perm not in permissions:
                     print(RED + "Unknown permission / Access denied" + RESET)
                     continue
                 if cmd_name not in cmdlist[perm]:
                     print(RED + "Unknown command" + RESET)
                     continue
-                
+
                 func = cmdlist[perm][cmd_name]      # Call the function stored in the dictionary
                 safe_call(func, current_user, *args)
 
@@ -398,24 +399,24 @@ def command_mode():
         return
 
 
-def main():  # This function will be run first 
+def main():  # This function will be run first
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
-    
+
     while True:
         commands.clear()
 
         options = ["1. Login", "2. Register", "3. Exit"]
         instruction = "Arrow keys to select, Enter to confirm"
         key = TUI(BG_MAGENTA + BOLD, instruction, options, False)
-        
-        
+
+
         '''
         key = input("1. Login \n2. Register \n3. Exit")
         '''
-        
-        if key == 0: 
+
+        if key == 0:
             global current_user
             current_user = login(user_data["users"]) #users only, because im not modifying accounts.json
             print(GREEN + f'You are now logged in as {current_user["username"]}, permissions: {current_user["user_type"]}' + RESET)
