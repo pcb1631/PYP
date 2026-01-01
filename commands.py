@@ -16,8 +16,8 @@ def clear():                    # clear console
         _ = os.system('cls')
     else:                       # For macOS and Linux
         _ = os.system('clear')  # _ means idgaf about the return value
-    
-# TODO: Select user via uuid for admin functions 
+
+# TODO: Select user via uuid for admin functions
 
 
 
@@ -41,10 +41,10 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     confirmed = input(f'\n Delete user "{delete_user}"? (y/n): ')
 
     if confirmed.lower() == 'y':
-        del user_data["users"][delete_user]    
+        del user_data["users"][delete_user]
     else:
         return
-    
+
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
 
@@ -102,7 +102,7 @@ def admin_add_account(current_user):
 
     if usertype == "Trainer":
         booking_data = load_json(files.BOOKING_PATH)
-        
+
         booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
         if not save_json(files.BOOKING_PATH, booking_data, current_user):
@@ -123,16 +123,16 @@ def admin_edit_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    
+
     if username is None:
         username = TUI(BG_RED, "Select user to edit", list(user_data["users"].keys()), verbose=True)
 
     if username not in user_data["users"]:
         print("User does not exist")
         return
-    
+
     keys = user_data["users"][username].keys()
-    
+
     print("\nCurrent user details:")
     for key in keys:
         if key == "password":
@@ -173,7 +173,7 @@ def admin_edit_account(current_user, username=None):
     if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
         return
     # Log the update
-    timestamp = epoch_to_readable(time.time()) 
+    timestamp = epoch_to_readable(time.time())
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
@@ -195,12 +195,12 @@ def user_edit_account(current_user):
         return
 
     keys = user_data["users"][username].keys()
-    for key in keys: 
+    for key in keys:
         if key == "password" or key == "uuid":
             continue
         print(f"{key}: {user_data['users'][username][key]}")
 
-    password = user_data["users"][username]["password"] 
+    password = user_data["users"][username]["password"]
     print(f"Password: {'*' * len(password)}")
 
     for key in keys:
@@ -214,11 +214,11 @@ def user_edit_account(current_user):
         user_data["users"][username]["password"] = new_password
 
     print("\nNew user details:")
-    for key in keys: 
+    for key in keys:
         if key == "password" or key == "uuid":
             continue
         print(f"{key}: {user_data['users'][username][key]}")
-    
+
     pw = user_data['users'][username]['password']
     print("Password: " + "*" * len(pw))
 
@@ -231,7 +231,7 @@ def user_edit_account(current_user):
             return
         print(GREEN + f"Account '{username}' updated successfully." + RESET)
 
-    timestamp = epoch_to_readable(time.time()) 
+    timestamp = epoch_to_readable(time.time())
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']}\n"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
@@ -241,14 +241,14 @@ def admin_view_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    
+
     if username is None:
         username = TUI(BG_RED, "Select user to view", list(user_data["users"].keys()), verbose=True)
-    
+
     if username not in user_data["users"]:
         print("User does not exist")
         return
-    
+
     pw = input("Show password? (y/n): ")
     if pw.lower() == "y":
         pw = user_data["users"][username]["password"]
@@ -267,7 +267,7 @@ def user_view_account(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    
+
     username = current_user["username"]
 
     pw = input("Show password? (y/n): ")
@@ -288,27 +288,27 @@ def admin_ban_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    
+
     users = list(user_data["users"].keys())
 
     if username is None:
         username = TUI(BG_PURPLE + BOLD, RED + "Select user to ban" + RESET, users,True)
-    
+
     if username is None:    #User pressed CTRL+C
         return
-    
+
     if find(username, files.BANNED_PATH):
         print(RED + "User is already banned" + RESET)
         return
-    
+
     confirmed = input(f'\n Ban user "{username}"? (y/n): ')
 
     if confirmed.lower() == 'y':
         if not write_line(username, files.BANNED_PATH):
             return
 
-        #log the ban 
-        timestamp = epoch_to_readable(time.time()) 
+        #log the ban
+        timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
@@ -319,17 +319,17 @@ def admin_unban_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         return
-    
+
     users = list(user_data["users"].keys())
 
     if username is None:
         username = TUI(MAGENTA + BOLD, "Select user to unban", users,True)
-    
+
     if username is None:    #User pressed CTRL+C in TUI
         return
-    
+
     confirmed = input(f'\n Unban user "{username}"? (y/n): ')
-    
+
     if confirmed.lower() == 'y':
         try:
             with open(files.BANNED_PATH, "r") as f:
@@ -342,14 +342,14 @@ def admin_unban_account(current_user, username=None):
             print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
 
         #log the unban
-        timestamp = epoch_to_readable(time.time()) 
+        timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}"
         if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
             return
 
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
-def direct_messages(current_user, username=None): # dont touch this yet 
+def direct_messages(current_user, username=None): # dont touch this yet
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data == None:
         return
@@ -361,7 +361,7 @@ def direct_messages(current_user, username=None): # dont touch this yet
 
 def send_comment(current_user): # For members to send comments or feedback to specific trainers
     timedate = epoch_to_readable(time.time()) # Get the current date and time
-    
+
     timedate = list(timedate)
     timedate[8] = '|'
     timedate = ''.join(timedate)
@@ -441,13 +441,13 @@ def viewlogs(current_user, logfile=None):
     if logfile is None:
         while True:
             logfile=TUI(BG_RED, "Choose log file", options, verbose=True)
-            
+
             if logfile is None: # if user presses CTRL+C
                 break
 
             with open(logfile, "r") as f:
                 content = f.read().splitlines()
-            
+
             parse = []
 
             if logfile[-4:] == ".log":
@@ -458,13 +458,10 @@ def viewlogs(current_user, logfile=None):
 
                     parse.append(f"{BLUE}{line[0]}{RESET} {GREEN}{line[1]}{RESET} {' '.join(line[2:])}")
                 content = parse
-                
+
                 _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
 
     else:
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
-
-def test ():
-    print(current_user)
