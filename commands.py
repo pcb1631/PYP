@@ -1,5 +1,4 @@
 import getpass
-import json
 import os
 import uuid
 import time
@@ -7,7 +6,6 @@ import time
 from tui import TUI
 from colors import *
 import files
-import kb
 from utils import *
 # this file (commands.py) will contain some abstraction, and the functions provided for commands in command mode
 
@@ -55,7 +53,7 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
         return
 
     timestamp = epoch_to_readable(time.time())
-    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}\n"
+    log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
@@ -113,7 +111,7 @@ def admin_add_account(current_user):
 
     # Log the account creation
     timestamp = epoch_to_readable(time.time())
-    log_entry = f"\n{timestamp} ACCOUNT: {username} CREATED BY: {current_user['username']}"
+    log_entry = f"{timestamp} ACCOUNT: {username} CREATED BY: {current_user['username']}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
@@ -174,7 +172,7 @@ def admin_edit_account(current_user, username=None):
         return
     # Log the update
     timestamp = epoch_to_readable(time.time())
-    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
+    log_entry = f"{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
@@ -227,7 +225,7 @@ def fd_delete_account(current_user, delete_user=None):
         return
 
     timestamp = epoch_to_readable(time.time())
-    log_entry = f"\n{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}\n"
+    log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
@@ -276,7 +274,7 @@ def user_edit_account(current_user):
         print(GREEN + f"Account '{username}' updated successfully." + RESET)
 
     timestamp = epoch_to_readable(time.time())
-    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']}\n"
+    log_entry = f"{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
