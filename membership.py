@@ -1,6 +1,6 @@
 import time
 
-from tui import TUI
+from tui import TUI, timeTUI
 from colors import *
 import files
 from utils import *
@@ -224,5 +224,50 @@ def fd_top_up(current_user, username=None, amount=None):
     else:
         print(RED + "Failed to top up balance." + RESET)
         
-def finance_report(current_user):
-    pass
+def generate_report(current_user):
+    transactions = []
+    
+    try:
+        with open(files.TRANSACTION_PATH, "r") as f:
+            lines = f.read().splitlines()
+            for line in lines:
+                line = line.split(" ")
+                if line[0] == "#":
+                    continue
+                transactions.append(line)
+    except FileNotFoundError:
+        print(RED + "Transaction file not found." + RESET)
+        return
+    except Exception as e:
+        print(RED + f"Error reading transaction file: {e}" + RESET)
+        return
+    
+    options = ["1. Report for the past month", "2. Manually define time"]
+    selection = TUI(BG_RED, "Select report type", options, verbose=False)
+
+
+    start = 0.0
+    end = 0.0
+
+    if selection == 0:
+        start = time.time() - 30 * 24 * 60 * 60
+        end = time.time()
+
+    elif selection == 1:
+        start = timeTUI(prompt="Pick start time", username = "")
+        end = timeTUI(prompt="Pick end time", username = "")
+        
+        if start is None or end is None: # if user presses CTRL+C
+            return
+
+    report = []
+    total = 0.0
+    for line in transactions:
+        if float(line[0]) >= start and float(line[0]) <= end:
+            date = epoch_to_readable(float(line[0]))
+            report.append(f"{BLUE}Time: {date}{RESET} User: {line[1]} Amount: {GREEN}{line[2]}{RESET}")
+            total += float(line[2])
+    
+    print("\n")
+    print("\n".join(report))
+    print(f"Total: {total}")

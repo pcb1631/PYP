@@ -83,6 +83,7 @@ cmdlist["attendance"] = {
 }
 cmdlist["transactions"] = {
     "view": membership.transaction_history,
+    "report": membership.generate_report,
 }
 
 
