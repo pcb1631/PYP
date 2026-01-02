@@ -231,6 +231,36 @@ def fd_delete_account(current_user, delete_user=None):
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
 
+def fd_add_account(current_user):
+    username = input("Enter username: ")
+    password = getpass.getpass("Enter password: ")
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+
+    user_data["users"][username] = {
+        "username": username,
+        "password": password,
+        "uuid": str(uuid.uuid4()),
+        "user_type": "user",
+        "email": None,
+        "phone number": None,
+        "age": 0,
+        "gender": None,
+        "balance - RM": 0.0,
+        "membership_tier": None,
+    }
+
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        print(GREEN + f"Account '{username}' added successfully." + RESET)
+    else:
+        print(RED + f"Failed to add account '{username}'." + RESET)
+        return
+
+    timestamp = epoch_to_readable(time.time())
+    log_entry = f"{timestamp} ACCOUNT: {username} ADDED BY: {current_user['username']}"
+    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+        return
 
 def user_edit_account(current_user):
     username = current_user["username"]
