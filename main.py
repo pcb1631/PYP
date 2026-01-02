@@ -38,6 +38,8 @@ cmdlist["manage_staff"] = {
 }
 cmdlist["manage_members"] = {
     "delete":   commands.fd_delete_account,
+    "add":      commands.fd_add_account,
+    "edit":     commands.fd_edit_account,
 }
 
 cmdlist["send_comments"] = {

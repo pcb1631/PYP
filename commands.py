@@ -1,3 +1,4 @@
+from enum import CONTINUOUS
 import getpass
 import json
 import os
@@ -202,6 +203,9 @@ def fd_delete_account(current_user, delete_user=None):
     if delete_user is None:
         delete_user = TUI(BG_RED, "Select member to delete", members, verbose=True)
 
+    if delete_user is None:
+        return
+
     if users[delete_user]["user_type"] != "Member":
         print(RED + delete_user +" is not a Member." + RESET)
         return
@@ -265,6 +269,75 @@ def fd_add_account(current_user):
     log_entry = f"{timestamp} ACCOUNT: {username} ADDED BY: {current_user['username']}"
     if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
         return
+
+def fd_edit_account(current_user, username=None):
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+
+    if username is None:
+        username = TUI(BG_RED, "Select user to edit", list(user_data["users"].keys()), verbose=True)
+
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    if user_data["users"][username]["user_type"] != "Member":
+        print(RED + "Only members can be edited." + RESET)
+        return
+    
+    keys = user_data["users"][username].keys()
+
+    print("\nCurrent user details:")
+    for key in keys:
+        if key == "password":
+            print(f"password: {'*' * len(user_data['users'][username]['password'])}")
+        else:
+            print(f"{key}: {user_data['users'][username][key]}")
+
+    new_username = input("New username (leave blank to keep current): ")
+    if new_username == "":
+        new_username = username
+    else:
+        if new_username in user_data["users"]:
+            print("Username already exists")
+            return
+        user_data["users"][new_username] = user_data["users"][username]
+        del user_data["users"][username]
+
+    for key in keys:
+        if key == "uuid":
+            continue
+        if key == "password":
+            new_password = getpass.getpass("New password: ")
+            if new_password == "":
+                continue
+            else:
+                user_data["users"][new_username][key] = new_password
+                continue
+        if key == "user_type":
+            continue
+        
+        new_value = input(f"New {key}: ")
+        if new_value == "":
+            continue
+        else:
+            user_data["users"][new_username][key] = new_value
+
+    confirm = input("\nConfirm changes? (y/n): ")
+    if confirm.lower() != "y":
+        return
+
+    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        return
+    # Log the update
+    timestamp = epoch_to_readable(time.time())
+    log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
+    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
+        return
+
+
+    print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 def user_edit_account(current_user):
     username = current_user["username"]
