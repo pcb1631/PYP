@@ -1,6 +1,6 @@
 import time
 
-from tui import TUI
+from tui import TUI, timeTUI
 from colors import *
 import files
 from utils import *
@@ -24,15 +24,20 @@ def transaction_history_self(current_user):
 
 def transaction_history(current_user):
     options = []
-
-    with open(files.TRANSACTION_PATH, "r") as f:
-        transactions = f.read().splitlines()
-        for transaction in transactions:
-            line = transaction.split(" ")
-            if line[0] == "#":
-                continue
-            time = epoch_to_readable(float(line[0]))
-            options.append(BLUE + time + RESET + " " + line[1] + " " + GREEN + "RM" + line[2] + RESET)
+    try:
+        with open(files.TRANSACTION_PATH, "r") as f:
+            transactions = f.read().splitlines()
+            for transaction in transactions:
+                line = transaction.split(" ")
+                if line[0] == "#":
+                    continue
+                time = epoch_to_readable(float(line[0]))
+                options.append(BLUE + time + RESET + " " + line[1] + " " + GREEN + "RM" + line[2] + RESET)
+    except FileNotFoundError:
+        print(RED + "Transaction history file not found." + RESET)
+    except Exception as e:
+        print(RED + f"An error occurred while reading the transaction history: {e}" + RESET)
+    
     while True:
         _ = TUI(BG_PURPLE + BOLD, "Transaction History", options, False)
         if _ is None:
@@ -177,3 +182,92 @@ def top_up_balance(current_user, amount=None):
         print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
     else:
         print(RED + "Failed to top up balance." + RESET)
+        
+def fd_top_up(current_user, username=None, amount=None):
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+        
+    members = []
+    for user in user_data["users"]:
+        if user_data["users"][user]["user_type"] == "Member":
+            members.append(user)
+    if username is None:
+        username = TUI(BG_RED, "Select user to edit", members, verbose=True)
+    
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    try:
+        if amount is None:
+            amount = float(input("Enter top up amount (RM): "))
+        else:
+            amount = float(amount)
+
+        if amount < 0:
+            print(RED + "Invalid amount. Please enter a positive amount." + RESET)
+            return
+    except ValueError:
+        print(RED + "Invalid input. Please enter a number." + RESET)
+        return
+
+    user_data["users"][username]["balance - RM"] += amount
+    balance = user_data["users"][username]["balance - RM"]
+        
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+        print("Current time: " + epoch_to_readable(time.time()))
+        print("User: " + username)
+        print("Amount: " + str(amount))
+        print("By employee " + BLUE + current_user["username"] + RESET)
+    else:
+        print(RED + "Failed to top up balance." + RESET)
+        
+def generate_report(current_user):
+    transactions = []
+    
+    try:
+        with open(files.TRANSACTION_PATH, "r") as f:
+            lines = f.read().splitlines()
+            for line in lines:
+                line = line.split(" ")
+                if line[0] == "#":
+                    continue
+                transactions.append(line)
+    except FileNotFoundError:
+        print(RED + "Transaction file not found." + RESET)
+        return
+    except Exception as e:
+        print(RED + f"Error reading transaction file: {e}" + RESET)
+        return
+    
+    options = ["1. Report for the past month", "2. Manually define time"]
+    selection = TUI(BG_RED, "Select report type", options, verbose=False)
+
+
+    start = 0.0
+    end = 0.0
+
+    if selection == 0:
+        start = time.time() - 30 * 24 * 60 * 60
+        end = time.time()
+
+    elif selection == 1:
+        start = timeTUI(prompt="Pick start time", username = "")
+        end = timeTUI(prompt="Pick end time", username = "")
+        
+        if start is None or end is None: # if user presses CTRL+C
+            return
+
+    report = []
+    total = 0.0
+    for line in transactions:
+        if float(line[0]) >= start and float(line[0]) <= end:
+            date = epoch_to_readable(float(line[0]))
+            report.append(f"{BLUE}Time: {date}{RESET} User: {line[1]} Amount: {GREEN}{line[2]}{RESET}")
+            total += float(line[2])
+    
+    print("\n")
+    print("\n".join(report))
+    print(f"Total: {total}")

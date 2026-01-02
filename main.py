@@ -18,7 +18,6 @@ import membership
 current_user = {}
 
 def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!), **kwargs is for keyword arguments (order doesn't matter)
-    return func(*args, **kwargs)
     try:
         return func(*args, **kwargs)
     except KeyboardInterrupt:
@@ -38,6 +37,9 @@ cmdlist["manage_staff"] = {
 }
 cmdlist["manage_members"] = {
     "delete":   commands.fd_delete_account,
+    "add":      commands.fd_add_account,
+    "edit":     commands.fd_edit_account,
+    "topup":    membership.fd_top_up
 }
 
 cmdlist["send_comments"] = {
@@ -81,6 +83,7 @@ cmdlist["attendance"] = {
 }
 cmdlist["transactions"] = {
     "view": membership.transaction_history,
+    "report": membership.generate_report,
 }
 
 
@@ -131,12 +134,8 @@ def login(users):
             # Log failed login attempt
             import datetime
             timestamp = datetime.datetime.now().strftime("%d/%m/%y %H:%M:%S")
-            log_entry = f"\n{timestamp} FAILED LOGIN ATTEMPT: {username}"
-            try:
-                with open(files.ACCOUNTS_LOG_PATH, "a") as log_file:
-                    log_file.write(log_entry)
-            except Exception as e:
-                print(RED + f"Error logging: {e}" + RESET)
+            log_entry = f"{timestamp} FAILED LOGIN ATTEMPT: {username}"
+            write_line(log_entry, files.ACCOUNTS_LOG_PATH)
     except KeyboardInterrupt:
         print("Keyboard interrupt. Exiting...")
         exit(0)

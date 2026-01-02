@@ -85,24 +85,15 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color mus
 
         print('\n'.join(buffer))
         
+        key = kb.get_key()
+        
         if os.name == 'nt':
-            while True:
-                try:
-                    key = kb.get_key()
-                    if key == b'\xe0':
-                        key += kb.get_key()
-                    if key != None:
-                        break
-                    else:
-                        continue
-                except KeyboardInterrupt:
-                    return None
+            if key == b'\x03':
+                return None
         else:
-            key = kb.get_key()
             if key == "\x03": # CTRL + C 
                 return None
-
-
+        
         if key in keymap:
             key = keymap[key]
 
@@ -162,20 +153,12 @@ def timeTUI(timestamp=int(datetime.now().timestamp()), prompt="", username=""):
 
         print(''.join(buffer))
         
+        key = kb.get_key()
+        
         if os.name == 'nt':
-            while True:
-                try:
-                    key = kb.get_key()
-                    if key == b'\xe0':
-                        key += kb.get_key()
-                    if key != None:
-                        break
-                    else:
-                        continue
-                except KeyboardInterrupt:
-                    return None
+            if key == b'\x03':
+                return None
         else:
-            key = kb.get_key()
             if key == "\x03": # CTRL + C 
                 return None
 

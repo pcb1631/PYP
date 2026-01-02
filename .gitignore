@@ -9,3 +9,4 @@ gitlog
 .gitignore
 lines_per_user.sh
 .zed
+.venv
