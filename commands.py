@@ -275,8 +275,13 @@ def fd_edit_account(current_user, username=None):
     if user_data is None:
         return
 
+    members = []
+    for user in user_data["users"]:
+        if user_data["users"][user]["user_type"] == "Member":
+            members.append(user)
+
     if username is None:
-        username = TUI(BG_RED, "Select user to edit", list(user_data["users"].keys()), verbose=True)
+        username = TUI(BG_RED, "Select user to edit", members, verbose=True)
 
     if username not in user_data["users"]:
         print("User does not exist")
