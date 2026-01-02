@@ -18,7 +18,6 @@ import membership
 current_user = {}
 
 def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!), **kwargs is for keyword arguments (order doesn't matter)
-    return func(*args, **kwargs)
     try:
         return func(*args, **kwargs)
     except KeyboardInterrupt:
