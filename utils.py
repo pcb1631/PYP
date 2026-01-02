@@ -5,6 +5,9 @@ from datetime import datetime
 
 def conflict(trainer, time):
     bookings = load_json(files.BOOKING_PATH)
+    if trainer not in bookings:
+        return None
+    
     slots = bookings[trainer]
     for slot in slots:
         if time >= slots[slot]["start"] and time <= slots[slot]["end"]:
