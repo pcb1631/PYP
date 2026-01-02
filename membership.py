@@ -24,15 +24,20 @@ def transaction_history_self(current_user):
 
 def transaction_history(current_user):
     options = []
-
-    with open(files.TRANSACTION_PATH, "r") as f:
-        transactions = f.read().splitlines()
-        for transaction in transactions:
-            line = transaction.split(" ")
-            if line[0] == "#":
-                continue
-            time = epoch_to_readable(float(line[0]))
-            options.append(BLUE + time + RESET + " " + line[1] + " " + GREEN + "RM" + line[2] + RESET)
+    try:
+        with open(files.TRANSACTION_PATH, "r") as f:
+            transactions = f.read().splitlines()
+            for transaction in transactions:
+                line = transaction.split(" ")
+                if line[0] == "#":
+                    continue
+                time = epoch_to_readable(float(line[0]))
+                options.append(BLUE + time + RESET + " " + line[1] + " " + GREEN + "RM" + line[2] + RESET)
+    except FileNotFoundError:
+        print(RED + "Transaction history file not found." + RESET)
+    except Exception as e:
+        print(RED + f"An error occurred while reading the transaction history: {e}" + RESET)
+    
     while True:
         _ = TUI(BG_PURPLE + BOLD, "Transaction History", options, False)
         if _ is None:
@@ -219,3 +224,5 @@ def fd_top_up(current_user, username=None, amount=None):
     else:
         print(RED + "Failed to top up balance." + RESET)
         
+def finance_report(current_user):
+    pass
