@@ -1,15 +1,17 @@
 import os
 import sys
+if os.name == 'nt':
+    import msvcrt
 if os.name != 'nt':
     import tty
     import termios
 
 def get_key():
     if os.name == 'nt':  # For Windows
-        import msvcrt
-        if msvcrt.kbhit():  # Check if key pressed
-            key = msvcrt.getch()
-            return key
+        key = msvcrt.getch()
+        if key == b'\xe0':
+            key += msvcrt.getch()
+        return key
     else:  # For macOS and Linux
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
@@ -20,24 +22,7 @@ def get_key():
                 key += sys.stdin.read(2)
             return key
         finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings) 
-'''
-while True:
-    try:
-        key = get_key()
-    except KeyboardInterrupt:
-        print("CTRL + C")
-        exit(0)
-
-    if os.name == 'nt': #   Windows is a bit weird because it will return a constant stream of 'None' even if i try to prevent it in get_key(), 
-        if key != None: #   so you have to do this manually everytime you call it
-            if key == b'\xe0':
-                key = key + get_key()
-            print(key)
-    else:
-        print(key) #    For linux, get_key() only return a key if its pressed
-        pass
-'''
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 #   Windows
 #   up      =    b'\xe0' , b'H'
