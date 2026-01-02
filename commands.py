@@ -450,6 +450,10 @@ def admin_ban_account(current_user, username=None):
     if username is None:
         username = TUI(BG_PURPLE + BOLD, RED + "Select user to ban" + RESET, users,True)
 
+    if username not in users:
+        print(RED + "User not found" + RESET)
+        return
+
     if username is None:    #User pressed CTRL+C
         return
 
