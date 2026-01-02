@@ -1,4 +1,3 @@
-from enum import CONTINUOUS
 import getpass
 import os
 import uuid
@@ -624,3 +623,21 @@ def viewlogs(current_user, logfile=None):
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
 
+def text_editor(current_user):
+    import subprocess
+    import sys
+    if os.name == 'nt':
+        print("no")
+    else:
+        options = ["vi", "vim", 'emacs -nw', 'nano']
+        editor = TUI(COLOR=BG_PURPLE, prompt='Choose text editor ', args=options, verbose=True)
+        
+        options = [files.ACCOUNTS_PATH, files.BOOKING_PATH, files.EXPIRY_PATH, files.ACCOUNTS_LOG_PATH, files.COMMENTS_LOG_PATH, files.TRANSACTION_PATH]
+        file = TUI(COLOR=BG_PURPLE, prompt='Choose file ', args=options, verbose=True)
+        
+        command = editor + ' ' + file
+        
+        try:
+            subprocess.call(command.split(' '))
+        except FileNotFoundError:
+            print(RED + editor + " is not installed on your machine." + RESET)

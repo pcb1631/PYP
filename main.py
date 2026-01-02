@@ -51,7 +51,8 @@ cmdlist["view_comments"] = {
 cmdlist["admin"] = { # There is a user type "admin", and this is a permission called "admin". Keep in mind
     "ban":      commands.admin_ban_account,
     "unban":    commands.admin_unban_account,
-    "logs":     commands.viewlogs
+    "logs":     commands.viewlogs,
+    "texedit":  commands.text_editor
 }
 cmdlist["profile"] = {
     "view": commands.user_view_account,
@@ -85,7 +86,6 @@ cmdlist["transactions"] = {
     "view": membership.transaction_history,
     "report": membership.generate_report,
 }
-
 
 
 
