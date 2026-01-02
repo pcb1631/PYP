@@ -212,6 +212,10 @@ def fd_top_up(current_user, username=None, amount=None):
         
     if save_json(files.ACCOUNTS_PATH, user_data, current_user):
         print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+        print("Current time: " + epoch_to_readable(time.time()))
+        print("User: " + username)
+        print("Amount: " + str(amount))
+        print("By employee " + BLUE + current_user["username"] + RESET)
     else:
         print(RED + "Failed to top up balance." + RESET)
         
