@@ -238,11 +238,15 @@ def fd_add_account(current_user):
     if user_data is None:
         return
 
+    if username in user_data["users"]:
+        print(RED + f"Username '{username}' already exists." + RESET)
+        return
+
     user_data["users"][username] = {
         "username": username,
         "password": password,
         "uuid": str(uuid.uuid4()),
-        "user_type": "user",
+        "user_type": "Member",
         "email": None,
         "phone number": None,
         "age": 0,
@@ -252,7 +256,7 @@ def fd_add_account(current_user):
     }
 
     if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Account '{username}' added successfully." + RESET)
+        print(GREEN + f"Member '{username}' added successfully." + RESET)
     else:
         print(RED + f"Failed to add account '{username}'." + RESET)
         return
