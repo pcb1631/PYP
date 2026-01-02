@@ -177,3 +177,41 @@ def top_up_balance(current_user, amount=None):
         print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
     else:
         print(RED + "Failed to top up balance." + RESET)
+        
+def fd_top_up(current_user, username=None, amount=None):
+    user_data = load_json(files.ACCOUNTS_PATH)
+    if user_data is None:
+        return
+        
+    members = []
+    for user in user_data["users"]:
+        if user_data["users"][user]["user_type"] == "Member":
+            members.append(user)
+    if username is None:
+        username = TUI(BG_RED, "Select user to edit", members, verbose=True)
+    
+    if username not in user_data["users"]:
+        print("User does not exist")
+        return
+    
+    try:
+        if amount is None:
+            amount = float(input("Enter top up amount (RM): "))
+        else:
+            amount = float(amount)
+
+        if amount < 0:
+            print(RED + "Invalid amount. Please enter a positive amount." + RESET)
+            return
+    except ValueError:
+        print(RED + "Invalid input. Please enter a number." + RESET)
+        return
+
+    user_data["users"][username]["balance - RM"] += amount
+    balance = user_data["users"][username]["balance - RM"]
+        
+    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
+        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+    else:
+        print(RED + "Failed to top up balance." + RESET)
+        

@@ -40,6 +40,7 @@ cmdlist["manage_members"] = {
     "delete":   commands.fd_delete_account,
     "add":      commands.fd_add_account,
     "edit":     commands.fd_edit_account,
+    "topup":    membership.fd_top_up
 }
 
 cmdlist["send_comments"] = {
