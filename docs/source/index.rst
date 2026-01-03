@@ -30,3 +30,4 @@ The (De) Gym Management System is a CLI-style program that provides all the nece
     json
     log
     other
+    utils
