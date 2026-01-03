@@ -8,7 +8,7 @@
 
 project = 'De Gym Management System'
 copyright = '2026, Josiah'
-author = 'Josiah'
+author = 'Josiah, Ryan, Adrian, Jian Jun'
 release = '0.1'
 
 # -- General configuration ---------------------------------------------------
