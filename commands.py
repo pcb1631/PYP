@@ -627,7 +627,7 @@ def text_editor(current_user):
     import subprocess
     import sys
     if os.name == 'nt':
-        print("no")
+        print("not supported on windows, try running the program with wsl!")
     else:
         options = ["vi", "vim", 'emacs -nw', 'nano']
         editor = TUI(COLOR=BG_PURPLE, prompt='Choose text editor ', args=options, verbose=True)
@@ -638,6 +638,10 @@ def text_editor(current_user):
         command = editor + ' ' + file
         
         try:
-            subprocess.call(command.split(' '))
+            subprocess.call(command.split(' '), check=True)
         except FileNotFoundError:
             print(RED + editor + " is not installed on your machine." + RESET)
+        except subprocess.CalledProcessError as e:
+            print(f"Error executing command: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
