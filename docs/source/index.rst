@@ -3,16 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Diu Lei Lou Mou Gym Management System
+De Gym Management System
 =====================================
 
-``test``
+The (De) Gym Management System is a CLI-style program that provides all the necessary utilities to manage a fitness center, featuring a CLI for advanced users and a TUI for user friendliness, as well as a modular user permissions system. Since it’s written in python, it is supported for Windows, Linux, and Mac. 
 
-`link <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-
-Contents
---------
+Table of contents
+-----------------
 
 .. toctree::
 
    usage
+   config
