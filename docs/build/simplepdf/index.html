@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html data-content_root="./" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>De Gym Management System 0.1 documentation</title>
+<link href="_static/pygments.css?v=d75fae25" rel="stylesheet" type="text/css"/>
+<link href="_static/main.css?v=88e1285d" rel="stylesheet" type="text/css"/>
+<link href="_static/custom.css?v=4504fc49" rel="stylesheet" type="text/css"/>
+<script src="_static/documentation_options.js?v=567ef170"></script>
+<script src="_static/doctools.js?v=fd6eb6e6"></script>
+<script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+</head><body><article class="dont-break" id="cover">
+<div class="container">
+<!-- Logo -->
+<div class="logo">
+<p></p>
+</div>
+<!-- Cover middle -->
+<div class="cover-middle">
+<div class="title">
+<h1 class="title-cover">De Gym Management System</h1>
+<p class="subtitle-cover">Version 1.0</p>
+<span class="meta">
+          Asia Pacific University: <br/><br/>Programming with Python (102025-SHR) <br/>Lab 37 Mr Law Wei Liang <br/> Group 8
+        </span>
+</div>
+<!--
+      <div class="client-logo">
+        <img src="../data/logo_.png" alt="Logotipo">
+      </div>
+      -->
+</div>
+<!-- Footer -->
+<div class="cover-footer">
+<p>
+        Submission date: 9th of January 2026<br/>Josiah Hoo TP085556<br/>Adrian Lee TP083977<br/>Ryan Teoh TP085450<br/>Chow Jian Jun TP085450<br/>
+</p>
+</div>
+</div>
+</article>
+<div aria-label="Main" class="sphinxsidebar" role="navigation">
+<div class="sphinxsidebarwrapper">
+<div>
+<h3><a href="#">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="#document-usage">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#running-the-project">Running the project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#tui">TUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#register">Register</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#login">Login</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#document-usage#cli">CLI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#document-config">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#document-config#permissions-structure">Permissions structure</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="document">
+<div class="documentwrapper">
+<div class="bodywrapper">
+<div class="body" role="main">
+<section id="de-gym-management-system">
+<h1>De Gym Management System<a class="headerlink" href="#de-gym-management-system" title="Link to this heading">¶</a></h1>
+<p>The (De) Gym Management System is a CLI-style program that provides all the necessary utilities to manage a fitness center, featuring a CLI for advanced users and a TUI for user friendliness, as well as a modular user permissions system. Since it’s written in python, it is supported for Windows, Linux, and Mac.</p>
+<div class="toctree-wrapper compound">
+<span id="document-usage"></span><section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
+<section id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pcb1631/PYP
+</pre></div>
+</div>
+<p>Or download the zip file and extract it TO ONE FOLDER AS-IS.</p>
+</section>
+<section id="running-the-project">
+<h3>Running the project<a class="headerlink" href="#running-the-project" title="Link to this heading">¶</a></h3>
+<p>IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py
+</pre></div>
+</div>
+<p>OR</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>./PYP/main.py<span class="w"> </span><span class="c1">#the directory of the project</span>
+</pre></div>
+</div>
+<p>Or double click main.py on Windows.</p>
+<p>But in real world use, it is assumed that the script is in a full screen terminal preventing the user from stopping the script, with whatever means necessary</p>
+<p>For example:</p>
+<p>In a Linux distro, run this script at startup in a TTY without a display manager. This way it is gurranteed the user never exits the script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">trap</span><span class="w"> </span><span class="s1">''</span><span class="w"> </span>SIGINT<span class="w"> </span><span class="c1">#ignore CTRL + C interrupt</span>
+
+<span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>python<span class="w"> </span>main.py
+<span class="k">done</span>
+</pre></div>
+</div>
+</section>
+<section id="tui">
+<h3>TUI<a class="headerlink" href="#tui" title="Link to this heading">¶</a></h3>
+<p>The TUI will be the first thing you encounter in the project.</p>
+<p>The first line is the prompt, the lines in the middle are the options, and the last line is fuzzy search. Your selection is the highlighted option</p>
+<p>Press arrow keys to change selection and enter to confirm</p>
+<p>Typing will make a query, and uses fuzzy search to change your selection to the closest match.</p>
+<p>Press CTRL+C to cancel</p>
+</section>
+<section id="register">
+<h3>Register<a class="headerlink" href="#register" title="Link to this heading">¶</a></h3>
+</section>
+<section id="login">
+<h3>Login<a class="headerlink" href="#login" title="Link to this heading">¶</a></h3>
+</section>
+<section id="cli">
+<h3>CLI<a class="headerlink" href="#cli" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<span id="document-config"></span><section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<section id="permissions-structure">
+<h3>Permissions structure<a class="headerlink" href="#permissions-structure" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+</div>
+</section>
+<div class="clearer"></div>
+</div>
+</div>
+</div>
+<div class="clearer"></div>
+</div>
+<article id="back-cover">
+<div class="container">
+<div class="back-cover-footer">
+<p>
+                    © Copyright 2026, Josiah.
+            </p>
+<p>
+                  Created using <a href="http://sphinx-doc.org/">Sphinx</a> 9.1.0.
+            </p>
+</div>
+</div>
+</article>
+</body>
+</html>

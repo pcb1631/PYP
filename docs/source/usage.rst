@@ -11,6 +11,8 @@ Or download the zip file and extract it TO ONE FOLDER AS-IS.
 
 Running the project
 -------------------
+IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.
+
 .. code-block:: bash
 
     python main.py
@@ -22,6 +24,26 @@ OR
     python ./PYP/main.py #the directory of the project
     
 Or double click main.py on Windows.
+
+But in real world use, it is assumed that the script is in a full screen terminal preventing the user from stopping the script, with whatever means necessary
+
+For example:
+
+In a Linux distro, run this script at startup in a TTY without a display manager. This way it is gurranteed the user never exits the script.
+
+.. code-block:: bash
+
+    #!/bin/bash
+    
+    trap '' SIGINT #ignore CTRL + C interrupt
+    
+    while true; do
+        python main.py
+    done
+
+
+
+
 
 TUI
 ---

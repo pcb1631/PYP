@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
     <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=afff312f" />
     <script src="_static/documentation_options.js?v=2709fde1"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
@@ -44,6 +45,7 @@
 </section>
 <section id="running-the-project">
 <h2>Running the project<a class="headerlink" href="#running-the-project" title="Link to this heading">¶</a></h2>
+<p>IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py
 </pre></div>
 </div>
@@ -52,6 +54,18 @@
 </pre></div>
 </div>
 <p>Or double click main.py on Windows.</p>
+<p>But in real world use, it is assumed that the script is in a full screen terminal preventing the user from stopping the script, with whatever means necessary</p>
+<p>For example:</p>
+<p>In a Linux distro, run this script at startup in a TTY without a display manager. This way it is gurranteed the user never exits the script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nb">trap</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span>SIGINT<span class="w"> </span><span class="c1">#ignore CTRL + C interrupt</span>
+
+<span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>python<span class="w"> </span>main.py
+<span class="k">done</span>
+</pre></div>
+</div>
 </section>
 <section id="tui">
 <h2>TUI<a class="headerlink" href="#tui" title="Link to this heading">¶</a></h2>
