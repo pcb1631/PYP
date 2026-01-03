@@ -169,11 +169,9 @@ def top_up_balance(current_user, amount=None):
             amount = float(amount)
 
         if amount < 0:
-            print(RED + "Invalid amount. Please enter a positive amount." + RESET)
-            return
-    except ValueError:
-        print(RED + "Invalid input. Please enter a number." + RESET)
-        return
+            raise ValueError("Invalid amount. Please enter a positive amount.")
+    except ValueError as e:
+        raise e
 
     user_data["users"][current_user["username"]]["balance - RM"] += amount
     balance = user_data["users"][current_user["username"]]["balance - RM"]
@@ -206,11 +204,9 @@ def fd_top_up(current_user, username=None, amount=None):
             amount = float(amount)
 
         if amount < 0:
-            print(RED + "Invalid amount. Please enter a positive amount." + RESET)
-            return
-    except ValueError:
-        print(RED + "Invalid input. Please enter a number." + RESET)
-        return
+            raise ValueError("Invalid amount. Please enter a positive amount.")
+    except ValueError as e:
+        raise e
 
     user_data["users"][username]["balance - RM"] += amount
     balance = user_data["users"][username]["balance - RM"]
