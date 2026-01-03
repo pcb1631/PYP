@@ -20,6 +20,15 @@ def epoch_to_readable(timestamp):
     return dt.strftime("%d/%m/%y %H:%M")
 
 def find(username, filepath):
+    """
+    Does username exist in this file?
+    
+    :param str username:        The username
+    :param str filepath:        File path
+    :return:                    does the username exists in the file
+    :rtype:                     bool
+    :raises FileNotFoundError:  if the file doesn't exist
+    """
     try:
         with open(filepath, "r") as f:
             data = f.read().splitlines()
