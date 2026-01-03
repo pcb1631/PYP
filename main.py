@@ -102,11 +102,11 @@ def offline():
     with open(files.ONLINE_PATH, "w") as f:
         for user in online_users:
             if user != current_user["username"]:
-               f.write(user + "\n")
+               f.write("\n" + user)
             else:
                 count += 1
                 if count > 1:
-                    f.write(user + "\n") # do not overwrite instances of the same user
+                    f.write("\n" + user) # do not overwrite instances of the same user
 
 
 
