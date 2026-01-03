@@ -25,6 +25,8 @@ Assumptions
 
 
 .. toctree::
+    :hidden:
+
     usage
     config
     json
