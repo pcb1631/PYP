@@ -16,6 +16,13 @@ def conflict(trainer, time):
             return None
 
 def epoch_to_readable(timestamp):
+    """
+    Convert unix timestamp to human-readable format
+    
+    :param float: Unix timestamp / Epoch
+    :return: A string in the format of DD/MM/YY HH:MM
+    :rtype: str
+    """
     dt = datetime.fromtimestamp(timestamp)
     return dt.strftime("%d/%m/%y %H:%M")
 

@@ -1,4 +1,7 @@
 import os
+import sys
+sys.path.insert(0, os.path.abspath('../../'))
+
 
 def path(*args):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), *args)
@@ -20,7 +23,13 @@ version ='1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx_simplepdf']
+extensions = [
+    'sphinx.ext.autodoc', 
+    'sphinx_simplepdf',
+    'sphinx.ext.duration',
+    'sphinx.ext.doctest',
+
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
