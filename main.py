@@ -21,7 +21,7 @@ def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!),
     try:
         return func(*args, **kwargs)
     except KeyboardInterrupt:
-        print("\nCancelled")
+        print("\nReceived keyboard interrupt")
         return None
     except Exception as e:
         print(RED + f"Error: {e}" + RESET) # Will catch TypeErrors, e.g. too many arguments or wrong data types
@@ -91,9 +91,8 @@ cmdlist["transactions"] = {
 
 def online():
     global current_user
-    with open(files.ONLINE_PATH, "a") as f:
-        f.write(current_user["username"] + "\n")
-
+    write_line(current_user["username"], files.ONLINE_PATH)
+    
 def offline():
     global current_user
     count = 0
@@ -206,9 +205,9 @@ def register(user_data):
     temp = {}
     temp["username"] = None
     if confirmed.lower() == "y":
-        if save_json(files.ACCOUNTS_PATH, user_data, temp):
-            print(GREEN + "Registered user, please login again" + RESET)
-            time.sleep(2)
+        save_json(files.ACCOUNTS_PATH, user_data, temp)
+        print(GREEN + "Registered user, please login again" + RESET)
+        time.sleep(2)
         return
     else:
         return
@@ -399,10 +398,12 @@ def command_mode():
 
 
 def main():  # This function will be run first
-    user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
+    try:
+        user_data = load_json(files.ACCOUNTS_PATH)
+    except Exception as e:
+        print(RED + f"Error loading accounts.json: {e}" + RESET)
         exit(1)
-
+    
     while True:
         commands.clear()
 

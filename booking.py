@@ -28,7 +28,8 @@ def sort_slots(trainer):
 def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
-    slots = bookings[trainer]
+    if trainer not in bookings:
+        raise KeyError(f"{trainer} not found in bookings")
     
     now = datetime.now()
     timestamp = int(datetime(now.year, now.month, now.day).timestamp()) # start of today
@@ -73,9 +74,8 @@ def trainer_editor(current_user):
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
 
-    if trainer not in bookings:
-        print(RED + "You have no slots to modify" + RESET)
-        return
+    if trainer not in bookings or not bookings[trainer]:
+        raise KeyError("You have no slots to modify")
     slots = bookings[trainer]
 
     strings = []

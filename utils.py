@@ -6,7 +6,7 @@ from datetime import datetime
 def conflict(trainer, time):
     bookings = load_json(files.BOOKING_PATH)
     if trainer not in bookings:
-        return None
+        raise KeyError(f"Trainer '{trainer}' not found in bookings")
     
     slots = bookings[trainer]
     for slot in slots:
@@ -24,21 +24,19 @@ def find(username, filepath):
         with open(filepath, "r") as f:
             data = f.read().splitlines()
     except FileNotFoundError:
-        print(RED + f"Error: Can't find {filepath}" + RESET)
-        return False
+        raise FileNotFoundError(f"File '{filepath}' not found")
     except Exception as e:
-        print(RED + f"Error: {e}" + RESET)
-        return False
+        raise Exception(f"Error reading from {filepath}: {e}")
     return username in data
 
 def write_line(line, filepath):
     try:
         with open(filepath, "a") as f:
             f.write("\n" + line)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File '{filepath}' not found")
     except Exception as e:
-        print(RED + f"Error writing to {filepath}: {e}" + RESET)
-        return False
-    return True
+        raise Exception(f"Error writing to {filepath}: {e}")
 
 
 def load_json(filepath):       # generic json loader
@@ -46,29 +44,22 @@ def load_json(filepath):       # generic json loader
         with open(filepath, "r") as f:
             return json.load(f)
     except FileNotFoundError:
-        print(RED + f"Error: Can't find {filepath}" + RESET)
-        return None
+        raise FileNotFoundError(f"File '{filepath}' not found")
     except json.JSONDecodeError:
-        print(RED + f"Error: Invalid JSON format in '{filepath}'." + RESET)
-        return None
+        raise Exception(f"Invalid JSON format in '{filepath}'")
     except Exception as e:
-        print(RED + f'Error: {e}' + RESET)
-        return None
+        raise Exception(f"Error loading from {filepath}: {e}")
     
 def save_json(filepath, data, current_user): # generic json saver
     username = current_user["username"]
     
     if find(username, files.BANNED_PATH):
-        print(RED + "Error: You are banned" + RESET)
-        return False
+        raise PermissionError("You are banned")
     if find(username, files.DELETE_PATH):
-        print(RED + "Error: Your account has been deleted" + RESET)
-        return False
+        raise PermissionError("Your account has been deleted")
     
     try:
         with open(filepath, "w") as f:
             json.dump(data, f, indent=4)
-        return True
     except Exception as e:
-        print(RED + f"Error saving to {filepath}: {e}" + RESET)
-        return False
+        raise Exception(f"Error saving to {filepath}: {e}")

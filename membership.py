@@ -46,8 +46,6 @@ def transaction_history(current_user):
 
 def buy_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     tier = user_data["users"][current_user["username"]]["membership_tier"]
     if tier is not None:
@@ -100,8 +98,6 @@ def buy_membership(current_user):
 
 def upgrade_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
     
     tier = user_data["users"][current_user["username"]]["membership_tier"]
     if tier is None:
@@ -143,8 +139,6 @@ def upgrade_membership(current_user):
 
 def cancel_membership(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
     if "membership_tier" in user_data["users"][current_user["username"]]:
         confirm = input("Cancel membership? (y/n): ")
         if confirm == "y":
@@ -160,8 +154,6 @@ def cancel_membership(current_user):
 
 def top_up_balance(current_user, amount=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
     try:
         if amount is None:
             amount = float(input("Enter top up amount (RM): "))
@@ -183,8 +175,6 @@ def top_up_balance(current_user, amount=None):
         
 def fd_top_up(current_user, username=None, amount=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
         
     members = []
     for user in user_data["users"]:

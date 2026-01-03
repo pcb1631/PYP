@@ -24,8 +24,6 @@ def clear():                    # clear console
 #THE FIRST ARGUMENT IS ALWAYS current_user
 def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     users = list(user_data["users"])
 
@@ -46,11 +44,8 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
 
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
-    else:
-        print(RED + f"Failed to delete account '{delete_user}'." + RESET)
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+    print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
 
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}"
@@ -59,8 +54,6 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
 
 def admin_add_account(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     while True:
         username = input("New user username: ")
@@ -103,11 +96,9 @@ def admin_add_account(current_user):
 
         booking_data[username] = {} # code will break if trainer doesnt exist in booking.json
 
-        if not save_json(files.BOOKING_PATH, booking_data, current_user):
-            return
+        save_json(files.BOOKING_PATH, booking_data, current_user)
 
-    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
 
     # Log the account creation
     timestamp = epoch_to_readable(time.time())
@@ -119,8 +110,6 @@ def admin_add_account(current_user):
 
 def admin_edit_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     if username is None:
         username = TUI(BG_RED, "Select user to edit", list(user_data["users"].keys()), verbose=True)
@@ -168,13 +157,11 @@ def admin_edit_account(current_user, username=None):
     if confirm.lower() != "y":
         return
 
-    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
     # Log the update
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
@@ -182,13 +169,10 @@ def admin_edit_account(current_user, username=None):
     if user_data["users"][new_username]["user_type"] == "Trainer":
         booking_data = load_json(files.BOOKING_PATH)
         booking_data[new_username] = {}
-        if not save_json(files.BOOKING_PATH, booking_data, current_user):
-            print(RED + "Failed to add" + new_username + "to booking.json" + RESET)
+        save_json(files.BOOKING_PATH, booking_data, current_user)
 
 def fd_delete_account(current_user, delete_user=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     users = user_data["users"]
 
@@ -221,23 +205,17 @@ def fd_delete_account(current_user, delete_user=None):
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
 
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
-    else:
-        print(RED + f"Failed to delete account '{delete_user}'." + RESET)
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+    print(GREEN + f"Account '{delete_user}' deleted successfully." + RESET)
 
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 def fd_add_account(current_user):
     username = input("Enter username: ")
     password = getpass.getpass("Enter password: ")
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     if username in user_data["users"]:
         print(RED + f"Username '{username}' already exists." + RESET)
@@ -256,21 +234,15 @@ def fd_add_account(current_user):
         "membership_tier": None,
     }
 
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Member '{username}' added successfully." + RESET)
-    else:
-        print(RED + f"Failed to add account '{username}'." + RESET)
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+    print(GREEN + f"Member '{username}' added successfully." + RESET)
 
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {username} ADDED BY: {current_user['username']}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 def fd_edit_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     members = []
     for user in user_data["users"]:
@@ -330,8 +302,8 @@ def fd_edit_account(current_user, username=None):
     if confirm.lower() != "y":
         return
 
-    if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        return
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+
     # Log the update
     timestamp = epoch_to_readable(time.time())
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
@@ -344,8 +316,6 @@ def fd_edit_account(current_user, username=None):
 def user_edit_account(current_user):
     username = current_user["username"]
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     keys = user_data["users"][username].keys()
     for key in keys:
@@ -380,8 +350,7 @@ def user_edit_account(current_user):
     if confirm.lower() != "y":
         return
     else:
-        if not save_json(files.ACCOUNTS_PATH, user_data, current_user):
-            return
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
         print(GREEN + f"Account '{username}' updated successfully." + RESET)
 
     timestamp = epoch_to_readable(time.time())
@@ -392,8 +361,6 @@ def user_edit_account(current_user):
 
 def admin_view_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     if username is None:
         username = TUI(BG_RED, "Select user to view", list(user_data["users"].keys()), verbose=True)
@@ -418,8 +385,6 @@ def admin_view_account(current_user, username=None):
 
 def user_view_account(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     username = current_user["username"]
 
@@ -439,8 +404,6 @@ def user_view_account(current_user):
 
 def admin_ban_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     users = list(user_data["users"].keys())
 
@@ -474,8 +437,6 @@ def admin_ban_account(current_user, username=None):
 
 def admin_unban_account(current_user, username=None):
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     users = list(user_data["users"].keys())
 
@@ -523,8 +484,6 @@ def send_comment(current_user): # For members to send comments or feedback to sp
     timedate[8] = '|'
     timedate = ''.join(timedate)
     user_data = load_json(files.ACCOUNTS_PATH)
-    if user_data is None:
-        return
 
     #Displays a list of all trainers in the JSON file
     trainers = []
