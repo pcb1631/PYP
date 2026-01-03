@@ -11,7 +11,7 @@ Or download the zip file and extract it TO ONE FOLDER AS-IS.
 
 Running the project
 -------------------
-IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.
+**IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.**
 
 .. code-block:: bash
 
@@ -23,7 +23,7 @@ OR
 
     python ./PYP/main.py #the directory of the project
     
-Or double click main.py on Windows.
+Or double click main.py on Windows. Some functionalities are only on Linux but WSL is an option.
 
 But in real world use, it is assumed that the script is in a full screen terminal preventing the user from stopping the script, with whatever means necessary
 

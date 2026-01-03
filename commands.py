@@ -49,8 +49,8 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
 
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {delete_user} DELETED BY: {current_user['username']}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+    
 
 def admin_add_account(current_user):
     user_data = load_json(files.ACCOUNTS_PATH)
@@ -103,8 +103,7 @@ def admin_add_account(current_user):
     # Log the account creation
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {username} CREATED BY: {current_user['username']}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
     print(GREEN + f"Account '{username}' created successfully." + RESET)
 
@@ -307,8 +306,7 @@ def fd_edit_account(current_user, username=None):
     # Log the update
     timestamp = epoch_to_readable(time.time())
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
@@ -355,8 +353,7 @@ def user_edit_account(current_user):
 
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']}"
-    if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-        return
+    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 
 def admin_view_account(current_user, username=None):
@@ -424,14 +421,13 @@ def admin_ban_account(current_user, username=None):
     confirmed = input(f'\n Ban user "{username}"? (y/n): ')
 
     if confirmed.lower() == 'y':
-        if not write_line(username, files.BANNED_PATH):
-            return
+        write_line(username, files.BANNED_PATH)
 
         #log the ban
         timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}"
-        if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-            return
+        write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+        
 
         print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
@@ -462,8 +458,8 @@ def admin_unban_account(current_user, username=None):
         #log the unban
         timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}"
-        if not write_line(log_entry, files.ACCOUNTS_LOG_PATH):
-            return
+        write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+        
 
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
@@ -510,8 +506,7 @@ def send_comment(current_user): # For members to send comments or feedback to sp
         print(RED + "Comment cannot be empty." + RESET)
         return
 
-    if not write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH):
-        return
+    write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH)
 
     print(GREEN + "\nYour message has been successfully sent." + RESET)
 
@@ -597,7 +592,7 @@ def text_editor(current_user):
         command = editor + ' ' + file
         
         try:
-            subprocess.call(command.split(' '), check=True)
+            subprocess.call(command.split(' '), shell=True)
         except FileNotFoundError:
             print(RED + editor + " is not installed on your machine." + RESET)
         except subprocess.CalledProcessError as e:

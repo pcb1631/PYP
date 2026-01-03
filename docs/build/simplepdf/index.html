@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>De Gym Management System 0.1 documentation</title>
 <link href="_static/pygments.css?v=d75fae25" rel="stylesheet" type="text/css"/>
-<link href="_static/main.css?v=88e1285d" rel="stylesheet" type="text/css"/>
+<link href="_static/main.css?v=ff0451a0" rel="stylesheet" type="text/css"/>
 <link href="_static/custom.css?v=4504fc49" rel="stylesheet" type="text/css"/>
 <script src="_static/documentation_options.js?v=567ef170"></script>
 <script src="_static/doctools.js?v=fd6eb6e6"></script>
@@ -68,9 +68,17 @@
 <div class="documentwrapper">
 <div class="bodywrapper">
 <div class="body" role="main">
-<section id="de-gym-management-system">
-<h1>De Gym Management System<a class="headerlink" href="#de-gym-management-system" title="Link to this heading">¶</a></h1>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
 <p>The (De) Gym Management System is a CLI-style program that provides all the necessary utilities to manage a fitness center, featuring a CLI for advanced users and a TUI for user friendliness, as well as a modular user permissions system. Since it’s written in python, it is supported for Windows, Linux, and Mac.</p>
+<p><strong>It is assumed that:</strong></p>
+<ul class="simple">
+<li><p>Users know how to use keyboard interrupts (Just CTRL+C)</p></li>
+<li><p>Only admins are allowed to modify the .json files</p></li>
+<li><p>Permissions and user types are modified in “accounts.json”</p></li>
+<li><p>Preferably not running in an IDE</p></li>
+<li><p>Running on a Linux distribution, Windows 11, or macOS</p></li>
+</ul>
 <div class="toctree-wrapper compound">
 <span id="document-usage"></span><section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h2>
@@ -83,7 +91,7 @@
 </section>
 <section id="running-the-project">
 <h3>Running the project<a class="headerlink" href="#running-the-project" title="Link to this heading">¶</a></h3>
-<p>IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.</p>
+<p><strong>IDEs will always have issues with input and rendering, so it is reccomended that you use a dedicated terminal like CMD/Powershell or Ghostty.</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py
 </pre></div>
 </div>
@@ -91,7 +99,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>./PYP/main.py<span class="w"> </span><span class="c1">#the directory of the project</span>
 </pre></div>
 </div>
-<p>Or double click main.py on Windows.</p>
+<p>Or double click main.py on Windows. Some functionalities are only on Linux but WSL is an option.</p>
 <p>But in real world use, it is assumed that the script is in a full screen terminal preventing the user from stopping the script, with whatever means necessary</p>
 <p>For example:</p>
 <p>In a Linux distro, run this script at startup in a TTY without a display manager. This way it is gurranteed the user never exits the script.</p>
