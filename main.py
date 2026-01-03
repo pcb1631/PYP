@@ -101,6 +101,8 @@ def offline():
 
     with open(files.ONLINE_PATH, "w") as f:
         for user in online_users:
+            if user == '':
+                continue
             if user != current_user["username"]:
                f.write("\n" + user)
             else:

@@ -592,7 +592,7 @@ def text_editor(current_user):
         command = editor + ' ' + file
         
         try:
-            subprocess.call(command.split(' '), shell=True)
+            subprocess.call(command.split(' '))
         except FileNotFoundError:
             print(RED + editor + " is not installed on your machine." + RESET)
         except subprocess.CalledProcessError as e:
