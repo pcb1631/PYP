@@ -106,17 +106,6 @@
             "balance - RM": 0,
             "membership_tier": null
         },
-        "temp": {
-            "password": "meow",
-            "email": "temp@temp.com",
-            "user_type": "Trainer",
-            "uuid": "d7e6f5a4-b3c2-1d0e-9f8a-7b6c5d4e3f2a",
-            "age": 0,
-            "gender": null,
-            "phone number": null,
-            "balance - RM": 0,
-            "membership_tier": null
-        },
         "Rinzer": {
             "password": "Rinz058*",
             "email": "rinzer67@gmail.com",
@@ -204,6 +193,16 @@
             "uuid": "1282730c-03a7-4d68-a663-3fbad7b6d325",
             "balance - RM": 640.0,
             "membership_tier": "Premium"
+        },
+        "labubu321": {
+            "password": "123",
+            "email": "josiah.hoo@gmail.com",
+            "age": "21",
+            "gender": "m",
+            "phone number": "0",
+            "user_type": "Trainer",
+            "uuid": "e06611a1-9e12-4718-aa46-e7dd43d32af3",
+            "balance - RM": "1"
         }
     }
 }
