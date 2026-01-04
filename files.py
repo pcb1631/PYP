@@ -2,6 +2,17 @@ import os
 #File paths, will be relative to this files.py file and is compatible with all os
 
 def path(*args):
+    """Constructs absolute path from given path relative to files.py
+
+    :param str args: Arbitrary number of strings; Folder names leading to the file name
+    :returns: The joined absolute path.
+    :rtype: str
+
+    Examples:
+
+        FILE_PATH = path("folder1", "folder2", "file")
+        FILE_PATH = path("file")
+    """
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), *args)
 
 # examples:

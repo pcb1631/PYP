@@ -179,8 +179,50 @@ commands.py
 
 files.py
 ~~~~~~~~
+Contains cross-os file path constants for each non-python file
+
+.. code-block:: python
+    :caption: imports for files.py
+
+    import os
+
 
 .. autofunction:: files.path
+
+.. code-block:: python
+    :lineno-start: 2 
+
+    #File paths, will be relative to this files.py file and is compatible with all os
+    
+    def path(*args):
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), *args)
+
+Explanation for above
+
+|
+
+Further contents of the file:
+        
+.. code-block:: python
+    :lineno-start: 7
+
+    # examples:
+    # FILE_PATH = path("folder1", "folder2", "file")
+    # FILE_PATH = path("file")
+    
+    ACCOUNTS_PATH       = path("userData", "accounts.json")   #userdata/accounts.json
+    ACCOUNTS_LOG_PATH   = path("logs", "accounts.log")    #logs/accounts.log
+    CHECKIN_LOG_PATH    = path("logs", "checkin.log")      #logs/checkin.log
+    MESSAGES_LOG_PATH   = path("logs", "messages.log")    #logs/messages.log
+    COMMENTS_LOG_PATH   = path("logs", "comments.log")
+    BANNED_PATH         = path("banned") 
+    BOOKING_PATH        = path("userData", "booking.json")
+    ONLINE_PATH         = path("concurrent", "online")
+    DELETE_PATH         = path("concurrent", "delete")
+    ATTENDANCE_PATH     = path("logs", "attendance.log")
+    TRANSACTION_PATH    = path("logs", "transactions.log")
+    EXPIRY_PATH         = path("userData", "expiry.json")
+    
 
 kb.py
 ~~~~~
