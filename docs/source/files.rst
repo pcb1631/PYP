@@ -45,10 +45,121 @@ In the project folder itself
 banned
 ~~~~~~
 
+booking.py
+~~~~~~~~~~
+
+.. autofunction:: booking.sort_slots
+
+.. autofunction:: booking.generate_next_7_days
+
+.. autofunction:: booking.add_slots
+
+.. autofunction:: booking.trainer_editor
+
+.. autofunction:: booking.add_slots_epoch
+
+.. autofunction:: booking.attendance
+
+.. autofunction:: booking.venue
+
+.. autofunction:: booking.member_frontend
+
+colors.py
+~~~~~~~~~
+
 main.py
 ~~~~~~~
 
 .. autofunction:: main.main
+
+.. autofunction:: main.safe_call
+
+.. autofunction:: main.online
+
+.. autofunction:: main.offline
+
+.. autofunction:: main.who
+
+.. autofunction:: main.login
+
+.. autofunction:: main.register
+
+.. autofunction:: main.command_mode
+
+commands.py
+~~~~~~~~~~~
+
+.. autofunction:: commands.clear
+
+.. autofunction:: commands.admin_delete_account
+
+.. autofunction:: commands.admin_add_account
+
+.. autofunction:: commands.admin_edit_account
+
+.. autofunction:: commands.fd_delete_account
+
+.. autofunction:: commands.fd_add_account
+
+.. autofunction:: commands.fd_edit_account
+
+.. autofunction:: commands.user_edit_account
+
+.. autofunction:: commands.admin_view_account
+
+.. autofunction:: commands.user_view_account
+
+.. autofunction:: commands.admin_ban_account
+
+.. autofunction:: commands.admin_unban_account
+
+.. autofunction:: commands.direct_messages
+
+.. autofunction:: commands.send_comment
+
+.. autofunction:: commands.view_comments
+
+.. autofunction:: commands.viewlogs
+
+.. autofunction:: commands.text_editor
+
+files.py
+~~~~~~~~
+
+.. autofunction:: files.path
+
+kb.py
+~~~~~
+
+.. autofunction:: kb.get_key
+
+membership.py
+~~~~~~~~~~~~~
+
+.. autofunction:: membership.transaction_history_self
+
+.. autofunction:: membership.transaction_history
+
+.. autofunction:: membership.buy_membership
+
+.. autofunction:: membership.upgrade_membership
+
+.. autofunction:: membership.cancel_membership
+
+.. autofunction:: membership.top_up_balance
+
+.. autofunction:: membership.fd_top_up
+
+.. autofunction:: membership.generate_report
+
+tui.py
+~~~~~~
+
+.. autofunction:: tui.clear
+
+.. autofunction:: tui.TUI
+
+.. autofunction:: tui.timeTUI
 
 utils.py
 ~~~~~~~~
@@ -56,3 +167,11 @@ utils.py
 .. autofunction:: utils.find
 
 .. autofunction:: utils.epoch_to_readable
+
+.. autofunction:: utils.conflict
+
+.. autofunction:: utils.write_line
+
+.. autofunction:: utils.load_json
+
+.. autofunction:: utils.save_json
