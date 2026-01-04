@@ -29,7 +29,4 @@ Assumptions
 
     usage
     config
-    json
-    log
-    other
-    libs
+    files
