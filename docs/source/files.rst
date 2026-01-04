@@ -47,8 +47,62 @@ banned
 
 booking.py
 ~~~~~~~~~~
-
+.. code-block:: python
+    :caption: imports for bookings.py
+    :linenos:
+    
+    import json 
+    from tui import TUI, timeTUI # local library
+    import time 
+    from datetime import datetime 
+    from utils import * # local library
+    from colors import * #local library
+    import files
+   
+    
 .. autofunction:: booking.sort_slots
+
+.. code-block:: python
+    :lineno-start: 16
+
+    def sort_slots(trainer):
+    bookings = load_json(files.BOOKING_PATH)
+    slots = []
+    for slot in bookings[trainer]:
+        slots.append(bookings[trainer][slot])
+    slots.sort(key=lambda x: x["start"]) # sort with regards to start time
+
+    bookings[trainer] = {} # clear slots
+
+16. Takes trainer’s name as input. 
+
+#. Loads the data from BOOKING_PATH and saves as ``bookings``. 
+
+#. Creates an empty list named ``slots``. 
+
+#. Loops through each slot from a specific trainer. 
+
+#. Adds the trainer’s available slots into ``slots``. 
+
+#. Sorts the slots in the list based on the start time. 
+
+23. clears slots in ``bookings[trainer]``
+
+.. code-block:: python
+    :lineno-start: 24
+
+    for i in range(len(slots)): 
+    bookings[trainer][str(i)] = slots[i] 
+    current_user = { "username": trainer, "user_type": "Trainer" } 
+    save_json(files.BOOKING_PATH, bookings, current_user) 
+
+24. Loops through the sorted slots via i index.. 
+
+#. Enters new reordered slots back into “slots”. 
+
+#. Creates dictionary called “current_user” that saves the “username” and “user_type”. 
+
+#. Saves the new data into the JSON file. 
 
 .. autofunction:: booking.generate_next_7_days
 

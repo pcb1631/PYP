@@ -8,6 +8,11 @@ import files
 
 
 def sort_slots(trainer):
+    """
+    Sorts slots for a particular trainer in bookings.json
+    
+    :param str trainer: The trainer's username
+    """
     bookings = load_json(files.BOOKING_PATH)
     slots = []
     for slot in bookings[trainer]:

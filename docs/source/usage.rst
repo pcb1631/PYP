@@ -79,7 +79,7 @@ typing h will show the following:
 
 The blue words are your permissions, the bold words are the commands under that permission, and stuff after the colon are arguments. If an argument has a value assigned, that is the default value.
 
-But you can go ahead and skip the CLI altoghether by typing a permission, or `tui` to bring up the TUI.
+But you can go ahead and skip the CLI altoghether by typing a permission, or ``tui`` to bring up the TUI.
 
 .. figure:: images/typeperm.png
 
