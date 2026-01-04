@@ -1,3 +1,7 @@
 #cover .container .cover-middle .title {
   top: -100pt;
 }
+
+.highlight-python{
+    font-size: 0.8em;
+}

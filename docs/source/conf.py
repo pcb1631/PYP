@@ -46,7 +46,7 @@ simplepdf_vars = {
     'cover-overlay': 'rgba(150, 26, 26, 0.90)',
     'cover-bg': 'url(APUlogo.png) no-repeat center',
     'bottom-right-content': 'counter(page)',
-    'bottom-center-content': '"Asia Pacific University: Programming with Python (102025-SHR)"'
+    'bottom-center-content': '"Asia Pacific University: Programming with Python (102025-SHR)"',
 }
 
 html_context = {
