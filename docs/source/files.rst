@@ -92,7 +92,7 @@ booking.py
     :lineno-start: 24
 
     for i in range(len(slots)): 
-    bookings[trainer][str(i)] = slots[i] 
+        bookings[trainer][str(i)] = slots[i] 
     current_user = { "username": trainer, "user_type": "Trainer" } 
     save_json(files.BOOKING_PATH, bookings, current_user) 
 
