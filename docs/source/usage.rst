@@ -84,3 +84,9 @@ But you can go ahead and skip the CLI altoghether by typing a permission, or ``t
 .. figure:: images/typeperm.png
 
     The TUI after typing a permission
+    
+The bookings system
+-------------------
+
+The membership system
+---------------------

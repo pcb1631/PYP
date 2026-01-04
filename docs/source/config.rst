@@ -1,8 +1,8 @@
 Configuration
 =============
 
-The permission structure
-------------------------
+The permission and command structure
+------------------------------------
 
 Adding permissions and removing permissions
 -------------------------------------------
@@ -10,5 +10,5 @@ Adding permissions and removing permissions
 Adding new user types
 ---------------------
 
-Adding new commands
--------------------
+Adding new commands and features
+--------------------------------

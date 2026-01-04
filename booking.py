@@ -146,6 +146,18 @@ def trainer_editor(current_user):
         return
 
 def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int(datetime.now().timestamp())):
+    """
+    Adds a time slot in bookings.py
+    
+    :param current_user: 
+    :type current_user:     dict
+    :param start:           When the session should start (UNIX timestamp)
+    :type start:            float
+    :param end:             When it should end (UNIX timestamp)
+    :type end:              float
+    
+    
+    """
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
 
