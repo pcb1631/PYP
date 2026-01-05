@@ -134,10 +134,19 @@ def offline():
 
 
 def who():
+    """
+    Prints all instances of online users
+    """
     with open(files.ONLINE_PATH, "r") as f:
         print(f.read().splitlines())
 
 def login(users):
+    """
+    Logs in a user. Changes current_user global variable after successful login
+
+    :param users: The users object in accounts.json 
+    :type users: dict
+    """
     commands.clear()
     try:
         for _ in range(3):
@@ -166,6 +175,12 @@ def login(users):
     exit(0)
 
 def register(user_data):
+    """
+    Registers a new user. Adds the user to accounts.json
+
+    :param user_data: The entirety of accounts.json
+    :type user_data: dict
+    """
     commands.clear()
 
     try:
@@ -236,6 +251,9 @@ def register(user_data):
         return
 
 def command_mode():
+    """
+    The main command mode loop. Handles user input and calls the appropriate function with safe_call(). Will also check if the user is banned or deleted.
+    """
     # Check if user is banned
     with open(files.BANNED_PATH, "r") as banned_file:
         banned_users = banned_file.read().splitlines()
@@ -421,6 +439,9 @@ def command_mode():
 
 
 def main():  # This function will be run first
+    """
+    The first function that runs in the script. Handles the login and registration process, and calls command_mode() if login is successful
+    """
     try:
         user_data = load_json(files.ACCOUNTS_PATH)
     except Exception as e:

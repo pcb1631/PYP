@@ -207,7 +207,12 @@ This is the file you run, and where users can register, login, and use the CLI t
     }
     ...
 
+.. code-block:: python
+    :caption: if main.py is run directly, call main()
+    :lineno-start: 476
 
+    if __name__ == "__main__":
+        main()
 
 .. autofunction:: main.safe_call
 
