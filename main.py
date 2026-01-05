@@ -267,11 +267,17 @@ def command_mode():
     if user_data is None:
         exit(1)
     online()
+    
+    if "membership_tier" not in user_data["users"][current_user["username"]]:
+        user_data["users"][current_user["username"]]["membership_tier"] = None
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
+        print("Added membership_tier field ")
+
     tier = user_data["users"][current_user["username"]]["membership_tier"]
-    if tier is not None:
+    if tier is not None: # if user has a tier
         expiry = load_json(files.EXPIRY_PATH)
 
-        if expiry is not None and current_user["username"] in expiry:
+        if current_user["username"] in expiry:
 
             if time.time() > expiry[current_user["username"]]:
                 print(RED + "Your membership has expired. Please renew it." + RESET)

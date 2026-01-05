@@ -184,6 +184,7 @@ def top_up_balance(current_user, amount=None):
     :param current_user: The current user dict
     :param amount: Optional amount to top up, prompts if None
     :type amount: float or None
+    :raises ValueError: if amount given is less than 0 or is not a float
     """
     user_data = load_json(files.ACCOUNTS_PATH)
     try:
@@ -214,6 +215,7 @@ def fd_top_up(current_user, username=None, amount=None):
     :type username: str or None
     :param amount: Optional amount to top up, prompts if None
     :type amount: float or None
+    :raises ValueError: if amount given is less than 0 or is not a float
     """
     user_data = load_json(files.ACCOUNTS_PATH)
         

@@ -202,7 +202,8 @@
             "phone number": "0",
             "user_type": "Trainer",
             "uuid": "e06611a1-9e12-4718-aa46-e7dd43d32af3",
-            "balance - RM": "1"
+            "balance - RM": "1",
+            "membership_tier": null
         }
     }
 }

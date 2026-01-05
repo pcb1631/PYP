@@ -10,8 +10,11 @@ Limitations
     - It's possible to develop non-blocking input for Linux and Windows, but it means we have to write two implementations for any TUI related feature, and that doesn't fit into our timeframe. The curses module was discovered by us during late-development
     
     - This also means we can't develop realtime direct-messaging
-    
+
+Provide example of linux non-blocking input here, which doesn't work currently (not curses) and reference
+
 - nothing preventing users from writing to the same file at once
+
 
 
 How can De Gym Management System be improved?
