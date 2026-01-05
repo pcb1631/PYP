@@ -86,7 +86,8 @@ def admin_add_account(current_user):
             "phone number": phone_number,
             "user_type": usertype,
             "uuid": str(uuid.uuid4()),
-            "balance - RM": 0
+            "balance - RM": 0,
+            "membership_tier": None,
         }
     else:
         return
