@@ -173,7 +173,7 @@ def trainer_editor(current_user):
 
 def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int(datetime.now().timestamp())):
     """
-    Adds a time slot in bookings.py
+    Adds a time slot in booking.json
     
     :param current_user: 
     :type current_user:     dict

@@ -461,11 +461,6 @@ def main():  # This function will be run first
         instruction = "Arrow keys to select, Enter to confirm"
         key = TUI(BG_MAGENTA + BOLD, instruction, options, False)
 
-
-        '''
-        key = input("1. Login \n2. Register \n3. Exit")
-        '''
-
         if key == 0:
             global current_user
             current_user = login(user_data["users"]) #users only, because im not modifying accounts.json
