@@ -30,7 +30,13 @@ def sort_slots(trainer):
     save_json(files.BOOKING_PATH, bookings, current_user)
 
 
-def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots in each day
+def generate_next_7_days(current_user):
+    """
+    Generates time slots for the next 7 days for the current trainer. Will avoid overwriting or clashing with existing time slots.
+
+    :param current_user: The current user dict
+    """
+    # generates 7 days ahead, with 4 slots in each day
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
     if trainer not in bookings:
@@ -50,6 +56,21 @@ def generate_next_7_days(current_user): # generates 7 days ahead, with 4 slots i
     print(GREEN + "Generated time slots for next 7 days" + RESET)
 
 def add_slots(current_user, year=datetime.now().year, month=datetime.now().month, day=datetime.now().day, hour=datetime.now().hour, minute=datetime.now().minute):
+    """
+    Adds a new time slot for the trainer using timeTUI.
+
+    :param current_user: The current user dict
+    :param year: Year for start time, defaults to current
+    :type year: int
+    :param month: Month for start time, defaults to current
+    :type month: int
+    :param day: Day for start time, defaults to current
+    :type day: int
+    :param hour: Hour for start time, defaults to current
+    :type hour: int
+    :param minute: Minute for start time, defaults to current
+    :type minute: int
+    """
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
     start = int(datetime(year, month, day, hour, minute).timestamp()) # not time.time() because args
@@ -76,6 +97,11 @@ def add_slots(current_user, year=datetime.now().year, month=datetime.now().month
     sort_slots(trainer)
     
 def trainer_editor(current_user):
+    """
+    Allows the trainer to edit their booking slots (mark attended, delete, free).
+
+    :param current_user: The current user dict
+    """
     bookings = load_json(files.BOOKING_PATH)
     trainer = current_user["username"]
 
@@ -174,6 +200,11 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
     sort_slots(trainer)
 
 def attendance(current_user):
+    """
+    Allows marking attendance for trainer's slots.
+
+    :param current_user: The current user dict
+    """
     bookings = load_json(files.BOOKING_PATH)
     user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]
@@ -244,6 +275,11 @@ def attendance(current_user):
         return
 
 def venue(current_user):
+    """
+    Assigns venues to booking slots.
+
+    :param current_user: The current user dict
+    """
     bookings = load_json(files.BOOKING_PATH)
     user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]
@@ -316,6 +352,11 @@ def venue(current_user):
     
 
 def member_frontend(current_user):
+    """
+    Provides member interface to view and book trainer slots.
+
+    :param current_user: The current user dict
+    """
     bookings = load_json(files.BOOKING_PATH)
     user_data = load_json(files.ACCOUNTS_PATH)
     users = user_data["users"]

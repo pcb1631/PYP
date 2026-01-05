@@ -9,7 +9,8 @@ import files
 from utils import *
 # this file (commands.py) will contain some abstraction, and the functions provided for commands in command mode
 
-def clear():                    # clear console
+def clear():
+    """Clears the console"""
     if os.name == 'nt':         # For Windows
         _ = os.system('cls')
     else:                       # For macOS and Linux
@@ -22,7 +23,15 @@ def clear():                    # clear console
 #The following functions will actually be commands, the first argument should always be current_user for logging
 
 #THE FIRST ARGUMENT IS ALWAYS current_user
-def admin_delete_account(current_user, delete_user=None): #delete_user is optional argument
+def admin_delete_account(current_user, delete_user=None):
+    """
+    Deletes a user account as an admin.
+
+    :param current_user: The current user dict
+    :param delete_user: Optional username to delete, prompts if None
+    :type delete_user: str or None
+    """
+    #delete_user is optional argument
     user_data = load_json(files.ACCOUNTS_PATH)
 
     users = list(user_data["users"])
@@ -53,6 +62,11 @@ def admin_delete_account(current_user, delete_user=None): #delete_user is option
     
 
 def admin_add_account(current_user):
+    """
+    Adds a new user account as an admin.
+
+    :param current_user: The current user dict
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     while True:
@@ -109,6 +123,13 @@ def admin_add_account(current_user):
     print(GREEN + f"Account '{username}' created successfully." + RESET)
 
 def admin_edit_account(current_user, username=None):
+    """
+    Edits a user account as an admin.
+
+    :param current_user: The current user dict
+    :param username: Optional username to edit, prompts if None
+    :type username: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     if username is None:
@@ -172,6 +193,13 @@ def admin_edit_account(current_user, username=None):
         save_json(files.BOOKING_PATH, booking_data, current_user)
 
 def fd_delete_account(current_user, delete_user=None):
+    """
+    Deletes a member account as front desk. Restricted to selecting members.
+
+    :param current_user: The current user dict
+    :param delete_user: Optional member username to delete, prompts if None
+    :type delete_user: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     users = user_data["users"]
@@ -213,6 +241,11 @@ def fd_delete_account(current_user, delete_user=None):
     write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 def fd_add_account(current_user):
+    """
+    Adds a new member account as front desk. Restricted to adding Members.
+
+    :param current_user: The current user dict
+    """
     username = input("Enter username: ")
     password = getpass.getpass("Enter password: ")
     user_data = load_json(files.ACCOUNTS_PATH)
@@ -242,6 +275,13 @@ def fd_add_account(current_user):
     write_line(log_entry, files.ACCOUNTS_LOG_PATH)
 
 def fd_edit_account(current_user, username=None):
+    """
+    Edits a member account as front desk.
+
+    :param current_user: The current user dict
+    :param username: Optional member username to edit, prompts if None
+    :type username: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     members = []
@@ -313,6 +353,11 @@ def fd_edit_account(current_user, username=None):
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 def user_edit_account(current_user):
+    """
+    Allows the current user to edit their own account.
+
+    :param current_user: The current user dict
+    """
     username = current_user["username"]
     user_data = load_json(files.ACCOUNTS_PATH)
 
@@ -358,6 +403,13 @@ def user_edit_account(current_user):
 
 
 def admin_view_account(current_user, username=None):
+    """
+    Views a user account details as an admin.
+
+    :param current_user: The current user dict
+    :param username: Optional username to view, prompts if None
+    :type username: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     if username is None:
@@ -382,6 +434,11 @@ def admin_view_account(current_user, username=None):
             print(f"{key}: {user_data['users'][username][key]}")
 
 def user_view_account(current_user):
+    """
+    Views the current user's account details.
+
+    :param current_user: The current user dict
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     username = current_user["username"]
@@ -401,6 +458,13 @@ def user_view_account(current_user):
             print(f"{key}: {user_data['users'][username][key]}")
 
 def admin_ban_account(current_user, username=None):
+    """
+    Bans a user account as an admin.
+
+    :param current_user: The current user dict
+    :param username: Optional username to ban, prompts if None
+    :type username: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     users = list(user_data["users"].keys())
@@ -433,6 +497,13 @@ def admin_ban_account(current_user, username=None):
         print(GREEN + f"Account '{username}' banned successfully." + RESET)
 
 def admin_unban_account(current_user, username=None):
+    """
+    Unbans a user account as an admin.
+
+    :param current_user: The current user dict
+    :param username: Optional username to unban, prompts if None
+    :type username: str or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     users = list(user_data["users"].keys())
@@ -464,7 +535,15 @@ def admin_unban_account(current_user, username=None):
 
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
-def direct_messages(current_user, username=None): # dont touch this yet
+def direct_messages(current_user, username=None):
+    """
+    Initiates direct messages (incomplete).
+
+    :param current_user: The current user dict
+    :param username: Optional username to message, prompts if None
+    :type username: str or None
+    """
+    # dont touch this yet
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data == None:
         return
@@ -474,7 +553,13 @@ def direct_messages(current_user, username=None): # dont touch this yet
     if username is None:
         username = TUI(BG_MAGENTA + BOLD, "Pick someone to talk to", users, True)
 
-def send_comment(current_user): # For members to send comments or feedback to specific trainers
+def send_comment(current_user):
+    """
+    Allows members to send comments or feedback to trainers.
+
+    :param current_user: The current user dict
+    """
+    # For members to send comments or feedback to specific trainers
     timedate = epoch_to_readable(time.time()) # Get the current date and time
 
     timedate = list(timedate)
@@ -515,6 +600,11 @@ def send_comment(current_user): # For members to send comments or feedback to sp
 
 # For trainers to view messages that have been sent to them
 def view_comments(current_user):
+    """
+    Allows trainers to view comments sent to them.
+
+    :param current_user: The current user dict
+    """
     # noinspection SpellCheckingInspection
     delim = "|"
     try:
@@ -547,7 +637,14 @@ def view_comments(current_user):
     return None
 
 def viewlogs(current_user, logfile=None):
-    options=[files.ACCOUNTS_LOG_PATH, files.CHECKIN_LOG_PATH, files.BANNED_PATH]
+    """
+    Views log files.
+
+    :param current_user: The current user dict
+    :param logfile: Optional specific logfile path, prompts if None
+    :type logfile: str or None
+    """
+    options=[files.ACCOUNTS_LOG_PATH, files.CHECKIN_LOG_PATH, files.BANNED_PATH, files.TRANSACTION_PATH]
 
 
     if logfile is None:
@@ -579,6 +676,11 @@ def viewlogs(current_user, logfile=None):
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
 
 def text_editor(current_user):
+    """
+    If installed, opens a text editor via subprocess.
+
+    :param current_user: The current user dict
+    """
     import subprocess
     import sys
     if os.name == 'nt':

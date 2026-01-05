@@ -16,6 +16,7 @@ Adding new commands and features
 
 * Add it to cmdlist dictionary in :ref:`main.py <python-file-explanations>`
 * Have the first argument of the function be ``current_user`` (dict). For logging and preventing the user from writing to files if they are banned or marked for deletion.
+
 Adding new files
 ----------------
 

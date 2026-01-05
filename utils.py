@@ -4,6 +4,14 @@ from colors import *
 from datetime import datetime
 
 def conflict(trainer, time):
+    """
+    Checks if a trainer has a booking that overlaps the given time
+    
+    :param str trainer: The trainer's username
+    :param float time: UNIX timestamp / Epoch
+    :return: The slot if there is a conflict, None otherwise
+    :rtype: dict or None
+    """
     bookings = load_json(files.BOOKING_PATH)
     if trainer not in bookings:
         raise KeyError(f"Trainer '{trainer}' not found in bookings")
@@ -46,6 +54,14 @@ def find(username, filepath):
     return username in data
 
 def write_line(line, filepath):
+    """
+    Appends a line to a file
+    
+    :param str line: The line to append
+    :param str filepath: The file path
+    :raises FileNotFoundError: if the file doesn't exist
+    :raises Exception: if an error occurs
+    """
     try:
         with open(filepath, "a") as f:
             f.write("\n" + line)
@@ -56,6 +72,16 @@ def write_line(line, filepath):
 
 
 def load_json(filepath):       # generic json loader
+    """
+    Parses json
+
+    :param str filepath: The file path
+    :return: The parsed json
+    :rtype: dict
+    :raises FileNotFoundError: if the file doesn't exist
+    :raises json.JSONDecodeError: if the file is not valid json
+    :raises Exception: if an error occurs
+    """
     try:
         with open(filepath, "r") as f:
             return json.load(f)
@@ -67,6 +93,15 @@ def load_json(filepath):       # generic json loader
         raise Exception(f"Error loading from {filepath}: {e}")
     
 def save_json(filepath, data, current_user): # generic json saver
+    """
+    Saves data to json file 
+
+    :param str filepath: The file path
+    :param dict data: The data to save
+    :param dict current_user: The current user
+    :raises PermissionError: if the user is banned or deleted
+    :raises Exception: if an error occurs
+    """
     username = current_user["username"]
     
     if find(username, files.BANNED_PATH):

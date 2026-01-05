@@ -6,6 +6,11 @@ import files
 from utils import *
 
 def transaction_history_self(current_user):
+    """
+    Shows the transaction history of the current user via TUI
+
+    :param dict current_user: The current user
+    """
     options = []
 
     with open(files.TRANSACTION_PATH, "r") as f:
@@ -23,6 +28,11 @@ def transaction_history_self(current_user):
             break
 
 def transaction_history(current_user):
+    """
+    Shows all transaction history via TUI
+
+    :param dict current_user: The current user
+    """
     options = []
     try:
         with open(files.TRANSACTION_PATH, "r") as f:
@@ -45,6 +55,11 @@ def transaction_history(current_user):
 
 
 def buy_membership(current_user):
+    """
+    Deducts balance from user and changes their membership tier
+
+    :param dict current_user: The current user
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
 
     tier = user_data["users"][current_user["username"]]["membership_tier"]
@@ -97,6 +112,11 @@ def buy_membership(current_user):
     return
 
 def upgrade_membership(current_user):
+    """
+    Upgrades the current user's membership tier
+
+    :param dict current_user: The current user
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
     
     tier = user_data["users"][current_user["username"]]["membership_tier"]
@@ -138,6 +158,11 @@ def upgrade_membership(current_user):
 
 
 def cancel_membership(current_user):
+    """
+    Cancels the current user's membership
+
+    :param dict current_user: The current user
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
     if "membership_tier" in user_data["users"][current_user["username"]]:
         confirm = input("Cancel membership? (y/n): ")
@@ -153,6 +178,13 @@ def cancel_membership(current_user):
         print(RED + "You do not have a membership" + RESET)
 
 def top_up_balance(current_user, amount=None):
+    """
+    Tops up the current user's balance.
+
+    :param current_user: The current user dict
+    :param amount: Optional amount to top up, prompts if None
+    :type amount: float or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
     try:
         if amount is None:
@@ -174,6 +206,15 @@ def top_up_balance(current_user, amount=None):
         print(RED + "Failed to top up balance." + RESET)
         
 def fd_top_up(current_user, username=None, amount=None):
+    """
+    Tops up a member's balance as front desk.
+
+    :param current_user: The current user dict
+    :param username: Optional member username, prompts if None
+    :type username: str or None
+    :param amount: Optional amount to top up, prompts if None
+    :type amount: float or None
+    """
     user_data = load_json(files.ACCOUNTS_PATH)
         
     members = []
@@ -211,6 +252,11 @@ def fd_top_up(current_user, username=None, amount=None):
         print(RED + "Failed to top up balance." + RESET)
         
 def generate_report(current_user):
+    """
+    Shows all transactions and total money collected in a given time range
+
+    :param dict current_user: The current user
+    """
     transactions = []
     
     try:

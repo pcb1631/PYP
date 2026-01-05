@@ -29,6 +29,9 @@ else:
     }
 
 def clear():                    # clear console
+    """
+    Clears the console
+    """
     if os.name == 'nt':         # For Windows
         _ = os.system('cls')
     else:                       # For macOS and Linux
@@ -140,6 +143,15 @@ def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color mus
                 continue
 
 def timeTUI(timestamp=int(datetime.now().timestamp()), prompt="", username=""):
+    """
+    TUI to pick a certain time
+
+    :param int timestamp: The timestamp to start from
+    :param str prompt: The prompt to display
+    :param str username: The username to check for conflicts
+    :return: The selected time in UNIX timestamp / Epoch
+    :rtype: int
+    """
     selection = 0
     
     date_time = datetime.fromtimestamp(timestamp)
