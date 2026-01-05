@@ -655,6 +655,9 @@ This is the file you run, and where users can register, login, and use the CLI t
     print(RED + "You have exceeded three attempts, please run the program again" + RESET)
     exit(0)
 
+.. figure:: images/login.png
+
+
 .. autofunction:: main.register
 
 .. code-block:: python
@@ -729,59 +732,17 @@ This is the file you run, and where users can register, login, and use the CLI t
     else:
         return
 
-    try:
-        while True:
-            username = input("Username: ")
-            time.sleep(1) #just to make it hard to bruteforce
-            if username in user_data["users"]:
-                print(RED + "Sorry, this username has been taken" + RESET)
-            else:
-                print(GREEN + "Username available" + RESET)
-                break
-        time.sleep(0.1) #small delay for UX
-        print("\nPassword must contain at least one number, one symbol, and 10 characters")
-        while True:
-            password = getpass.getpass("Password: ")
-            if len(password) <= 10:
-                print(RED + "Password must be more than 10 characters." + RESET)
-                continue
-            if not any(c.isdigit() for c in password): #any() returns true if any x in iterable is True. OR of everything
-                print(RED + "Password must contain at least one number." + RESET)
-                continue
-            if not any(not c.isalnum() for c in password):
-                print(RED + "Password must contain at least one symbol." + RESET)
-                continue
-            break
-        email = input("Email: ")
-        while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex
-            print(RED + "Invalid email format. Please try again." + RESET)
-            email = input("Email: ")
-        user_data["users"][username] = {
-            "password": password,
-            "email": email,
-            "user_type": "Member",
-            "uuid": str(uuid.uuid4()),
-            "balance - RM": 0,
-            "membership_tier": None,
-            "age": 0,
-            "gender": None,
-            "phone number": None
-        }
-        commands.clear()
-        print(f'Username: {username} \nemail: {email}')
-        confirmed = input("\nRegister? (y/n) ")
-    except KeyboardInterrupt:
-        print("\n\nRegister cancelled")
-        return
-    temp = {}
-    temp["username"] = None
-    if confirmed.lower() == "y":
-        save_json(files.ACCOUNTS_PATH, user_data, temp)
-        print(GREEN + "Registered user, please login again" + RESET)
-        time.sleep(2)
-        return
-    else:
-        return
+.. code-block:: python
+    :lineno-start: 218
+    :caption: The regular expression used to check email format 
+
+    while not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email): #Check email format with regex
+
+``[a-zA-Z0-9._%+-]``: Letters a to z, A to Z, number from 0 to 9, ``.``, ``_``, ``%``, ``+``, and ``-`` 
+
+``+@``: Match literal ``@``
+
+``+\.[a-zA-Z]{2,}$``: Match literal ``.`` followed by at least 2 letters
 
 .. autofunction:: main.command_mode
 
@@ -2186,6 +2147,7 @@ utils.py
 
 .. autofunction:: utils.save_json
 
+
 .. code-block:: python
     :lineno-start: 95
 
@@ -2202,3 +2164,5 @@ utils.py
             json.dump(data, f, indent=4)
     except Exception as e:
         raise Exception(f"Error saving to {filepath}: {e}")
+
+.. figure:: images/save_json.png

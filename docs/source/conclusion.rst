@@ -15,7 +15,7 @@ Provide example of linux non-blocking input here, which doesn't work currently (
 
 - nothing preventing users from writing to the same file at once
 
-
+- No features that most shells have (like command history, tab completion, etc.)
 
 How can De Gym Management System be improved?
 ---------------------------------------------
