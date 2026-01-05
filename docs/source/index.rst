@@ -20,7 +20,6 @@ Assumptions
 -----------
 - Users know how to use keyboard interrupts (Just CTRL+C) 
 - Only admins are allowed to modify the .json files 
-- Permissions and user types are modified in “accounts.json” 
 - Preferably not running in an IDE 
 - Running on a Linux distribution, Windows 11, or macOS 
 

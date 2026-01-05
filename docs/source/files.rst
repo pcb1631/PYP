@@ -21,7 +21,81 @@ Persistent user data. Any changes made here will be reflected in the system
 
 accounts.json
 ~~~~~~~~~~~~~
-accounts.json contains two main objects, ``permissions`` and ``users``. ``permissions`` is made for configuration by admins.
+accounts.json contains two main objects, ``permissions`` and ``users``. ``permissions`` is subject to configuration by admins.
+
+See: :ref:`config` 
+
+.. code-block:: json
+    :caption: first part of accounts.json
+    :linenos:
+    
+
+    {
+    "permissions": {
+        "debug": [
+            "debug"
+        ],
+        "admin": [
+            "manage_staff",
+            "admin",
+            "admin_bookings"
+        ],
+        "Member": [
+            "send_comments",
+            "profile",
+            "member_bookings",
+            "membership",
+            "my_transactions"
+        ],
+        "Trainer": [
+            "send_comments",
+            "view_comments",
+            "trainer_bookings"
+        ],
+        "Front Desk": [
+            "manage_members",
+            "attendance"
+        ],
+        "Finance Manager": [
+            "transactions"
+        ]
+    },
+    "users": {
+        "admin": {
+            "password": "admin",
+            "email": "admin@example.com",
+            "user_type": "admin",
+            "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21",
+            "age": 0,
+            "gender": null,
+            "phone number": null,
+            "balance - RM": 0,
+            "membership_tier": null
+        },
+
+The accounts.json file also stores each user's account information. It uses a dictionary to store the following details: 
+
+    #. Username 
+
+    #. Password 
+
+    #. Email 
+
+    #. User type 
+
+    #. Uuid 
+
+    #. Age 
+
+    #. Phone Number 
+
+    #. Wallet Balance 
+
+    #. Membership Tier
+
+    #. Gender
+
+    
 
 bookings.json
 ~~~~~~~~~~~~~

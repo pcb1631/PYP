@@ -1,5 +1,6 @@
 Configuration
 =============
+.. _config:
 
 The permission and command structure
 ------------------------------------
@@ -114,6 +115,10 @@ That should do it. But let's say you wanna go further and give members the permi
         cmdlist["foo"] = {
             "bar": quux.baz
         }
+
+
+
+.. _adding-commands:
 
 Adding new commands and features
 --------------------------------
