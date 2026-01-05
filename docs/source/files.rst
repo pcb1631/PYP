@@ -75,9 +75,8 @@ booking.py
 .. autofunction:: booking.sort_slots
 
 .. code-block:: python
-    :lineno-start: 16
-
-    def sort_slots(trainer):
+    :lineno-start: 17
+    
     bookings = load_json(files.BOOKING_PATH)
     slots = []
     for slot in bookings[trainer]:
@@ -86,41 +85,19 @@ booking.py
 
     bookings[trainer] = {} # clear slots
 
-16. Takes trainer’s name as input. 
-
-#. Loads the data from BOOKING_PATH and saves as ``bookings``. 
-
-#. Creates an empty list named ``slots``. 
-
-#. Loops through each slot from a specific trainer. 
-
-#. Adds the trainer’s available slots into ``slots``. 
-
-#. Sorts the slots in the list based on the start time. 
-
-23. clears slots in ``bookings[trainer]``
-
-.. code-block:: python
-    :lineno-start: 24
-
     for i in range(len(slots)): 
-        bookings[trainer][str(i)] = slots[i] 
+        bookings[trainer][str(i)] = slots[i] # insert slots back into bookings
     current_user = { "username": trainer, "user_type": "Trainer" } 
-    save_json(files.BOOKING_PATH, bookings, current_user) 
-
-24. Loops through the sorted slots via i index.. 
-
-#. Enters new reordered slots back into “slots”. 
-
-#. Creates dictionary called “current_user” that saves the “username” and “user_type”. 
-
-#. Saves the new data into the JSON file. 
+    save_json(files.BOOKING_PATH, bookings, current_user) # save changes
 
 .. autofunction:: booking.generate_next_7_days
 
 .. autofunction:: booking.add_slots
 
 .. autofunction:: booking.trainer_editor
+
+.. figure:: images/trainer_editor.png
+
 
 .. autofunction:: booking.add_slots_epoch
 
@@ -185,6 +162,8 @@ ANSI color constants. Compatible with all OS!
 
 main.py
 ~~~~~~~
+This is the file you run, and where users can register, login, and use the CLI to run commands. ``cmdlist`` is to be changed and configured by admins.
+
 .. code-block:: python
     :caption: imports
     :lineno-start: 1
@@ -252,9 +231,14 @@ main.py
 
 .. autofunction:: main.login
 
+.. figure:: images/login.png
+
+
 .. autofunction:: main.register
 
 .. autofunction:: main.command_mode
+
+.. figure:: images/command_mode.png
 
 .. autofunction:: main.main
 
