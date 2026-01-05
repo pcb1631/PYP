@@ -14,6 +14,8 @@ Introduction
     
 The (De) Gym Management System is a CLI-style program that provides all the necessary utilities to manage a fitness center, featuring a CLI for advanced users and a TUI for user friendliness, as well as a modular user permissions and command system. Since it’s written in python, it is supported for Windows, Linux, and Mac. 
 
+It is guranteed that the project does not import third-party libraries.
+
 Assumptions
 -----------
 - Users know how to use keyboard interrupts (Just CTRL+C) 

@@ -21,14 +21,23 @@ Persistent user data. Any changes made here will be reflected in the system
 
 accounts.json
 ~~~~~~~~~~~~~
-accounts.json contains two main objects, **permissions** and **users**. Permissions is made for configuration by admins.
+accounts.json contains two main objects, ``permissions`` and ``users``. ``permissions`` is made for configuration by admins.
 
 bookings.json
 ~~~~~~~~~~~~~
 
 expiry.json
 ~~~~~~~~~~~
-When a user buys or upgrades a membership, their username will be added here as a key, with the value being the month after they bought the membership. (In UNIX timestamp)
+When a user buys or upgrades a membership, their username will be added here as a key, with the value being 30 days after they bought the membership. (In UNIX timestamp)
+
+.. code-block:: json
+    :caption: expiry.json
+    :linenos:
+    
+    {
+        "member": 1769529726.938576,
+        "pcb": 1769526637.2867684
+    }
 
 concurrent
 ----------
@@ -39,13 +48,14 @@ delete
 online
 ~~~~~~
 
+.. _python-file-explanations:
+
 In the project folder itself
 ----------------------------
 
 banned
 ~~~~~~
 
-.. _python-file-explanations:
 
 booking.py
 ~~~~~~~~~~
@@ -122,13 +132,117 @@ booking.py
 
 colors.py
 ~~~~~~~~~
+ANSI color constants. Compatible with all OS!
+
+.. code-block:: python
+    :lineno-start: 2
+    :caption: Foreground colors
+    
+    RED = '\033[31m'
+    GREEN = '\033[32m'
+    YELLOW = '\033[33m'
+    BLUE = '\033[34m'
+    MAGENTA = '\033[35m'
+    CYAN = '\033[36m'
+    WHITE = '\033[37m'
+    LIGHT_GRAY = '\033[38;5;244m'
+    DARK_GRAY = '\033[38;5;240m'
+    ORANGE = '\033[38;5;202m'
+    GOLD = '\033[38;5;220m'
+    PURPLE = '\033[38;5;93m'
+    PINK = '\033[38;5;205m'
+    BOLD = '\033[1m'
+    RESET = '\033[0m'
+
+.. code-block:: python
+    :lineno-start: 19
+    :caption: Background colors
+    
+    BG_BLACK = '\033[40m'
+    BG_RED = '\033[41m'
+    BG_GREEN = '\033[42m'
+    BG_YELLOW = '\033[43m'
+    BG_BLUE = '\033[44m'
+    BG_MAGENTA = '\033[45m'
+    BG_CYAN = '\033[46m'
+    BG_WHITE = '\033[47m'
+    BG_LIGHT_GRAY = '\033[48;5;244m'
+    BG_DARK_GRAY = '\033[48;5;240m'
+    BG_ORANGE = '\033[48;5;202m'
+    BG_GOLD = '\033[48;5;220m'
+    BG_PURPLE = '\033[48;5;93m'
+    BG_PINK = '\033[48;5;205m'
+
+.. code-block:: python 
+    :caption: example usage
+    
+    from colors import *
+    print(RED + "This is red text" + RESET)
+
+
+
+
 
 main.py
 ~~~~~~~
+.. code-block:: python
+    :caption: imports
+    :lineno-start: 1
 
-.. autofunction:: main.main
+    #internal libraries
+    import getpass
+    import re
+    import time
+    import uuid
+    import inspect
+
+    #local project libraries
+    import commands
+    from utils import *
+
+    from tui import TUI
+    from colors import *
+    import files
+    import booking
+    import membership
+    #globals
+    current_user = {}
+
+.. code-block:: python
+    :caption: Part of the permission structure
+    :lineno-start: 44
+
+    cmdlist = {}    # This is for commands with arguments.
+                    # The permission object in accounts.json contains user types, and user types contains the permissions
+    cmdlist["manage_staff"] = {
+        "delete":   commands.admin_delete_account,
+        "add":      commands.admin_add_account,
+        "edit":     commands.admin_edit_account,
+        "view":     commands.admin_view_account
+    }
+    cmdlist["manage_members"] = {
+        "delete":   commands.fd_delete_account,
+        "add":      commands.fd_add_account,
+        "edit":     commands.fd_edit_account,
+        "topup":    membership.fd_top_up
+    }
+    ...
+
+
 
 .. autofunction:: main.safe_call
+
+.. code-block:: python
+    :lineno-start: 35
+
+    try:
+        return func(*args, **kwargs)
+    except KeyboardInterrupt:
+        print("\nReceived keyboard interrupt")
+        return None
+    except Exception as e:
+        print(RED + f"Error: {e}" + RESET) # Will catch TypeErrors, e.g. too many arguments or wrong data types
+        return None
 
 .. autofunction:: main.online
 
@@ -141,6 +255,9 @@ main.py
 .. autofunction:: main.register
 
 .. autofunction:: main.command_mode
+
+.. autofunction:: main.main
+
 
 commands.py
 ~~~~~~~~~~~

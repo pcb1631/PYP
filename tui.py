@@ -35,14 +35,26 @@ def clear():                    # clear console
         _ = os.system('clear')  # _ means idgaf about the return value
 
 def TUI(COLOR=BG_MAGENTA, prompt="", args=[], verbose=False, idx=0): # color must be a constant from colors.py, *args should be a string array 
+    """
+    Simple option selector TUI 
+    
+    :param COLOR: What to highlight the selection with
+    :type COLOR: str
+    :param prompt: Prompt to display on top
+    :type prompt: str
+    :param args: List of options
+    :type args: list[str]
+    :param verbose: Whether to return string or index
+    :type verbose: bool
+    :param idx: Starting index, if TUI() is run in a while loop and index persistence is needed
+    :type idx: int
+    :return: index of user selection if verbose is False, string of user selection if verbose is True, None if user pressed CTRL + C
+    :rtype: int or str or None
+    """
     options = args              
     selection = idx               # user's selection 
     buffer = []                 # what to print after every "refresh"
                                 # verbose is Whether to return full string or just number
-    '''
-    TODO:  search options
-    
-    '''
     if options == []:
         print(RED + "Error: Options are empty!" + RESET)
         time.sleep(1)

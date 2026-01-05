@@ -18,6 +18,21 @@ import membership
 current_user = {}
 
 def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!), **kwargs is for keyword arguments (order doesn't matter)
+    """
+    Calls a given function with arbitrary number of arguments. This is what is used when a user runs a command; any raised errors will be caught here.
+
+    :param func: function to call
+    :type func: function
+    :param args: arguments to pass to function
+    :type args: tuple
+    :param kwargs: keyword arguments to pass to function (this is probably never used)
+    :type kwargs: dict
+    :return: return output of function
+    :rtype: any
+    :raises KeyboardInterrupt: if keyboard interrupt is received
+    :raises TypeError: if too many arguments or wrong data types are passed
+    :raises Exception: Whatever the called function raises
+    """
     try:
         return func(*args, **kwargs)
     except KeyboardInterrupt:
@@ -90,10 +105,16 @@ cmdlist["transactions"] = {
 
 
 def online():
+    """
+    Adds the current user to the online file
+    """
     global current_user
     write_line(current_user["username"], files.ONLINE_PATH)
     
 def offline():
+    """
+    Removes the current user from the online file. Ignores instances of the same user 
+    """
     global current_user
     count = 0
     with open(files.ONLINE_PATH, "r") as f:
