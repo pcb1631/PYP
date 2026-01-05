@@ -1536,6 +1536,11 @@ commands.py
     write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH)
     print(GREEN + "\nYour message has been successfully sent." + RESET)
 
+.. figure:: images/send_comment.png
+    :align: center
+    :alt: Send comment
+
+
 .. autofunction:: commands.view_comments
 
 .. code-block:: python
