@@ -8,12 +8,67 @@ The logs folder holds .log files than contain user history. Potential debugging,
 
 accounts.log
 ~~~~~~~~~~~~
+Contains account creation, login, and other account-related events.
+
+.. code-block:: text
+    :caption: accounts.log
+    :linenos:
+    
+
+    28/12/25 21:13 ACCOUNT: member BANNED BY: admin
+    28/12/25 21:14 ACCOUNT: member UNBANNED BY: admin
+    28/12/25 21:15 member BOUGHT MEMBERSHIP Premium
+    28/12/25 21:17 member BOUGHT MEMBERSHIP Student
+    28/12/25 21:22 member BOUGHT MEMBERSHIP Standard
+    28/12/25 21:23 member BOUGHT MEMBERSHIP Premium
+    28/12/25 22:19 member BOUGHT MEMBERSHIP Premium
+    28/12/25 23:10 pcb BOUGHT MEMBERSHIP Premium
+    29/12/25 00:02 member BOUGHT MEMBERSHIP Student
+    29/12/25 00:08 member UPGRADED MEMBERSHIP Student TO PREMIUM
+    04/01/26 16:42 ACCOUNT: labubu CREATED BY: pcb
+    04/01/26 16:43 ACCOUNT: labubu UPDATED BY: pcb TO: labubu
+
 
 comments.log
 ~~~~~~~~~~~~
+Feedback from members to trainers 
+
+``DD/MM/YY|HH:MM|member|trainer|message``
+
+.. code-block:: text
+    :caption: comments.log
+    :linenos:
+    
+
+    11/11/14|12:55|pcb|trainer_user|but steel is heavier than feathers..
+    11/11/25|15:44|pcb|trainer_user|comment 2
+    11/11/25|15:44|pcb|trainer_user|ble
+    11/11/25|15:44|pcb|trainer_user|aishdioashid
+    11/11/25|15:44|pcb|trainer_user|please come on time
+    27/12/25|20:22|jjjj|epstein|where the kids at?
+    28/12/25|18:14|pcb|epstein|BOO
+    28/12/25|18:15|pcb|epstein|2
+    28/12/25|18:18|pcb|epstein|test
+    28/12/25|18:19|pcb|epstein|test
 
 transactions.log
 ~~~~~~~~~~~~~~~~
+How much money goes into buying memberships
+
+.. code-block:: text
+    :caption: transactions.log
+    :linenos:
+    
+    # epoch username amount
+    0 pocong 0
+    1766928208.3506627 member 250
+    1766931579.3983493 member 250
+    1766934637.2874255 pcb 250
+    1766937726.9389875 member 100
+    1766938108.2459538 member 110
+
+
+
 
 userData
 --------
@@ -73,32 +128,65 @@ See: :ref:`config`
             "membership_tier": null
         },
 
-The accounts.json file also stores each user's account information. It uses a dictionary to store the following details: 
-
-    #. Username 
-
-    #. Password 
-
-    #. Email 
-
-    #. User type 
-
-    #. Uuid 
-
-    #. Age 
-
-    #. Phone Number 
-
-    #. Wallet Balance 
-
-    #. Membership Tier
-
-    #. Gender
-
     
 
 bookings.json
 ~~~~~~~~~~~~~
+Contains a key for each trainer. Which contains slot numbers, and slot numbers contains start time and end time.
+
+.. code-block:: json
+    :linenos:
+    :caption: first part of bookings.json
+
+
+    {
+        "trainer_user": {
+            "0": {
+                "start": 1735660800,
+                "end": 1735664400,
+                "bookedBy": null,
+                "venue": null,
+                "Attended": false
+            },
+            "1": {
+                "start": 1765879200,
+                "end": 1765882800,
+                "bookedBy": "boo",
+                "venue": null,
+                "Attended": true
+            },
+            "2": {
+                "start": 1765886400,
+                "end": 1765889600,
+                "bookedBy": "pcb",
+                "venue": null,
+                "Attended": true
+            },
+            "3": {
+                "start": 1765896600,
+                "end": 1765900200,
+                "bookedBy": "pcb",
+                "venue": null,
+                "Attended": true
+            }
+        },
+        "epstein": {
+            "0": {
+                "start": 820410600.0,
+                "end": 820417800.0,
+                "bookedBy": "jianjun",
+                "venue": "epstein island",
+                "Attended": true
+            },
+            "1": {
+                "start": 1766448000,
+                "end": 1766451600,
+                "bookedBy": "jianjun",
+                "venue": "G-0-1",
+                "Attended": false
+            },
+
+...
 
 expiry.json
 ~~~~~~~~~~~
@@ -115,12 +203,16 @@ When a user buys or upgrades a membership, their username will be added here as 
 
 concurrent
 ----------
+This folder contains files that are involved in mutli-instance edge cases
+
 
 delete
 ~~~~~~
+Users who are still online but are marked for deletion. This should be completely empty when resolved
 
 online
 ~~~~~~
+Users who are online. This should be completely empty when no users are online. It's possible that a user might encounter an unhandled exception and not be removed from this file.
 
 .. _python-file-explanations:
 
@@ -129,6 +221,7 @@ In the project folder itself
 
 banned
 ~~~~~~
+Users who are banned
 
 
 booking.py
