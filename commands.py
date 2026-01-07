@@ -561,9 +561,6 @@ def send_comment(current_user):
     """
     # For members to send comments or feedback to specific trainers
 
-    timedate = list(timedate)
-    timedate[8] = '|'
-    timedate = ''.join(timedate)
     user_data = load_json(files.ACCOUNTS_PATH)
 
     #Displays a list of all trainers in the JSON file
@@ -592,7 +589,9 @@ def send_comment(current_user):
         return
 
     timedate = epoch_to_readable(time.time()) # Get the current date and time
-
+    timedate = list(timedate)
+    timedate[8] = '|'
+    timedate = ''.join(timedate)
     write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH)
 
     print(GREEN + "\nYour message has been successfully sent." + RESET)
