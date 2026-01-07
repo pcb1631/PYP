@@ -107,12 +107,28 @@ Heavily inspired by iConsult in APSpace, trainers can make time slots for users 
 
 As a Trainer
 ============
+You can simply run ``trainer_bookings`` to bring up the TUI and view all the available commands 
 
 Adding time slots
 ------------------
 
+To manually add time slots to your booking,
+
+
+.. code-block:: bash
+
+    trainer_bookings add_slots
+
+
+
 Editing and signing attendance
 ------------------------------
+
+.. code-block:: bash 
+
+   trainer_bookings editor
+
+
 
 Generating slots
 ----------------
@@ -125,6 +141,8 @@ If you have decided that the process of adding timeslots is too cumbersome, ther
 
 As a Member
 ===========
+
+
 
 Booking time slots
 ------------------
@@ -141,6 +159,9 @@ As Frontdesk
 
 Signing attendance
 ------------------
+
+
+
 
 The membership system
 **********************
