@@ -23,7 +23,7 @@ Assumptions
 - Preferably not running in an IDE 
 - Running on a Linux distribution, Windows 11, or macOS 
 
-
+boo
 
 .. toctree::
     :hidden:
