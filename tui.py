@@ -146,9 +146,11 @@ def timeTUI(timestamp=int(datetime.now().timestamp()), prompt="", username=""):
     """
     TUI to pick a certain time
 
+    Because nobody wants to manually type dd mm yy or UNIX timestamp.
+
     :param int timestamp: The timestamp to start from
     :param str prompt: The prompt to display
-    :param str username: The username to check for conflicts
+    :param str username: The username to check for time slot conflicts
     :return: The selected time in UNIX timestamp / Epoch
     :rtype: int
     """

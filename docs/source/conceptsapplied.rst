@@ -58,7 +58,7 @@ Application of Input Validation
 .. code-block:: python 
     :lineno-start: 468
     :caption: commands.admin_ban_account
-    :emphasize-lines: 19-31
+    :emphasize-lines: 19-30
 
 
     user_data = load_json(files.ACCOUNTS_PATH)

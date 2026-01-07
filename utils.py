@@ -16,12 +16,16 @@ def conflict(trainer, time):
     if trainer not in bookings:
         raise KeyError(f"Trainer '{trainer}' not found in bookings")
     
+    time = float(time)
+
     slots = bookings[trainer]
     for slot in slots:
-        if time >= slots[slot]["start"] and time <= slots[slot]["end"]:
+        start = float(slots[slot]["start"])
+        end = float(slots[slot]["end"])
+
+        if time >= start and time <= end:
             return slot
-        else: 
-            return None
+    return None
 
 def epoch_to_readable(timestamp):
     """
