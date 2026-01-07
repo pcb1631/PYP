@@ -131,7 +131,6 @@ Adding new commands and features
 
 Adding new files
 ----------------
-
 As convention, you may add the file path to :ref:`files.py <python-file-explanations>`. 
 
 .. code-block:: python
