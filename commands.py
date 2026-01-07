@@ -560,7 +560,6 @@ def send_comment(current_user):
     :param current_user: The current user dict
     """
     # For members to send comments or feedback to specific trainers
-    timedate = epoch_to_readable(time.time()) # Get the current date and time
 
     timedate = list(timedate)
     timedate[8] = '|'
@@ -591,6 +590,8 @@ def send_comment(current_user):
     if not message:
         print(RED + "Comment cannot be empty." + RESET)
         return
+
+    timedate = epoch_to_readable(time.time()) # Get the current date and time
 
     write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH)
 
