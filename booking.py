@@ -150,7 +150,7 @@ def trainer_editor(current_user):
         idx = selection
         if selection is None:
             return
-        if selection == 0:
+        if selection == 0: # If user selects back
             break
         selection -= 1 # offset for back
 
@@ -175,6 +175,8 @@ def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int
     """
     Adds a time slot in booking.json
     
+    This is primarily used by generate_7_days for the sake of abstraction, but can be used in command mode. 
+
     :param current_user: 
     :type current_user:     dict
     :param start:           When the session should start (UNIX timestamp)
