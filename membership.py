@@ -91,14 +91,14 @@ def buy_membership(current_user):
     if confirm == "y":
         user_data["users"][current_user["username"]]["balance - RM"] -= prices[tier]
         user_data["users"][current_user["username"]]["membership_tier"] = tiers[tier]
-        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-            print(GREEN + "Membership has been purchased successfully." + RESET)
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
+        print(GREEN + "Membership has been purchased successfully." + RESET)
 
         expiretime = time.time() + 30 * 24 * 60 * 60  # one month
         expirytime = load_json(files.EXPIRY_PATH)
         expirytime[current_user["username"]] = expiretime
-        if save_json(files.EXPIRY_PATH, expirytime, current_user):
-            print(GREEN + "Membership expiry time has been set successfully." + RESET)
+        save_json(files.EXPIRY_PATH, expirytime, current_user)
+        print(GREEN + "Membership expiry time has been set successfully." + RESET)
 
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} BOUGHT MEMBERSHIP { tiers[tier] }"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
@@ -140,11 +140,8 @@ def upgrade_membership(current_user):
     if confirm == "y":
         user_data["users"][current_user["username"]]["balance - RM"] -= 110
         user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
-        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-            print(GREEN + "Membership has been upgraded successfully." + RESET)
-        else:
-            print(RED + "Failed to upgrade membership." + RESET)
-            return
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
+        print(GREEN + "Membership has been upgraded successfully." + RESET)
         
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} UPGRADED MEMBERSHIP { tier } TO PREMIUM"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
@@ -168,10 +165,7 @@ def cancel_membership(current_user):
         confirm = input("Cancel membership? (y/n): ")
         if confirm == "y":
             user_data["users"][current_user["username"]]["membership_tier"] = None
-            if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-                print(GREEN + "Membership cancelled." + RESET)
-            else:
-                print(RED + "Failed to cancel membership." + RESET)
+            save_json(files.ACCOUNTS_PATH, user_data, current_user)
         else:
             print(RED + "You did not cancel membership" + RESET)
     else:
@@ -201,10 +195,7 @@ def top_up_balance(current_user, amount=None):
     user_data["users"][current_user["username"]]["balance - RM"] += amount
     balance = user_data["users"][current_user["username"]]["balance - RM"]
         
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
-    else:
-        print(RED + "Failed to top up balance." + RESET)
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
         
 def fd_top_up(current_user, username=None, amount=None):
     """
@@ -244,14 +235,12 @@ def fd_top_up(current_user, username=None, amount=None):
     user_data["users"][username]["balance - RM"] += amount
     balance = user_data["users"][username]["balance - RM"]
         
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
-        print("Current time: " + epoch_to_readable(time.time()))
-        print("User: " + username)
-        print("Amount: " + str(amount))
-        print("By employee " + BLUE + current_user["username"] + RESET)
-    else:
-        print(RED + "Failed to top up balance." + RESET)
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+    print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+    print("Current time: " + epoch_to_readable(time.time()))
+    print("User: " + username)
+    print("Amount: " + str(amount))
+    print("By employee " + BLUE + current_user["username"] + RESET)
         
 def generate_report(current_user):
     """
