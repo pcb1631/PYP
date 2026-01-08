@@ -18,12 +18,13 @@ It is guranteed that the project does not import third-party libraries.
 
 Assumptions
 -----------
+- **Users know that their input is hidden when typing in their password, and not because the script doesn't work.**
 - Users know how to use keyboard interrupts (Just CTRL+C) 
-- Only admins are allowed to modify the .json files 
+- Only admins are allowed to modify the .json files
+- Admins have sufficient experience in python
 - Preferably not running in an IDE 
 - Running on a Linux distribution, Windows 11, or macOS 
 
-boo
 
 .. toctree::
     :hidden:

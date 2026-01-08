@@ -10,9 +10,11 @@ See: :ref:`config`
 
 Graph this!
 
-``command_mode (get user's permissions) ==> accounts.json``
+``user logs in, sets global variable current_user ==> get list of permissions of user type ==> permissions object in accounts.json``
 
-``command_mode (get commands under said permissions) ==> cmdlist``
+``save list of permissions from accounts.json``
+
+``user types permission ==> is it in list of permissions?``
 
 .. _error_flow:
 
@@ -32,9 +34,9 @@ Multi-instance
 --------------
 When an admin bans or deletes a user while they are still online, the script will promptly exit their session. 
 
-Firstly, the script will write the current user's username in `online`. This file should be empty when no one is using the program.
+Firstly, the script will write the current user's username in ``online``. This file should be empty when no one is using the program.
 
-Secondly, when an admin deletes a user, ``commands.admin_delete_account`` will check if the user is in `online` first. Banning will simply write to `banned`.
+Secondly, when an admin deletes a user, ``commands.admin_delete_account`` will check if the user is in ``online`` first. Banning will simply write to ``banned``.
 
 .. code-block:: python
     :caption: commands.admin_delete_account 

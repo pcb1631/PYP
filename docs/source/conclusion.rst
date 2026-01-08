@@ -7,8 +7,7 @@ Why use De Gym Management System?
 #. Easy config
 #. Easy to add new features
 #. Multi-instance and live file updates
-
-
+#. Includes all the essentials for gym management
 
 
 

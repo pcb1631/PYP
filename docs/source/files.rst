@@ -484,6 +484,8 @@ booking.py
     else:
         return
 
+.. figure:: images/frontdesk_attendance.png
+        
 .. autofunction:: booking.venue
 
 .. code-block:: python
@@ -559,6 +561,10 @@ booking.py
                 bookings[trainer][str(i)]["venue"] = markings[i]
         save_json(files.BOOKING_PATH, bookings, current_user)
 
+.. figure:: images/admin_venue.png
+
+        
+        
 .. autofunction:: booking.member_frontend
 
 .. code-block:: python
@@ -2078,6 +2084,8 @@ membership.py
     print("\n")
     print("\n".join(report))
     print(f"Total: {total}")
+
+.. _TUI_explain:
 
 tui.py
 ~~~~~~

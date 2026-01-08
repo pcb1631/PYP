@@ -12,6 +12,7 @@ In accounts.json, you'll notice the permissions object, where each user type con
 .. code-block:: json
     :caption: The permissions object in accounts.json
     :linenos:
+    :emphasize-lines: 6-10
 
     {
         "permissions": {
@@ -44,11 +45,31 @@ In accounts.json, you'll notice the permissions object, where each user type con
             ]
         },
 
+.. code-block:: json
+    :caption: A user in the users object of accounts.json
+    :lineno-start: 109
+    :emphasize-lines: 4
+    
+    "admin": {
+        "password": "admin",
+        "email": "admin@example.com",
+        "user_type": "admin",
+        "uuid": "f2e3f8da-6fd0-4e5a-9e90-8f0f8f5f1e21",
+        "age": 0,
+        "gender": null,
+        "phone number": null,
+        "balance - RM": 0,
+        "membership_tier": null
+    },
+        
+        
+        
 The permission strings correspond to the keys in cmdlist
 
 .. code-block:: python
     :caption: Part of cmdlist in main.py
     :lineno-start: 66
+    :emphasize-lines: 1-6 
 
     cmdlist["admin"] = { # There is a user type "admin", and this is a permission called "admin". Keep in mind
         "ban":      commands.admin_ban_account,

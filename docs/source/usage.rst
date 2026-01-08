@@ -73,11 +73,24 @@ Press CTRL+C to cancel at any point
 
 Register
 *********
-.. explain about registration
+#. Select ``register``
+#. Enter a unique username
+#. Enter a password
+    - It might look like input doesn't work, but it is simply being hidden. 
+    - Must contain at least one number, one symbol, and 10 character
+#. Enter your email.
+    - Your email must be the proper format
+#. Enter ``y`` to confirm.
+
+You can only register as a Member. Consult frontdesk or admins to make other user types.
 
 Login
 ******
-.. prentend we're logging in as a trainer
+#. Select ``login``
+#. Enter your username
+    - It might look like input doesn't work, but it is simply being hidden. 
+
+
 
 CLI
 ****
@@ -300,4 +313,27 @@ Viewing your transaction history
 
 |
 
+As Finance
+=============
+Viewing every transaction
+--------------------------
+.. code-block:: bash 
+
+    transactions view
+
+This will bring up the TUI.
+
+|
+
+Generating finance reports
+--------------------------
+.. code-block:: bash
+
+    transactions report
+    
+You can choose to generate a report for the past 30 days, or define a time range yourself with :ref:`timeTUI`
+
+Sample output:
+
+.. figure:: images/finance.png
 
