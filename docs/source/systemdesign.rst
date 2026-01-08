@@ -38,7 +38,8 @@ Secondly, when an admin deletes a user, ``commands.admin_delete_account`` will c
 
 .. code-block:: python
     :caption: commands.admin_delete_account 
-    :lineno-start: 53, 54
+    :lineno-start: 53
+    
     
     if find(delete_user, files.ONLINE_PATH): # if user is online, add to delete list
         write_line(delete_user, files.DELETE_PATH)
