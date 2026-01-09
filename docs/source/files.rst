@@ -2371,6 +2371,9 @@ tui.py
             case 4:
                 date_time += timedelta(minutes=mod)
 
+.. figure:: images/timeTUI_flowchart.png
+                
+                
 utils.py
 ~~~~~~~~
 
