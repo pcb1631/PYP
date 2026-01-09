@@ -16,6 +16,8 @@ The (De) Gym Management System is a CLI-style program that provides all the nece
 
 It is guranteed that the project does not import third-party libraries.
 
+    It's reccomended to visit the html docs: https://sighful-subgeometric-tracey.ngrok-free.dev
+
 Assumptions
 -----------
 - **Users know that their input is hidden when typing in their password, and not because the script doesn't work.**

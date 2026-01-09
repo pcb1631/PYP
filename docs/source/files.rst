@@ -2244,13 +2244,9 @@ tui.py
         buffer.append(prompt)
 
         # Calculate display range
-        display_count = min(lines - 3, l)  # Leave 2 lines for prompt, 1 line for query
-        start_idx = max(0, min(selection, l - display_count))
+        display_count = min(lines - 3, l)                       # Leave 2 lines for prompt, 1 line for query
+        start_idx = min(selection, l - display_count)  # Handle when the selection is at the top
         end_idx = min(start_idx + display_count, l)
-        
-        # Adjust start if we need to show more items at the bottom
-        if end_idx - start_idx < display_count:
-            start_idx = max(0, end_idx - display_count)
         
         for i in range(start_idx, end_idx):
             if i == selection:
