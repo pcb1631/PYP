@@ -1149,6 +1149,19 @@ This is the file you run, and where users can register, login, and use the CLI t
 commands.py
 ~~~~~~~~~~~
 
+.. code-block:: python
+    :caption: imports for commands.py
+
+    import getpass
+    import os
+    import uuid
+    import time
+    
+    from tui import TUI
+    from colors import *
+    import files
+    from utils import *
+    
 .. autofunction:: commands.clear
 
 .. code-block:: python
@@ -1851,6 +1864,17 @@ Further contents of the file:
 kb.py
 ~~~~~
 
+.. code-block:: python 
+    :caption: imports for kb.py
+    
+    import os
+    import sys
+    if os.name == 'nt':
+        import msvcrt
+    if os.name != 'nt':
+        import tty
+        import termios
+
 .. autofunction:: kb.get_key
 
 .. code-block:: python
@@ -1876,6 +1900,16 @@ kb.py
 
 membership.py
 ~~~~~~~~~~~~~
+
+.. code-block:: python
+    :caption: imports for membership.py
+    
+    import time
+    
+    from tui import TUI, timeTUI
+    from colors import *
+    import files
+    from utils import *
 
 .. autofunction:: membership.transaction_history_self
 
@@ -1929,13 +1963,13 @@ membership.py
 .. code-block:: python
     :lineno-start: 57
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
+
     tier = user_data["users"][current_user["username"]]["membership_tier"]
     if tier is not None:
         print(RED + "You already have a membership" + RESET)
         return
-        
+
     prices = [150, 250, 100]
     tiers = ["Standard", "Premium", "Student"]
     options = [
@@ -1946,13 +1980,13 @@ membership.py
     tier = TUI(BG_PURPLE + BOLD, "Pick a membership tier", options, False)
     if tier is None:
         return
-        
+
     balance = user_data["users"][current_user["username"]]["balance - RM"]
     if balance < prices[tier]:
         print(RED + "Insufficient balance. Please top up first." + RESET)
         print("Your current balance: RM" + str(balance))
         return
-        
+
     print("Your balance after purchase: RM" + str(balance - prices[tier]))
     
     confirm = input(YELLOW + "Proceed payment? (y/n): " + RESET)
@@ -1960,20 +1994,21 @@ membership.py
     if confirm == "y":
         user_data["users"][current_user["username"]]["balance - RM"] -= prices[tier]
         user_data["users"][current_user["username"]]["membership_tier"] = tiers[tier]
-        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-            print(GREEN + "Membership has been purchased successfully." + RESET)
-            
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
+        print(GREEN + "Membership has been purchased successfully." + RESET)
+
         expiretime = time.time() + 30 * 24 * 60 * 60  # one month
         expirytime = load_json(files.EXPIRY_PATH)
         expirytime[current_user["username"]] = expiretime
-        if save_json(files.EXPIRY_PATH, expirytime, current_user):
-            print(GREEN + "Membership expiry time has been set successfully." + RESET)
-            
+        save_json(files.EXPIRY_PATH, expirytime, current_user)
+        print(GREEN + "Membership expiry time has been set successfully." + RESET)
+
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} BOUGHT MEMBERSHIP { tiers[tier] }"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
-        
+
         transaction_entry = f"{str(time.time())} {current_user['username']} {prices[tier]}"
         write_line(transaction_entry, files.TRANSACTION_PATH)
+    
     
     else:
         print(RED + "Payment cancelled" + RESET)
@@ -1984,7 +2019,6 @@ membership.py
 .. code-block:: python
     :lineno-start: 114
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
     
     tier = user_data["users"][current_user["username"]]["membership_tier"]
@@ -2008,22 +2042,14 @@ membership.py
     if confirm == "y":
         user_data["users"][current_user["username"]]["balance - RM"] -= 110
         user_data["users"][current_user["username"]]["membership_tier"] = "Premium"
-        if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-            print(GREEN + "Membership has been upgraded successfully." + RESET)
-        else:
-            print(RED + "Failed to upgrade membership." + RESET)
-            return
+        save_json(files.ACCOUNTS_PATH, user_data, current_user)
+        print(GREEN + "Membership has been upgraded successfully." + RESET)
         
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} UPGRADED MEMBERSHIP { tier } TO PREMIUM"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
         
         transaction_entry = f"{str(time.time())} {current_user['username']} 110"
         write_line(transaction_entry, files.TRANSACTION_PATH)
-        
-
-    else:
-        print(RED + "Payment cancelled" + RESET)
-    return
 
 .. autofunction:: membership.cancel_membership
 
@@ -2036,8 +2062,8 @@ membership.py
         confirm = input("Cancel membership? (y/n): ")
         if confirm == "y":
             user_data["users"][current_user["username"]]["membership_tier"] = None
-            if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-                print(GREEN + "Membership cancelled." + RESET)
+            save_json(files.ACCOUNTS_PATH, user_data, current_user)
+            print(GREEN + "Membership cancelled." + RESET)
             else:
                 print(RED + "Failed to cancel membership." + RESET)
         else:
