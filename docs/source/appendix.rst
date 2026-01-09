@@ -6,7 +6,7 @@ Workload Matrix
 
 Screenshots of Text File Contents
 ----------------------------------
-.. figure:: images/accounts.log file.png
+.. figure:: images/accounts.log\ file.png
 
     Accounts.log
 
@@ -18,7 +18,7 @@ Screenshots of Text File Contents
 
 |
 
-.. figure:: images/Transactions.png
+.. figure:: images/transactions.log.png
 
     Transactions.log
 

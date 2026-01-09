@@ -639,7 +639,7 @@ booking.py
             else:
                 continue        
 
-.. figure:: images/member_frontend
+.. figure:: images/member_frontend.png
 
             
 colors.py
