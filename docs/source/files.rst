@@ -395,20 +395,20 @@ booking.py
 .. code-block:: python
     :lineno-start: 174
 
-    
-    bookings = load_json(files.BOOKING_PATH)
-    trainer = current_user["username"]
-    slots = bookings[trainer].keys()
-    max_slot = max([int(slot) for slot in slots]) if slots else 0
-    bookings[trainer][max_slot + 1] = {
-        "start":    start,
-        "end":      end,
-        "bookedBy": None,
-        "venue":    None,
-        "Attended": False
-    }
-    save_json(files.BOOKING_PATH, bookings, current_user)
-    sort_slots(trainer)
+    def add_slots_epoch(current_user, start=int(datetime.now().timestamp()), end=int(datetime.now().timestamp())):
+        bookings = load_json(files.BOOKING_PATH)
+        trainer = current_user["username"]
+        slots = bookings[trainer].keys()
+        max_slot = max([int(slot) for slot in slots]) if slots else 0
+        bookings[trainer][max_slot + 1] = {
+            "start":    start,
+            "end":      end,
+            "bookedBy": None,
+            "venue":    None,
+            "Attended": False
+        }
+        save_json(files.BOOKING_PATH, bookings, current_user)
+        sort_slots(trainer)
 
 .. autofunction:: booking.attendance
 
@@ -639,6 +639,9 @@ booking.py
             else:
                 continue        
 
+.. figure:: images/member_frontend
+
+            
 colors.py
 ~~~~~~~~~
 ANSI color constants. Compatible with all OS!
@@ -1867,11 +1870,13 @@ membership.py
     tier = TUI(BG_PURPLE + BOLD, "Pick a membership tier", options, False)
     if tier is None:
         return
+        
     balance = user_data["users"][current_user["username"]]["balance - RM"]
     if balance < prices[tier]:
         print(RED + "Insufficient balance. Please top up first." + RESET)
         print("Your current balance: RM" + str(balance))
         return
+        
     print("Your balance after purchase: RM" + str(balance - prices[tier]))
     
     confirm = input(YELLOW + "Proceed payment? (y/n): " + RESET)
@@ -1881,13 +1886,16 @@ membership.py
         user_data["users"][current_user["username"]]["membership_tier"] = tiers[tier]
         if save_json(files.ACCOUNTS_PATH, user_data, current_user):
             print(GREEN + "Membership has been purchased successfully." + RESET)
+            
         expiretime = time.time() + 30 * 24 * 60 * 60  # one month
         expirytime = load_json(files.EXPIRY_PATH)
         expirytime[current_user["username"]] = expiretime
         if save_json(files.EXPIRY_PATH, expirytime, current_user):
             print(GREEN + "Membership expiry time has been set successfully." + RESET)
+            
         log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} BOUGHT MEMBERSHIP { tiers[tier] }"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+        
         transaction_entry = f"{str(time.time())} {current_user['username']} {prices[tier]}"
         write_line(transaction_entry, files.TRANSACTION_PATH)
     
@@ -2019,6 +2027,7 @@ membership.py
             raise ValueError("Invalid amount. Please enter a positive amount.")
     except ValueError as e:
         raise e
+        
     user_data["users"][username]["balance - RM"] += amount
     balance = user_data["users"][username]["balance - RM"]
         
@@ -2040,9 +2049,8 @@ membership.py
 .. autofunction:: membership.generate_report
 
 .. code-block:: python
-    :lineno-start: 256
+    :lineno-start: 251
 
-    
     transactions = []
     
     try:
@@ -2062,17 +2070,22 @@ membership.py
     
     options = ["1. Report for the past month", "2. Manually define time"]
     selection = TUI(BG_RED, "Select report type", options, verbose=False)
+
+
     start = 0.0
     end = 0.0
+
     if selection == 0:
         start = time.time() - 30 * 24 * 60 * 60
         end = time.time()
+
     elif selection == 1:
         start = timeTUI(prompt="Pick start time", username = "")
         end = timeTUI(prompt="Pick end time", username = "")
         
         if start is None or end is None: # if user presses CTRL+C
             return
+
     report = []
     total = 0.0
     for line in transactions:
@@ -2117,8 +2130,10 @@ tui.py
         return None
     
     l = len(options)
+
     query = ""
     match = ""
+
     while True:
         # get terminal size
         if os.name == 'nt': # Windows
@@ -2129,7 +2144,9 @@ tui.py
         clear()
         key = ""
         buffer = []
+
         buffer.append(prompt)
+
         # Calculate display range
         display_count = min(lines - 3, l)  # Leave 2 lines for prompt, 1 line for query
         start_idx = max(0, min(selection, l - display_count))
@@ -2144,7 +2161,9 @@ tui.py
                 buffer.append(COLOR + options[i] + RESET)
             else:
                 buffer.append(options[i])
+
         buffer.append(f'query:{query} >{match}')
+
         print('\n'.join(buffer))
         
         key = kb.get_key()
@@ -2158,6 +2177,7 @@ tui.py
         
         if key in keymap:
             key = keymap[key]
+
         match key:
             case "up":
                 selection = (selection - 1) % l
@@ -2179,6 +2199,7 @@ tui.py
             case _ if key.isascii() and len(key) == 1:
                 if os.name == "nt":
                     key = key.decode('utf-8')
+
                 query += key
                 if difflib.get_close_matches(query, options, 1):
                     match = difflib.get_close_matches(query, options, n=1, cutoff=0)[0]
@@ -2187,22 +2208,24 @@ tui.py
                     match = ""
                 continue
 
+
 .. autofunction:: tui.timeTUI
 
 .. code-block:: python
-    :lineno-start: 145
+    :lineno-start: 157
 
-    
     selection = 0
     
     date_time = datetime.fromtimestamp(timestamp)
     
     while True:
         timestamp = date_time.timestamp()
+
         time = [date_time.day, date_time.month, date_time.year, date_time.hour, date_time.minute] # for displaying only
         clear()
         buffer = []
         buffer.append(prompt+"\n")
+
         for i in range(5):
             if i == selection:
                 buffer.append(BG_MAGENTA + str(time[i]) + RESET + " ")
@@ -2213,6 +2236,7 @@ tui.py
         if conflict_slot is not None:
             buffer.append("\n")
             buffer.append(f"{RED}In conflict with slot: {conflict_slot}{RESET}")
+
         print(''.join(buffer))
         
         key = kb.get_key()
@@ -2223,10 +2247,12 @@ tui.py
         else:
             if key == "\x03": # CTRL + C 
                 return None
+
         if key in keymap:
             key = keymap[key]
     
         mod = 0
+
         match key:
             case "left":
                 selection = (selection - 1) % 5
@@ -2239,6 +2265,7 @@ tui.py
             case "enter":
                 timestamp = date_time.timestamp()
                 return timestamp
+
         match selection: # because im worried about leap years and months with different days
             case 0:
                 date_time += timedelta(days=mod)
