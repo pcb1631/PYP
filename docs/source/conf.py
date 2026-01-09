@@ -15,7 +15,7 @@ def path(*args):
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'De Gym Management System'
-copyright = '2026, Josiah'
+copyright = '2026, Josiah, Ryan, Adrian, Jian Jun'
 author = 'Josiah, Ryan, Adrian, Jian Jun'
 release = '0.1'
 version ='1.0'
