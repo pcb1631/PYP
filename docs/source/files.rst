@@ -2244,9 +2244,9 @@ tui.py
         buffer.append(prompt)
 
         # Calculate display range
-        display_count = min(lines - 3, l)                       # Leave 2 lines for prompt, 1 line for query
-        start_idx = min(selection, l - display_count)  # Handle when the selection is at the top
-        end_idx = min(start_idx + display_count, l)
+        display_count = min(lines - 3, l)              # Leave 2 lines for prompt, 1 line for query
+        start_idx = min(selection, l - display_count)  # Keep moving start_idx until the last option is visible
+        end_idx = min(start_idx + display_count, l)    
         
         for i in range(start_idx, end_idx):
             if i == selection:
@@ -2300,6 +2300,7 @@ tui.py
                     match = ""
                 continue
 
+.. figure:: images/TUI_flowchart.png
 
 .. autofunction:: tui.timeTUI
 
