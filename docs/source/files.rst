@@ -970,7 +970,7 @@ This is the file you run, and where users can register, login, and use the CLI t
 
 
 
-    def help():
+    def help(): # prints the functions that are under available permissions, and then its arguments
         for permission in permissions:
             print(CYAN + f"{permission}: " + RESET)
             commands = cmdlist[permission]
@@ -1114,6 +1114,9 @@ This is the file you run, and where users can register, login, and use the CLI t
 
         return
 
+.. figure:: images/command_mode.png
+        
+        
 .. autofunction:: main.main
 
 .. code-block:: python
