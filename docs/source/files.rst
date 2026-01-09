@@ -1,6 +1,6 @@
 Demystifying each file
 ======================
-This section will fully explain (if not trivial) each file in the project. The subsections represent folders, and the sub-subsections represents the files itself.
+This section will explain (if not trivial) each file in the project. The subsections represent folders, and the sub-subsections represents the files itself.
 
 logs
 ----
@@ -312,6 +312,8 @@ booking.py
     save_json(files.BOOKING_PATH, bookings, current_user)
     print("Added time slot to bookings")
     sort_slots(trainer)
+
+.. _trainer_editor_explain:    
 
 .. autofunction:: booking.trainer_editor
 

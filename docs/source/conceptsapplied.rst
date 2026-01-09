@@ -99,14 +99,15 @@ Please see :ref:`multi_instance`
             raise Exception(f"Error saving to {filepath}: {e}")
 
 Lists
-~~~~~
+~~~~~   
 The TUI accepts a list of strings as arguments, and returns the chosen string or index.
 
 See its explanation at :ref:`TUI_explain` in Demistifying each file
 
 Application of Control Structures:
 ==================================
-trainer_editor
+
+:ref:`bookings.trainer_editor <trainer_editor_explain>` demonstrates using while loops, and if statements, in conjunction with the TUI to create an editor of sorts.
 
 
 Application of Error Handling

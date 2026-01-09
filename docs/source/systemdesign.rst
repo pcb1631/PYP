@@ -6,27 +6,18 @@ System design
 Permission and command structure
 ---------------------------------
 
-See: :ref:`config` 
+See: :ref:`config` for more details.
 
-Graph this!
-
-``user logs in, sets global variable current_user ==> get list of permissions of user type ==> permissions object in accounts.json``
-
-``save list of permissions from accounts.json``
-
-``user types permission ==> is it in list of permissions?``
+.. figure:: images/perm_flow.png
 
 .. _error_flow:
 
 Data, file handling, and error handling flow
 ---------------------------------------------
 
-Graph this!
+No matter how many nested function calls there are, if one of them raises an exception, it will halt the functions it was being abstracted by; until it reaches one with a try-catch.
 
-``main.py (user types in command) ==> commands.py, membership.py, booking.py (use utils.py for file handling) ==> utils.py``
-
-``utils.py (load_json or save_json raises exception) ==> commands.py, membership.py, booking.py (halted by raised exception from utils.py, or raises its own exception) ==> main.py (safe_call catches the error)``
-
+.. figure:: images/error_flow.png
 
 .. _multi_instance:
 
@@ -54,28 +45,25 @@ They are caught in two ways:
     :caption: main.command_mode
     :lineno-start: 349
     
-    with open(files.BANNED_PATH, "r") as banned_file:
-        banned_users = banned_file.read().splitlines()
-
-    with open(files.DELETE_PATH, "r") as delete_file:
-        deleted_users = delete_file.read().splitlines()
-
-    if current_user["username"] in banned_users:
+    if find(current_user["username"], files.BANNED_PATH):
         print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
         offline()
         time.sleep(1)
         exit(0)
 
-    if current_user["username"] in deleted_users:
-        print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
-        offline()
-        deleted_users.remove(current_user["username"])
+    with open(files.DELETE_PATH, "r") as delete_file:
+        deleted_users = delete_file.read().splitlines()
 
-        with open(files.DELETE_PATH, "w") as f:
-            f.write("\n".join(deleted_users))
+        if current_user["username"] in deleted_users:
+            print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
+            offline()
+            deleted_users.remove(current_user["username"])
 
-        time.sleep(1)
-        exit(0)
+            with open(files.DELETE_PATH, "w") as f:
+                f.write("\n".join(deleted_users))
+
+            time.sleep(1)
+            exit(0)
 
 - Right before modifiying a file
 

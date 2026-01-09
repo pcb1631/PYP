@@ -255,14 +255,12 @@ def command_mode():
     The main command mode loop. Handles user input and calls the appropriate function with safe_call(). Will also check if the user is banned or deleted.
     """
     # Check if user is banned
-    with open(files.BANNED_PATH, "r") as banned_file:
-        banned_users = banned_file.read().splitlines()
-
-    if current_user["username"] in banned_users:
+    
+    if find(current_user["username"], files.BANNED_PATH):
         print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
         time.sleep(1)
         exit(0)
-
+    
     user_data = load_json(files.ACCOUNTS_PATH)
     if user_data is None:
         exit(1)
@@ -346,28 +344,26 @@ def command_mode():
                 continue
 
             # Check if user is banned
-            with open(files.BANNED_PATH, "r") as banned_file:
-                banned_users = banned_file.read().splitlines()
-
-            with open(files.DELETE_PATH, "r") as delete_file:
-                deleted_users = delete_file.read().splitlines()
-
-            if current_user["username"] in banned_users:
+            
+            if find(current_user["username"], files.BANNED_PATH):
                 print(RED + f"Your account has been banned, please contact an admin to restate your account" + RESET)
                 offline()
                 time.sleep(1)
                 exit(0)
 
-            if current_user["username"] in deleted_users:
-                print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
-                offline()
-                deleted_users.remove(current_user["username"])
+            with open(files.DELETE_PATH, "r") as delete_file:
+                deleted_users = delete_file.read().splitlines()
 
-                with open(files.DELETE_PATH, "w") as f:
-                    f.write("\n".join(deleted_users))
-
-                time.sleep(1)
-                exit(0)
+                if current_user["username"] in deleted_users:
+                    print(RED + f"Your account has been deleted, please contact an admin to restate your account" + RESET)
+                    offline()
+                    deleted_users.remove(current_user["username"])
+    
+                    with open(files.DELETE_PATH, "w") as f:
+                        f.write("\n".join(deleted_users))
+    
+                    time.sleep(1)
+                    exit(0)
 
             if len(command) < 2:
                 if command[0] == "tui":

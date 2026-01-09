@@ -32,8 +32,14 @@ Features to add
 ~~~~~~~~~~~~~~~
 
 - Banking or Touch n Go API
-- encryption for accounts.json
-- piping I/O
+- encryption for passwords
+- common shell features
+    - piping I/O
+    - grep
+    - tab completion
+    - command history
 - database
-- grep, tab completion, etc. (shell features)
+- live messaging
 - ...or any third-party library
+
+One caveat: Windows has command history, that is a result of powershell's/CMD's behaviour and is not implemented by us

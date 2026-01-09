@@ -115,7 +115,7 @@ Add "attendance" to the "admin" user type permissions in accounts.json
             "attendance"
         ]
 
-That should do it. But let's say you wanna go further and give members the permission ``foo``, which contains the command ``bar``. And the ``bar`` command maps to the function ``baz`` in the module ``quux``.
+That should do it. But let's say you want to go further and give members the permission ``foo``, which contains the command ``bar``. And the ``bar`` command maps to the function ``baz`` in the module ``quux``.
 
     .. code-block:: json
         :caption: in accounts.json
