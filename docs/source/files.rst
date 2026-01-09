@@ -1395,16 +1395,18 @@ commands.py
 .. autofunction:: commands.fd_edit_account
 
 .. code-block:: python
-    :lineno-start: 277
-
+    :lineno-start: 285
     
     user_data = load_json(files.ACCOUNTS_PATH)
+
     members = []
     for user in user_data["users"]:
         if user_data["users"][user]["user_type"] == "Member":
             members.append(user)
+
     if username is None:
         username = TUI(BG_RED, "Select user to edit", members, verbose=True)
+
     if username not in user_data["users"]:
         print("User does not exist")
         return
@@ -1414,12 +1416,14 @@ commands.py
         return
     
     keys = user_data["users"][username].keys()
+
     print("\nCurrent user details:")
     for key in keys:
         if key == "password":
             print(f"password: {'*' * len(user_data['users'][username]['password'])}")
         else:
             print(f"{key}: {user_data['users'][username][key]}")
+
     new_username = input("New username (leave blank to keep current): ")
     if new_username == "":
         new_username = username
@@ -1429,6 +1433,7 @@ commands.py
             return
         user_data["users"][new_username] = user_data["users"][username]
         del user_data["users"][username]
+
     for key in keys:
         if key == "uuid":
             continue
@@ -1447,54 +1452,69 @@ commands.py
             continue
         else:
             user_data["users"][new_username][key] = new_value
+
     confirm = input("\nConfirm changes? (y/n): ")
     if confirm.lower() != "y":
         return
+
     save_json(files.ACCOUNTS_PATH, user_data, current_user)
+
+    # Log the update
     timestamp = epoch_to_readable(time.time())
     log_entry = f"\n{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']} TO: {new_username}\n"
     write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+
+
     print(GREEN + f"Account '{new_username}' updated successfully." + RESET)
 
 .. autofunction:: commands.user_edit_account
 
 .. code-block:: python
-    :lineno-start: 355
-
+    :lineno-start: 360
     
     username = current_user["username"]
     user_data = load_json(files.ACCOUNTS_PATH)
+
     keys = user_data["users"][username].keys()
     for key in keys:
         if key == "password" or key == "uuid":
             continue
         print(f"{key}: {user_data['users'][username][key]}")
+
     password = user_data["users"][username]["password"]
     print(f"Password: {'*' * len(password)}")
+
     for key in keys:
         if key != "password" and key != "uuid" and key != "user_type":
             newkey = input(f"New {key}: ")
             if newkey != "":
                 user_data["users"][username][key] = newkey
+
     new_password = getpass.getpass("New password: ")
     if new_password != "":
         user_data["users"][username]["password"] = new_password
+
     print("\nNew user details:")
     for key in keys:
         if key == "password" or key == "uuid":
             continue
         print(f"{key}: {user_data['users'][username][key]}")
+
     pw = user_data['users'][username]['password']
     print("Password: " + "*" * len(pw))
+
+
     confirm = input("\nConfirm changes? (y/n): ")
     if confirm.lower() != "y":
         return
     else:
         save_json(files.ACCOUNTS_PATH, user_data, current_user)
         print(GREEN + f"Account '{username}' updated successfully." + RESET)
+
     timestamp = epoch_to_readable(time.time())
     log_entry = f"{timestamp} ACCOUNT: {username} UPDATED BY: {current_user['username']}"
     write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+
 
 .. autofunction:: commands.admin_view_account
 
@@ -1505,14 +1525,17 @@ commands.py
     user_data = load_json(files.ACCOUNTS_PATH)
     if username is None:
         username = TUI(BG_RED, "Select user to view", list(user_data["users"].keys()), verbose=True)
+        
     if username not in user_data["users"]:
         print("User does not exist")
         return
+        
     pw = input("Show password? (y/n): ")
     if pw.lower() == "y":
         pw = user_data["users"][username]["password"]
     else:
         pw = "*" * len(user_data["users"][username]["password"])
+        
     print(f"\nUsername: {username}")
     keys = user_data["users"][username].keys()
     for key in keys:
@@ -1526,14 +1549,16 @@ commands.py
 .. code-block:: python
     :lineno-start: 436
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
+    
     username = current_user["username"]
+    
     pw = input("Show password? (y/n): ")
     if pw.lower() == "y":
         pw = user_data["users"][username]["password"]
     else:
         pw = "*" * len(user_data["users"][username]["password"])
+        
     print(f"\nUsername: {username}")
     keys = user_data["users"][username].keys()
     for key in keys:
@@ -1547,40 +1572,55 @@ commands.py
 .. code-block:: python
     :lineno-start: 460
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
+
     users = list(user_data["users"].keys())
+
     if username is None:
         username = TUI(BG_PURPLE + BOLD, RED + "Select user to ban" + RESET, users,True)
+
     if username not in users:
         print(RED + "User not found" + RESET)
         return
+
     if username is None:    #User pressed CTRL+C
         return
+
     if find(username, files.BANNED_PATH):
         print(RED + "User is already banned" + RESET)
         return
+
     confirmed = input(f'\n Ban user "{username}"? (y/n): ')
+
     if confirmed.lower() == 'y':
         write_line(username, files.BANNED_PATH)
+
+        #log the ban
         timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} BANNED BY: {current_user['username']}"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
-        print(GREEN + f"Account '{username}' banned successfully." + RESET)
+        
 
+        print(GREEN + f"Account '{username}' banned successfully." + RESET)
+        
+        
 .. autofunction:: commands.admin_unban_account
 
 .. code-block:: python
     :lineno-start: 499
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
+
     users = list(user_data["users"].keys())
+
     if username is None:
         username = TUI(MAGENTA + BOLD, "Select user to unban", users,True)
+
     if username is None:    #User pressed CTRL+C in TUI
         return
+
     confirmed = input(f'\n Unban user "{username}"? (y/n): ')
+
     if confirmed.lower() == 'y':
         try:
             with open(files.BANNED_PATH, "r") as f:
@@ -1591,9 +1631,13 @@ commands.py
                         f.write(user)
         except Exception as e:
             print(RED + f"Error saving to {files.BANNED_PATH}: {e}" + RESET)
+
+        #log the unban
         timestamp = epoch_to_readable(time.time())
         log_entry = f"{timestamp} ACCOUNT: {username} UNBANNED BY: {current_user['username']}"
         write_line(log_entry, files.ACCOUNTS_LOG_PATH)
+        
+
         print(GREEN + f"Account '{username}' unbanned successfully." + RESET)
 
 .. autofunction:: commands.direct_messages
@@ -1614,29 +1658,44 @@ commands.py
 .. code-block:: python
     :lineno-start: 556
 
-    
+    # For members to send comments or feedback to specific trainers
+
+    user_data = load_json(files.ACCOUNTS_PATH)
+
+    #Displays a list of all trainers in the JSON file
+    trainers = []
+
+    for username in user_data["users"]:
+        if user_data["users"][username].get("user_type") == "Trainer":
+            trainers.append(username)
+
+    if not trainers:
+        print("No trainers found in the system.")
+        return
+
+    # User will now choose which trainer to send a message to
+    verbose = True
+    trainer_choice = TUI(BG_MAGENTA + BOLD, "Which trainer would you like to send a message to?\n", trainers, verbose)
+
+    if trainer_choice is None:
+        return
+
+    # User will now type their message
+    message = input("Please enter your message: ").strip()
+
+    if not message:
+        print(RED + "Comment cannot be empty." + RESET)
+        return
+
     timedate = epoch_to_readable(time.time()) # Get the current date and time
     timedate = list(timedate)
     timedate[8] = '|'
     timedate = ''.join(timedate)
-    user_data = load_json(files.ACCOUNTS_PATH)
-    trainers = []
-    for username in user_data["users"]:
-        if user_data["users"][username].get("user_type") == "Trainer":
-            trainers.append(username)
-    if not trainers:
-        print("No trainers found in the system.")
-        return
-    verbose = True
-    trainer_choice = TUI(BG_MAGENTA + BOLD, "Which trainer would you like to send a message to?\n", trainers, verbose)
-    if trainer_choice is None:
-        return
-    message = input("Please enter your message: ").strip()
-    if not message:
-        print(RED + "Comment cannot be empty." + RESET)
-        return
     write_line(f"{timedate}|{current_user['username']}|{trainer_choice}|{message}", files.COMMENTS_LOG_PATH)
+
     print(GREEN + "\nYour message has been successfully sent." + RESET)
+
+
 
 .. figure:: images/send_comment.png
     :align: center
@@ -1657,18 +1716,22 @@ commands.py
                 line = raw.strip()
                 if not line:
                     continue
+                    
                 parts = line.split(delim, 4) #Split each line into 5 parts, with "|" being the seperator
                 if len(parts) < 5:
                     continue
+                    
                 date, time, member_username, trainer_username, message = parts #Assign each individual part from the variable "part" their own variables
                 if current_user['username'] == trainer_username: # Check if the current trainer matches the recipient of the message (Was the message sent to you?))
                     inbox.append((date, time, member_username, message))
         if not inbox:
             print(f"You have not received any messages.")
             return
+            
         print(f"\nComments:")
         for idx, (date, time, member, msg) in enumerate(inbox, start=1):
             print(f"{idx}.[{date} {time}] From {member}: {msg}")
+            
     except FileNotFoundError:
         print("comments.log file not found.")
     return None
@@ -1678,28 +1741,37 @@ commands.py
 .. code-block:: python
     :lineno-start: 639
 
-    
     options=[files.ACCOUNTS_LOG_PATH, files.CHECKIN_LOG_PATH, files.BANNED_PATH, files.TRANSACTION_PATH]
+
+
     if logfile is None:
         while True:
             logfile=TUI(BG_RED, "Choose log file", options, verbose=True)
+
             if logfile is None: # if user presses CTRL+C
                 break
+
             with open(logfile, "r") as f:
                 content = f.read().splitlines()
+
             parse = []
+
             if logfile[-4:] == ".log":
                 for line in content:
                     line = line.split(" ")
                     if line[0] == '#' or line[0] == "":
                         continue
+
                     parse.append(f"{BLUE}{line[0]}{RESET} {GREEN}{line[1]}{RESET} {' '.join(line[2:])}")
                 content = parse
+
                 _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
+
     else:
         with open(logfile, "r") as f:
             content = f.read().splitlines()
             _ = TUI(BG_RED, f"{BG_MAGENTA}{logfile}{RESET}", content, verbose=False)
+
 
 .. autofunction:: commands.text_editor
 
@@ -1860,6 +1932,7 @@ membership.py
     if tier is not None:
         print(RED + "You already have a membership" + RESET)
         return
+        
     prices = [150, 250, 100]
     tiers = ["Standard", "Premium", "Student"]
     options = [
@@ -1974,37 +2047,28 @@ membership.py
 .. code-block:: python
     :lineno-start: 180
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
     try:
         if amount is None:
             amount = float(input("Enter top up amount (RM): "))
         else:
             amount = float(amount)
+
         if amount < 0:
             raise ValueError("Invalid amount. Please enter a positive amount.")
     except ValueError as e:
         raise e
+
     user_data["users"][current_user["username"]]["balance - RM"] += amount
     balance = user_data["users"][current_user["username"]]["balance - RM"]
         
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
-    else:
-        print(RED + "Failed to top up balance." + RESET)
-        
-    log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} TOPPED UP RM{amount}"
-    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
-        
-    transaction_entry = f"{str(time.time())} {current_user['username']} {amount}"
-    write_line(transaction_entry, files.TRANSACTION_PATH)
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
 
 .. autofunction:: membership.fd_top_up
 
 .. code-block:: python
     :lineno-start: 209
 
-    
     user_data = load_json(files.ACCOUNTS_PATH)
         
     members = []
@@ -2023,28 +2087,21 @@ membership.py
             amount = float(input("Enter top up amount (RM): "))
         else:
             amount = float(amount)
+
         if amount < 0:
             raise ValueError("Invalid amount. Please enter a positive amount.")
     except ValueError as e:
         raise e
-        
+
     user_data["users"][username]["balance - RM"] += amount
     balance = user_data["users"][username]["balance - RM"]
         
-    if save_json(files.ACCOUNTS_PATH, user_data, current_user):
-        print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
-        print("Current time: " + epoch_to_readable(time.time()))
-        print("User: " + username)
-        print("Amount: " + str(amount))
-        print("By employee " + BLUE + current_user["username"] + RESET)
-    else:
-        print(RED + "Failed to top up balance." + RESET)
-        
-    log_entry = f"{epoch_to_readable(time.time())} {current_user['username']} TOPPED UP {username} RM{amount}"
-    write_line(log_entry, files.ACCOUNTS_LOG_PATH)
-        
-    transaction_entry = f"{str(time.time())} {username} {amount}"
-    write_line(transaction_entry, files.TRANSACTION_PATH)
+    save_json(files.ACCOUNTS_PATH, user_data, current_user)
+    print(GREEN + f"Top up successful. New balance: RM{balance}." + RESET)
+    print("Current time: " + epoch_to_readable(time.time()))
+    print("User: " + username)
+    print("Amount: " + str(amount))
+    print("By employee " + BLUE + current_user["username"] + RESET)
 
 .. autofunction:: membership.generate_report
 
@@ -2102,6 +2159,45 @@ membership.py
 
 tui.py
 ~~~~~~
+
+.. code-block:: python
+    :linenos:
+    :caption: imports in tui.py
+    
+    import kb
+    import shutil
+    import os
+    import difflib
+    from datetime import datetime, timedelta
+    import calendar
+    import time
+    from colors import *
+    from utils import conflict
+
+.. code-block:: python
+    :lineno-start: 12
+    :caption: keymap for windows and posix
+
+    if os.name == 'nt':
+        keymap = {
+            b"\r": "enter",
+            b"\xe0H": "up",
+            b"\xe0P": "down",
+            b"\xe0K": "left",
+            b"\xe0M": "right",
+            b"\x08": "backspace"
+        }
+    else:
+        keymap = {
+            "\r": "enter",
+            "\x1b[A": "up",
+            "\x1b[B": "down",
+            "\x1b[C": "right",
+            "\x1b[D": "left",
+            "\x7f": "backspace"
+        }
+
+
 
 .. autofunction:: tui.clear
 
@@ -2198,7 +2294,7 @@ tui.py
                 continue
             case _ if key.isascii() and len(key) == 1:
                 if os.name == "nt":
-                    key = key.decode('utf-8')
+                    key = key.decode('utf-8') # kb.py for windows returns bytes string, so we need to convert to utf-8
 
                 query += key
                 if difflib.get_close_matches(query, options, 1):

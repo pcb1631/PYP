@@ -354,8 +354,7 @@ def fd_edit_account(current_user, username=None):
 
 def user_edit_account(current_user):
     """
-    Allows the current user to edit their own account.
-
+    Allows the current user to edit their own account. Works by iterating every field
     :param current_user: The current user dict
     """
     username = current_user["username"]
