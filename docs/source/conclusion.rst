@@ -40,6 +40,8 @@ Features to add
     - command history
 - database
 - live messaging
+- live notifs for comments or messages
+- non-blocking input
 - ...or any third-party library
 
 One caveat: Windows has command history, that is a result of powershell's/CMD's behaviour and is not implemented by us
