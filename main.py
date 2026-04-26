@@ -17,6 +17,7 @@ import membership
 #globals
 current_user = {}
 
+#
 def safe_call(func, *args, **kwargs): # *args is for arguments (order matters!), **kwargs is for keyword arguments (order doesn't matter)
     """
     Calls a given function with arbitrary number of arguments. This is what is used when a user runs a command; any raised errors will be caught here.
